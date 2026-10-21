@@ -1,0 +1,1922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EAD Design Workstation | eadflo.com</title>
+<meta name="description" content="Size an EAD Entrained Air Diffuser disc stack for a water well: disc count and depths, hole pattern, hydraulics, risk, a printable design report and DXF cut files.">
+<link rel="canonical" href="https://eadflo.com/workstation">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#06111D">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;1,800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EEF2F6; --panel:#FFFFFF; --panel2:#F4F7FA; --sunk:#E6ECF2; --line:#CDD8E3; --line2:#B5C4D3;
+  --ink:#0E2236; --ink2:#2F4A64; --muted:#5A7189;
+  --accent:#1270D6; --accent2:#0B4F9C; --accent-ink:#FFFFFF; --accent-soft:#DCEBFB;
+  --water:#CFE5F6; --water2:#A9D1EE; --water-line:#3E93CF;
+  --steel:#A3B0BD; --steel-dark:#56677A; --plate:#2B3846; --hole:#EEF2F6;
+  --ok:#1B8655; --warn:#B07400; --bad:#C3342B;
+  --ok-bg:#E2F3EA; --warn-bg:#FCF1DA; --bad-bg:#FBE5E3;
+  --shadow:0 1px 0 rgba(14,34,54,.04),0 8px 24px -16px rgba(14,34,54,.35);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0A1726; --panel:#102236; --panel2:#132A42; --sunk:#0D1E31; --line:#21405E; --line2:#2E5478;
+    --ink:#E4EDF6; --ink2:#B9CCDE; --muted:#8AA3BC;
+    --accent:#4AA8FF; --accent2:#8CC8FF; --accent-ink:#04111E; --accent-soft:#143A5E;
+    --water:#123553; --water2:#1A4A72; --water-line:#4C9FDA;
+    --steel:#9AA9B8; --steel-dark:#5F7184; --plate:#2F3E4E; --hole:#0A1726;
+    --ok:#45C98B; --warn:#F2B544; --bad:#FF6F66;
+    --ok-bg:#103626; --warn-bg:#382C10; --bad-bg:#3D1A1C;
+    --shadow:0 1px 0 rgba(0,0,0,.2),0 10px 30px -18px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0A1726; --panel:#102236; --panel2:#132A42; --sunk:#0D1E31; --line:#21405E; --line2:#2E5478;
+  --ink:#E4EDF6; --ink2:#B9CCDE; --muted:#8AA3BC;
+  --accent:#4AA8FF; --accent2:#8CC8FF; --accent-ink:#04111E; --accent-soft:#143A5E;
+  --water:#123553; --water2:#1A4A72; --water-line:#4C9FDA;
+  --steel:#9AA9B8; --steel-dark:#5F7184; --plate:#2F3E4E; --hole:#0A1726;
+  --ok:#45C98B; --warn:#F2B544; --bad:#FF6F66;
+  --ok-bg:#103626; --warn-bg:#382C10; --bad-bg:#3D1A1C;
+  --shadow:0 1px 0 rgba(0,0,0,.2),0 10px 30px -18px rgba(0,0,0,.8);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Barlow",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:15px;line-height:1.45;padding-bottom:env(safe-area-inset-bottom,0px)}
+h1,h2,h3,h4{font-family:"Barlow Condensed","Arial Narrow",sans-serif;margin:0;line-height:1.08;font-weight:700}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.bar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--panel) 92%,transparent);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+@media (max-width:620px){.bar{position:static}}
+.bar-in{max-width:1480px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.mark{font-family:"Barlow Condensed",sans-serif;font-style:italic;font-weight:800;font-size:34px;letter-spacing:-1px;line-height:.8;color:var(--ink);display:flex;align-items:center;gap:8px}
+.mark svg{width:26px;height:26px}
+.title{display:flex;flex-direction:column;min-width:0;flex:1 1 220px}
+.title b{font-family:"Barlow Condensed",sans-serif;font-size:19px;font-weight:700;line-height:1.1}
+.title span{color:var(--muted);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line2);background:var(--panel);border-radius:7px;padding:8px 12px;cursor:pointer;font-weight:600;font-size:14px;white-space:nowrap}
+.btn:hover{border-color:var(--accent)}
+.btn svg{width:16px;height:16px;flex:none}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.primary:hover{background:var(--accent2);border-color:var(--accent2)}
+.btn.ghost{background:transparent}
+.btn.sm{padding:5px 9px;font-size:13px}
+.btn:disabled{opacity:.5;cursor:default}
+.iconbtn{width:38px;height:38px;justify-content:center;padding:0}
+.shell{max-width:1480px;margin:0 auto;padding:16px;display:grid;grid-template-columns:340px minmax(0,1fr);gap:18px;align-items:start}
+@media (max-width:1000px){.shell{grid-template-columns:1fr}}
+.rail{position:sticky;top:74px;max-height:calc(100vh - 90px);overflow:auto;display:flex;flex-direction:column;gap:8px;padding-right:2px;scrollbar-width:thin}
+@media (max-width:1000px){.rail{position:static;max-height:none}}
+details.group{background:var(--panel);border:1px solid var(--line);border-radius:9px}
+details.group>summary{list-style:none;cursor:pointer;padding:10px 13px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+details.group>summary::-webkit-details-marker{display:none}
+details.group>summary h3{font-size:18px}
+details.group>summary small{color:var(--muted);font-size:12.5px;font-weight:500;margin-left:auto;text-align:right}
+details.group>summary::after{content:"";width:8px;height:8px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg) translateY(-2px);flex:none}
+details.group[open]>summary::after{transform:rotate(225deg) translateY(-2px)}
+.gbody{padding:2px 13px 13px;display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.gbody .note{grid-column:1/-1;margin:0;color:var(--muted);font-size:12.5px}
+.field{display:flex;flex-direction:column;gap:3px;min-width:0}
+.field.full{grid-column:1/-1}
+.field label{font-size:12.5px;color:var(--ink2);font-weight:500;line-height:1.2}
+.inbox{display:flex;align-items:center;border:1px solid var(--line);border-radius:6px;background:var(--panel2);overflow:hidden;transition:border-color .12s}
+.inbox:focus-within{border-color:var(--accent);background:var(--panel)}
+.inbox input,.inbox select{border:0;background:transparent;padding:7px 8px;width:100%;min-width:0;font-size:15px;font-variant-numeric:tabular-nums}
+.inbox input:focus,.inbox select:focus{outline:none}
+.inbox .u{padding:0 8px;color:var(--muted);font-size:12px;white-space:nowrap}
+.field.err .inbox{border-color:var(--bad);background:var(--bad-bg)}
+.field.changed label::after{content:" \2022";color:var(--accent)}
+.stage{display:flex;flex-direction:column;gap:16px;min-width:0}
+.verdict{scroll-margin-top:84px;background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);overflow:hidden;position:relative}
+.verdict::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--muted)}
+.verdict.ok::before{background:var(--ok)}.verdict.warn::before{background:var(--warn)}.verdict.bad::before{background:var(--bad)}
+.v-top{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1.4fr)}
+@media (max-width:1180px){.v-top{grid-template-columns:1fr}}
+.v-head{padding:18px 20px 16px 24px}
+.status{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;padding:3px 9px 3px 7px;border-radius:999px;background:var(--panel2);border:1px solid var(--line)}
+.status i{width:9px;height:9px;border-radius:50%;background:var(--muted);flex:none}
+.status.ok i{background:var(--ok)}.status.warn i{background:var(--warn)}.status.bad i{background:var(--bad)}
+.v-head h1{font-size:34px;margin:10px 0 6px;letter-spacing:-.2px}
+.v-head p{margin:0;color:var(--ink2);max-width:62ch}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-left:1px solid var(--line)}
+@media (max-width:1180px){.kpis{border-left:0;border-top:1px solid var(--line)}}
+@media (max-width:620px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.kpi{padding:16px 16px 14px;border-right:1px solid var(--line);display:flex;flex-direction:column;justify-content:center;gap:8px;min-width:0}
+.kpi:last-child{border-right:0}
+@media (max-width:620px){.kpi:nth-child(2){border-right:0}.kpi:nth-child(-n+2){border-bottom:1px solid var(--line)}}
+.kpi b{font-family:"Barlow Condensed",sans-serif;font-size:clamp(30px,2.9vw,44px);font-weight:700;line-height:.95;font-variant-numeric:tabular-nums;letter-spacing:-.5px}
+.kpi b.long{font-size:clamp(24px,2.1vw,34px);white-space:nowrap}
+.kpi b small{font-size:22px;font-weight:600;color:var(--ink2);margin-left:2px}
+.kpi span{font-size:13px;color:var(--muted);line-height:1.25}
+.flags{list-style:none;margin:0;padding:12px 20px 16px 24px;display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--line)}
+.flags li{padding:7px 10px 7px 30px;border-radius:6px;font-size:14px;position:relative;background:var(--panel2)}
+.flags li::before{content:"";position:absolute;left:11px;top:13px;width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.flags li.bad{background:var(--bad-bg)}.flags li.bad::before{background:var(--bad)}
+.flags li.warn{background:var(--warn-bg)}.flags li.warn::before{background:var(--warn)}
+.flags li.ok{background:var(--ok-bg)}.flags li.ok::before{background:var(--ok)}
+.flags li.more{background:none;padding:0}.flags li.more::before{display:none}
+.flags-more{border:0;background:none;color:var(--accent);font-weight:600;cursor:pointer;padding:2px 0;font-size:13.5px}
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{border:0;background:none;padding:10px 14px 11px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap;font-size:15px}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.tab:hover{color:var(--ink)}
+.panel{display:flex;flex-direction:column;gap:16px}
+.panel[hidden]{display:none}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px;min-width:0}
+.card>h2{font-size:22px;margin-bottom:4px}
+.card>.lede{margin:0 0 12px;color:var(--muted);font-size:14px;max-width:80ch}
+.row2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+@media (max-width:820px){.row2{grid-template-columns:1fr}}
+.instrument{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1fr) minmax(0,1.15fr);background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+@media (max-width:1180px){.instrument{grid-template-columns:minmax(0,.75fr) minmax(0,1fr)}.instrument .disc-cell{grid-column:1/-1;border-top:1px solid var(--line)}}
+@media (max-width:620px){.instrument{grid-template-columns:1fr}.instrument>div{border-right:0!important;border-top:1px solid var(--line)}.instrument>div:first-child{border-top:0}}
+.instrument>div{padding:14px;border-right:1px solid var(--line);min-width:0;display:flex;flex-direction:column}
+.instrument>div:last-child{border-right:0}
+.cell-h{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:8px}
+.cell-h h3{font-size:18px}
+.cell-h small{color:var(--muted);font-size:12px}
+.svgbox svg{display:block;width:100%;height:auto}
+.live{position:relative;flex:1;min-height:380px;border-radius:6px;overflow:hidden;background:var(--sunk)}
+.live canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.live-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:8px;font-size:12.5px;color:var(--muted);flex-wrap:wrap}
+.legend{display:flex;gap:12px;flex-wrap:wrap}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.legend i{width:9px;height:9px;border-radius:50%;display:inline-block}
+.caption{font-size:12.5px;color:var(--muted);margin-top:8px}
+.velo{display:flex;flex-direction:column;gap:9px}
+.vrow{display:grid;grid-template-columns:190px minmax(0,1fr) 78px;gap:10px;align-items:center;font-size:14px}
+@media (max-width:560px){.vrow{grid-template-columns:118px minmax(0,1fr) 64px;font-size:13px}}
+.vbar{height:14px;background:var(--panel2);border-radius:3px;position:relative;overflow:hidden;border:1px solid var(--line)}
+.vbar i{position:absolute;left:0;top:0;bottom:0;border-radius:2px}
+.vrow .v{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+.kv th{color:var(--muted);font-weight:500;width:44%}
+.grid-t th{color:var(--muted);font-weight:600;font-size:12.5px;white-space:nowrap;background:var(--panel2)}
+.grid-t td{white-space:nowrap}
+.grid-t tr.sel td{background:var(--accent-soft)}
+.grid-t td.r,.grid-t th.r{text-align:right}
+.seg{display:inline-flex;border:1px solid var(--line2);border-radius:8px;overflow:hidden;flex-wrap:wrap}
+.seg button{border:0;background:var(--panel);padding:7px 12px;cursor:pointer;font-weight:600;font-size:13.5px;color:var(--ink2);border-right:1px solid var(--line)}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.tile{border:1px solid var(--line);border-radius:8px;padding:11px 12px;background:var(--panel2)}
+.tile b{display:block;font-family:"Barlow Condensed",sans-serif;font-size:30px;line-height:1;font-variant-numeric:tabular-nums}
+.tile span{font-size:12.5px;color:var(--muted);line-height:1.25;display:block;margin-top:4px}
+.tile.hero{background:var(--panel);border-width:2px}
+.tile.hero.ok{border-color:var(--ok)}.tile.hero.warn{border-color:var(--warn)}.tile.hero.bad{border-color:var(--bad)}
+.tile.hero b{font-size:42px}
+.ai-out{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:14px;min-height:80px;font-size:14.5px;max-height:560px;overflow:auto}
+.ai-out p{margin:0 0 8px;max-width:80ch}.ai-out ul{margin:0 0 8px;padding-left:20px}.ai-out h4{margin:12px 0 4px;font-size:17px}
+.ai-out .q{color:var(--muted);font-style:italic;margin:14px 0 6px;padding-top:10px;border-top:1px dashed var(--line)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.chip{border:1px solid var(--line2);background:var(--panel);border-radius:999px;padding:5px 11px;font-size:13px;cursor:pointer;font-weight:500}
+.chip:hover{border-color:var(--accent);color:var(--accent)}
+.ask{display:flex;gap:8px;flex-wrap:wrap}
+.ask textarea{flex:1 1 260px;min-height:44px;border:1px solid var(--line);border-radius:7px;background:var(--panel2);padding:9px;resize:vertical}
+.method h3{font-size:18px;margin:16px 0 6px}
+.method p,.method li{max-width:80ch}
+.method code{font-size:13px;background:var(--panel2);padding:1px 5px;border-radius:4px;border:1px solid var(--line)}
+.muted{color:var(--muted)}
+.empty{padding:22px;text-align:center;color:var(--muted);border:1px dashed var(--line2);border-radius:8px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;font-weight:600;z-index:50;box-shadow:var(--shadow);max-width:calc(100vw - 32px)}
+.toast[hidden]{display:none}
+.menu{position:relative}
+.menu-pop{position:absolute;right:0;top:calc(100% + 6px);background:var(--panel);border:1px solid var(--line2);border-radius:9px;box-shadow:var(--shadow);padding:6px;min-width:230px;z-index:30;display:flex;flex-direction:column}
+.menu-pop[hidden]{display:none}
+.menu-pop button{border:0;background:none;text-align:left;padding:9px 10px;border-radius:6px;cursor:pointer;font-weight:500}
+.menu-pop button:hover{background:var(--panel2)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.mbar{display:none}
+@media (max-width:1000px){
+  .mbar{display:flex;position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:40;align-items:center;gap:10px;padding:10px 12px 10px 14px;border-radius:12px;text-decoration:none;color:#E6F0FA;background:rgba(8,22,37,.92);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border:1px solid rgba(92,200,255,.28);box-shadow:0 14px 30px -12px rgba(0,0,0,.6);font-size:14px}
+  .mbar i{width:10px;height:10px;border-radius:50%;background:#8EA6BF;flex:none}
+  .mbar i.ok{background:#45C98B}.mbar i.warn{background:#F2B544}.mbar i.bad{background:#FF6F66}
+  .mbar span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-variant-numeric:tabular-nums}
+  .mbar b{font-weight:700;color:#5CC8FF}
+  body{padding-bottom:84px}
+}
+/* ---- engineering viewport (always dark, brand navy) ---- */
+.viewport{--vline:rgba(120,170,220,.16);--vink:#E6F0FA;--vmut:#8EA6BF;--vcyan:#5CC8FF;
+  display:grid;grid-template-columns:minmax(0,.86fr) minmax(0,1.24fr) minmax(0,1.12fr);
+  background:radial-gradient(120% 70% at 50% -10%,#123153 0%,#081625 45%,#050D17 100%);
+  border:1px solid #16324F;border-radius:16px;overflow:hidden;color:var(--vink);position:relative;
+  box-shadow:0 40px 80px -40px rgba(2,8,16,.85),inset 0 1px 0 rgba(255,255,255,.05)}
+.viewport::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background-image:linear-gradient(rgba(92,200,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(92,200,255,.045) 1px,transparent 1px);background-size:28px 28px;
+  -webkit-mask-image:radial-gradient(90% 70% at 50% 30%,#000 30%,transparent 100%);mask-image:radial-gradient(90% 70% at 50% 30%,#000 30%,transparent 100%)}
+@media (max-width:1180px){.viewport{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr)}.vp-disc{grid-column:1/-1;border-top:1px solid var(--vline)}}
+@media (max-width:700px){.viewport{grid-template-columns:1fr}.vp-cell{border-right:0!important;border-top:1px solid var(--vline)}.vp-cell:first-child{border-top:0}}
+.vp-cell{position:relative;padding:14px;border-right:1px solid var(--vline);display:flex;flex-direction:column;min-width:0}
+.vp-cell:last-child{border-right:0}
+.vp-h{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;min-height:30px}
+.vp-h h3{font-size:19px;color:var(--vink);letter-spacing:.2px}
+.vp-h small{color:var(--vmut);font-size:12px}
+.vbtn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);color:var(--vink);border-radius:7px;padding:5px 11px;font-weight:600;font-size:13px;cursor:pointer}
+.vbtn:hover{border-color:var(--vcyan)}
+.vseg{display:inline-flex;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:9px;padding:2px;gap:2px}
+.vseg button{border:0;background:none;color:var(--vmut);padding:5px 10px;border-radius:7px;font-weight:600;font-size:12.5px;cursor:pointer}
+.vseg button[aria-pressed="true"]{background:rgba(92,200,255,.16);color:var(--vink);box-shadow:inset 0 0 0 1px rgba(92,200,255,.5)}
+.vp-well .svgbox{flex:1;display:flex;align-items:flex-start}
+.vp-well svg{max-height:820px}
+.live{position:relative;flex:1;min-height:560px;border-radius:12px;overflow:hidden;background:#030A12;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06),inset 0 20px 40px -20px rgba(0,0,0,.6)}
+@media (max-width:700px){.live{min-height:500px}}
+.live canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hud{position:absolute;background:rgba(5,14,24,.62);-webkit-backdrop-filter:blur(10px) saturate(1.3);backdrop-filter:blur(10px) saturate(1.3);border:1px solid rgba(160,210,255,.14);border-radius:10px;padding:9px 11px;color:var(--vink);pointer-events:none;font-size:12px;line-height:1.3;box-shadow:0 10px 24px -12px rgba(0,0,0,.7)}
+.hud-tl{left:10px;top:10px;min-width:176px}
+@media (max-width:700px){.hud-tl{padding:7px 9px;min-width:0;font-size:11px}.hud-tl .val{font-size:15px}.hud-tl .chip{font-size:10.5px}}
+.hud.readout{position:static;margin-top:10px;pointer-events:auto}
+.hud .hr{display:grid;grid-template-columns:1fr auto;align-items:baseline;gap:10px}
+.hud .hr+.hr{margin-top:3px}
+.hud .k{color:var(--vmut)}
+.hud .val{font-family:"Barlow Condensed",sans-serif;font-size:18px;font-weight:600;font-variant-numeric:tabular-nums}
+.hud .val small{font-family:"Barlow",sans-serif;font-size:11px;color:var(--vmut);font-weight:500;margin-left:3px}
+.hud .chip{display:inline-flex;align-items:center;gap:6px;margin-top:7px;padding:3px 8px;border-radius:999px;font-weight:600;font-size:11.5px}
+.hud .chip i{width:7px;height:7px;border-radius:50%;background:currentColor;box-shadow:0 0 8px currentColor}
+.hud .bars{display:grid;grid-template-columns:auto 1fr auto;gap:5px 10px;align-items:center}
+.hud .hbar{height:6px;border-radius:3px;background:rgba(255,255,255,.08);overflow:hidden}
+.hud .hbar b{display:block;height:100%;border-radius:3px;transition:width .4s}
+.hud .foot{margin-top:6px;color:var(--vmut);font-size:11px;display:flex;justify-content:space-between;gap:8px}
+.vp-legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;font-size:12px;color:var(--vmut)}
+.vp-legend span{display:inline-flex;align-items:center;gap:6px}
+.vp-legend i{width:10px;height:10px;border-radius:50%;display:inline-block}
+.lg-w{background:#5CC8FF;box-shadow:0 0 8px #5CC8FF}.lg-a{border-radius:3px!important;background:repeating-radial-gradient(circle at 30% 30%,#2a6aa8 0 2px,#16446f 2px 4px)}.lg-b{background:radial-gradient(circle at 35% 30%,#fff,#9fd6ff 60%,#3a7db8)}.lg-m{background:radial-gradient(circle at 35% 30%,#fff3d6,#FFB547 60%,#b86b00);box-shadow:0 0 8px #FFB547}.lg-d{border-radius:2px!important;height:5px!important;width:14px!important;background:linear-gradient(#DDF3FF,#3E7DB5);box-shadow:0 0 8px #5CC8FF}
+.disc-stage{position:relative;flex:1;min-height:400px;display:grid;place-items:center;border-radius:12px;overflow:hidden;
+  background:radial-gradient(62% 56% at 50% 46%,#173352 0%,#0A1828 62%,#050D17 100%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
+.disc-stage.blueprint{background-color:#0B3A6E;background-image:linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:100px 100px,100px 100px,20px 20px,20px 20px}
+.disc-stage>svg{width:94%;height:auto;display:block}
+.disc3d{width:86%;aspect-ratio:1;perspective:1200px;cursor:grab;touch-action:none;user-select:none}
+.disc3d:active{cursor:grabbing}
+.disc3d .rig{position:relative;width:100%;height:100%;transform-style:preserve-3d;transform:rotateX(var(--rx,58deg)) rotateZ(var(--rz,-18deg))}
+.disc3d .layer{position:absolute;inset:0}
+.disc3d .layer svg{width:100%;height:100%;display:block}
+.disc3d .floor{position:absolute;inset:4%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.75),rgba(0,0,0,0));transform:translateZ(-70px);filter:blur(14px)}
+.orbit-hint{position:absolute;bottom:10px;left:0;right:0;text-align:center;font-size:11.5px;color:var(--vmut);pointer-events:none}
+.vp-cap{font-size:12.5px;color:var(--vmut);margin-top:10px;line-height:1.4}
+
+</style>
+</head>
+<body>
+<header class="bar">
+  <div class="bar-in">
+    <a class="mark" href="/" aria-label="EAD home" style="text-decoration:none">
+      <svg viewBox="0 0 26 26"><circle cx="13" cy="13" r="11.5" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="13" cy="13" r="5.5" fill="none" stroke="var(--accent)" stroke-width="2.5"/></svg>EAD
+    </a>
+    <div class="title"><b>Diffuser design workstation</b><span id="projLine">Example well</span></div>
+    <div class="actions">
+      <button class="btn primary" id="pdfBtn" type="button"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13M6 8.5h5M6 11h5"/></svg><span>Design report</span></button>
+      <button class="btn" id="cadBtn" type="button"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="6"/><circle cx="8" cy="8" r="2.5"/><path d="M8 1v3M8 12v3M1 8h3M12 8h3"/></svg><span>CAD package</span></button>
+      <div class="menu">
+        <button class="btn iconbtn" id="menuBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="More actions"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="3" cy="8" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="13" cy="8" r="1.5"/></svg></button>
+        <div class="menu-pop" id="menuPop" hidden>
+          <button type="button" data-act="copy">Copy spec as text</button>
+          <button type="button" data-act="svg">Download disc drawing (SVG)</button>
+          <button type="button" data-act="json">Export inputs (JSON)</button>
+          <button type="button" data-act="import">Import inputs (JSON)</button>
+          <button type="button" data-act="theme">Switch light / dark</button>
+          <button type="button" data-act="reset">Reset to example well</button>
+        </div>
+      </div>
+      <input type="file" id="importFile" accept=".json,application/json" hidden>
+    </div>
+  </div>
+</header>
+
+<main class="shell">
+  <form class="rail" id="inputs" onsubmit="return false" autocomplete="off" aria-label="Design inputs"></form>
+  <div class="stage">
+    <section class="verdict" id="verdict" aria-live="polite">
+      <div class="v-top">
+        <div class="v-head">
+          <span class="status" id="status"><i></i><span>Checking</span></span>
+          <h1 id="headline">Calculating</h1>
+          <p id="subline"></p>
+        </div>
+        <div class="kpis" id="kpis"></div>
+      </div>
+      <ul class="flags" id="flags"></ul>
+    </section>
+
+    <nav class="tabs" role="tablist" aria-label="Workstation views">
+      <button class="tab" role="tab" aria-selected="true" data-tab="design">Design</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="optimize">Optimizer</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="risk">Risk</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="compare">Compare</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="engineer">Design engineer</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="method">Method</button>
+    </nav>
+
+    <section class="panel" data-panel="design">
+      <div class="viewport" id="viewport">
+        <div class="vp-cell vp-well">
+          <div class="vp-h"><h3>Well cutaway</h3><small>depth to scale</small></div>
+          <div class="svgbox" id="wellSvg"></div>
+        </div>
+        <div class="vp-cell vp-sim">
+          <div class="vp-h"><h3>Disc zone simulator</h3><div class="vp-tools"><button class="vbtn" id="playBtn" type="button">Pause</button></div></div>
+          <div class="live" id="live"><canvas id="cv" aria-label="Animated cutaway of water and air bubbles moving through the disc zone"></canvas>
+            <div class="hud hud-tl" id="hudTL"></div>
+          </div>
+          <div class="hud readout" id="hudBL"></div>
+          <div class="vp-legend"><span><i class="lg-w"></i>Water</span><span><i class="lg-b"></i>Small bubble</span><span><i class="lg-m"></i>Merged gas</span><span><i class="lg-a"></i>Saturated formation</span><span><i class="lg-d"></i>Disc</span></div>
+        </div>
+        <div class="vp-cell vp-disc">
+          <div class="vp-h"><h3>Disc</h3><div class="vseg" id="discMode"><button type="button" data-m="render" aria-pressed="true">Steel</button><button type="button" data-m="orbit" aria-pressed="false">3D</button><button type="button" data-m="blueprint" aria-pressed="false">Blueprint</button></div></div>
+          <div class="disc-stage" id="discStage"></div>
+          <div class="vp-cap" id="discCaption"></div>
+        </div>
+      </div>
+      <p class="caption" style="margin:-8px 2px 0">The simulator animates this model's numbers (downflow at the annular velocity, bubbles rising at their rise speed and merging at each disc). It illustrates the model. It is not CFD. Surrounding ground is drawn generically, not from a well log.</p>
+
+      <div class="card">
+        <h2>Velocity race</h2>
+        <p class="lede">Air separates when it can rise faster than the water carries it down. Discs cannot lower the average downward velocity, which is fixed by flow ÷ annulus area. They break the cascade, spread the flow, and make small bubbles merge into larger ones that rise faster.</p>
+        <div class="velo" id="velo"></div>
+      </div>
+      <div class="card">
+        <h2>Operating envelope</h2>
+        <p class="lede" id="envLede"></p>
+        <div class="svgbox" id="envSvg"></div>
+      </div>
+      <div class="row2">
+        <div class="card"><h2>Fabrication</h2><div class="tw"><table class="kv" id="fabTable"></table></div>
+          <h3 style="font-size:18px;margin:16px 0 6px">Parts for this well</h3><div class="tw"><table class="grid-t" id="partsTable"></table></div></div>
+        <div class="card"><h2>Hydraulics</h2><div class="tw"><table class="kv" id="hydTable"></table></div></div>
+      </div>
+    </section>
+
+    <section class="panel" data-panel="optimize" hidden>
+      <div class="card">
+        <h2>Design optimizer</h2>
+        <p class="lede">Searches every standard hole size and pitch for this well, keeps only designs that pass every rule (head-loss window per disc, flow-loss limit, ligament and hole at least the plate thickness), then ranks them. Pitches are rounded up to 1/16 in so they can be cut as drawn.</p>
+        <div class="toolbar"><span class="muted" style="font-size:13.5px">Rank for</span>
+          <div class="seg" id="prioSeg">
+            <button type="button" data-p="balanced" aria-pressed="true">Balanced</button>
+            <button type="button" data-p="loss" aria-pressed="false">Lowest flow loss</button>
+            <button type="button" data-p="cut" aria-pressed="false">Least cutting</button>
+            <button type="button" data-p="foul" aria-pressed="false">Fouling resistance</button>
+          </div>
+        </div>
+        <div id="optSummary" class="tiles" style="margin-bottom:14px"></div>
+        <div class="svgbox" id="paretoSvg"></div>
+        <p class="caption">Each dot is a candidate disc, sized by hole diameter. Blue dots pass every rule. Outlined dots form the trade-off frontier: you cannot cut less steel without losing more flow. The green ring is the top-ranked design. Hover a dot for details.</p>
+      </div>
+      <div class="card">
+        <h2>Ranked designs</h2>
+        <div class="tw"><table class="grid-t" id="optTable"></table></div>
+      </div>
+    </section>
+
+    <section class="panel" data-panel="risk" hidden>
+      <div class="card">
+        <h2>Monte Carlo risk</h2>
+        <p class="lede" id="mcLede"></p>
+        <div class="tiles" id="mcTiles"></div>
+      </div>
+      <div class="row2">
+        <div class="card"><h2>Annular velocity spread</h2><p class="lede">Where the downward velocity lands across all runs, against the two rise limits.</p><div class="svgbox" id="histSvg"></div></div>
+        <div class="card"><h2>What drives it</h2>
+          <div class="toolbar"><div class="seg" id="tornSeg">
+            <button type="button" data-o="loss" aria-pressed="true">Flow loss</button>
+            <button type="button" data-o="ratio" aria-pressed="false">Velocity vs rise</button>
+            <button type="button" data-o="sub" aria-pressed="false">Top disc cover</button>
+            <button type="button" data-o="npsh" aria-pressed="false">NPSH margin</button>
+          </div></div>
+          <div class="svgbox" id="tornSvg"></div>
+          <p class="caption">Each bar swings one input across its uncertainty range (set under “Uncertainty”) with everything else at design.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" data-panel="compare" hidden>
+      <div class="card">
+        <h2>Compare designs</h2>
+        <p class="lede">Save the current design, change inputs, save again, and compare side by side. Saved designs stay in this browser.</p>
+        <div class="toolbar"><div class="inbox" style="flex:1 1 220px;max-width:340px"><input id="scenName" placeholder="Name, e.g. Well 7 summer low" aria-label="Design name"></div><button class="btn primary" id="scenSave" type="button">Save current design</button></div>
+        <div class="tw" id="scenWrap"></div>
+      </div>
+    </section>
+
+    <section class="panel" data-panel="engineer" hidden>
+      <div class="card" id="aiCard">
+        <h2>Design engineer</h2>
+        <p class="lede">Claude reviews the live design (inputs, results, optimizer and risk runs) as a downhole hydraulics engineer. Answers are added to the design report. Each question uses your own Claude usage.</p>
+        <div class="chips" id="chips">
+          <button class="chip" type="button" data-q="Review this EAD design. Is the disc count, placement, hole size, hole count and open area sound for this well? What is the biggest risk, and what two or three changes would you make? Say what should be verified in the field.">Full design review</button>
+          <button class="chip" type="button" data-q="Write a commissioning and verification plan for installing this EAD: pre-install checks (casing drift, levels), what to record during install, and what to measure after start-up (amps, discharge air, flow, levels) to prove it is working.">Commissioning plan</button>
+          <button class="chip" type="button" data-q="Explain this design and why it is needed in plain language for a water utility manager or council, in under 200 words, without overstating what the discs do.">Explain to a utility manager</button>
+          <button class="chip" type="button" data-q="Look at the Monte Carlo risk results. Which uncertainty matters most for this well, and what field measurement would reduce it the most?">What should I measure?</button>
+          <button class="chip" type="button" data-q="If this design is outside what discs can fix, or marginal, what other measures (flow inducer or shroud, pump setting, rate, casing liner, perforation work) would you compare, and how?">Alternatives if marginal</button>
+        </div>
+        <div class="ai-out" id="aiOut"><span class="muted">Pick a question above or ask your own.</span></div>
+        <div class="ask" style="margin-top:10px">
+          <textarea id="aiQ" placeholder="e.g. What if the pumping level drops another 30 ft next summer?" aria-label="Question for the design engineer"></textarea>
+          <button class="btn primary" id="aiAsk" type="button">Ask</button>
+          <button class="btn" id="aiStop" type="button" hidden>Stop</button>
+          <button class="btn ghost" id="aiClear" type="button">Clear</button>
+        </div>
+        <div class="caption" id="aiNote"></div>
+      </div>
+      <div class="card empty" id="aiOff" hidden>The design engineer needs Claude access, which is not available in this view.</div>
+    </section>
+
+    <section class="panel method" data-panel="method" hidden>
+      <div class="card">
+        <h2>How the workstation works</h2>
+        <h3>Physics from standard references</h3>
+        <ul>
+          <li><b>Annular velocity</b> <code>V = Q_above ÷ (π/4 × (casing ID² − column OD²))</code>. Only water entering above the intake moves down the annulus.</li>
+          <li><b>Small-bubble rise</b>, default 0.75 ft/s: terminal rise of 2–5 mm air bubbles in water (Clift, Grace &amp; Weber). Editable.</li>
+          <li><b>Merged gas rise in an annulus</b> <code>U = (0.32 + 0.016 Dc/Dt) √(g Dt)</code> (Kelessidis &amp; Dukler), times your safety factor, capped at your cap-bubble limit (default 1.0 ft/s). The formula was fitted on small annuli; in large casings big bubbles break into cap bubbles.</li>
+          <li><b>Core velocity</b> <code>Vc = C0 × V</code>. Bubbles ride the faster core of the flow (drift-flux distribution coefficient, default 1.2). Every regime check uses Vc, not the average.</li>
+          <li><b>Disc head loss</b>, thin perforated plate: <code>ζ = (0.707√(1−φ) + 1 − φ)² ÷ φ²</code> on annular velocity (Idelchik). φ counts holes, ports, the casing gap and the segment joint slots. For plates thicker than the hole it overstates the loss: conservative for flow loss, optimistic for the minimum-loss check.</li>
+          <li><b>NPSH available</b>: atmospheric head at site elevation + submergence − vapor pressure − disc losses. Intake and screen losses are not included.</li>
+          <li><b>Flow change</b>: stack head loss ÷ pump curve slope at the duty point.</li>
+        </ul>
+        <h3>Disc construction modeled</h3>
+        <ul>
+          <li>Perforated segments run from the column bore to the casing. A split hub ring clamps over them and bolts through to each segment, as in the fabricated discs.</li>
+          <li>Pass-through ports straddle the hub edge and the hub is notched around them. Holes keep clear of the hub, ports, joints and the outer edge by the edge margin.</li>
+          <li>The hub splits at two segment joints, so no bolt sits on a split.</li>
+          <li>Not modeled: fastener sizes beyond the bolt hole, coupling clearance, centralizers, and how the stack is supported on the column. Detail those with the fabricator.</li>
+        </ul>
+        <h3>Analysis tools</h3>
+        <ul>
+          <li><b>Optimizer</b>: exhaustive search over standard hole sizes and pitches under hard engineering constraints, a weighted ranking, and the trade-off (Pareto) frontier between flow loss and cutting length.</li>
+          <li><b>Monte Carlo risk</b>: thousands of runs centred on the design pumping level (pumping level + seasonal allowance), with pumping level, flow, share of flow from above, bubble rise and pump curve slope drawn from triangular distributions over your ranges. Seeded, so the same inputs always give the same answer.</li>
+          <li><b>Sensitivity</b>: one input at a time across the same ranges.</li>
+        </ul>
+        <h3>Field rules to calibrate</h3>
+        <ul>
+          <li>Disc count, falling water: one disc per “fall or wetted screen per disc” of exposed perforation above the design pumping level, plus one coalescing disc when the core velocity beats small-bubble rise (minimum two).</li>
+          <li>Disc count, aquifer air: one disc per the same length of wetted screen above the intake; minimum one, or two when the core velocity beats small-bubble rise. Both sources: the larger count.</li>
+          <li>Placement: falling water starts below the design pumping level at your spacing; aquifer air builds up from the intake clearance at your spacing; both spreads the discs evenly over the zone, never closer than your spacing.</li>
+          <li>Head-loss window per disc: enough to break the cascade's momentum, not so much it costs flow.</li>
+        </ul>
+        <h3>What it does not know</h3>
+        <ul>
+          <li>Real bubble sizes, the air fraction, and how much of the casing wall the cascade covers.</li>
+          <li>Whether gas collects under a disc and releases in slugs. Watch motor amps and discharge for air after install.</li>
+          <li>Casing condition: out-of-round, weld beads, scale or a liner change the usable disc OD. Run a drift check first.</li>
+        </ul>
+        <p class="muted">Results are a design aid generated from the inputs shown. They are not a stamped engineering document.</p>
+      </div>
+    </section>
+  </div>
+</main>
+<div class="toast" id="toast" hidden></div>
+<a class="mbar" id="mbar" href="#verdict" aria-label="Jump to the design result"><i id="mbarDot"></i><span id="mbarText">Calculating</span><b>Result</b></a>
+
+<script>
+(function(){
+"use strict";
+const G=32.174, TAU=Math.PI*2;
+const STD_HOLES=[0.375,0.5,0.5625,0.625,0.75,0.875,1,1.125,1.25,1.5,1.75,2];
+const COLUMN=[["4","4.500"],["5","5.563"],["6","6.625"],["8","8.625"],["10","10.750"],["12","12.750"],["14","14.000"],["16","16.000"],["custom","custom"]];
+const $=id=>document.getElementById(id);
+function frac(x){
+  if(!isFinite(x)) return "—";
+  const neg=x<0; x=Math.abs(x);
+  const w=Math.floor(x+1e-9), rr=x-w; if(rr<1e-6) return (neg?"-":"")+w;
+  for(const den of [2,4,8,16,32]){const n=Math.round(rr*den); if(Math.abs(n/den-rr)<1e-6){let a=n,b=den;while(a%2===0&&b>1){a/=2;b/=2}return (neg?"-":"")+(w?w+"-":"")+a+"/"+b}}
+  return (neg?"-":"")+x.toFixed(3);
+}
+const fmt=(x,d=1)=>(isFinite(x)?Number(x).toLocaleString("en-US",{minimumFractionDigits:d,maximumFractionDigits:d}):"—");
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const pol=(r,a)=>[r*Math.cos(a),r*Math.sin(a)];
+const rot=(p,a)=>{const c=Math.cos(a),s=Math.sin(a);return [p[0]*c-p[1]*s,p[0]*s+p[1]*c];};
+const clamp=(x,a,b)=>Math.min(b,Math.max(a,x));
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+function toast(msg){const t=$("toast");t.textContent=msg;t.hidden=false;clearTimeout(toast._t);toast._t=setTimeout(()=>t.hidden=true,2600);}
+function cssv(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim();}
+
+/* ---------------- inputs ---------------- */
+const GROUPS=[
+  {key:"proj",title:"Project",open:false,fields:[
+    {id:"projWell",label:"Well name or ID",type:"text",def:"",ph:"e.g. Well 14"},
+    {id:"projUtility",label:"Utility / owner",type:"text",def:"",ph:"e.g. City water department"},
+    {id:"projLoc",label:"Location",type:"text",def:"",ph:""},
+    {id:"projBy",label:"Prepared by",type:"text",def:"",ph:"Name"},
+    {id:"projRev",label:"Revision",type:"text",def:"A",ph:"A"},
+  ]},
+  {key:"air",title:"Air source",open:true,note:"Falling water: perforations above the pumping level spill water that falls into the casing and drags air down. Aquifer air: water dumped into percolation ponds carries air down through the formation; it enters with the water through the wetted screen and travels to the pump.",fields:[
+    {id:"airMode",label:"Where the air comes from",type:"select",opts:[["cascade","Falling water into the casing"],["aquifer","Aquifer air from percolation ponds"],["both","Both sources"]],def:"cascade"},
+    {id:"airFrac",label:"Air carried in the inflow (estimate)",u:"% by vol.",def:1,step:0.1,min:0,max:30},
+  ]},
+  {key:"well",title:"Well and column",open:true,fields:[
+    {id:"casingID",label:"Casing inside diameter",u:"in",def:24,step:0.125,min:4,max:60},
+    {id:"columnNom",label:"Column size",type:"select",opts:COLUMN.map(c=>[c[0],c[0]==="custom"?"Custom OD":c[0]+'" nominal ('+c[1]+' OD)']),def:"10"},
+    {id:"columnOD",label:"Column outside diameter",u:"in",def:10.75,step:0.001,min:1,max:40},
+    {id:"motorOD",label:"Motor OD (0 = skip)",u:"in",def:7.5,step:0.125,min:0,max:40},
+  ]},
+  {key:"lev",title:"Levels and depths",open:true,sum:"ft below ground",fields:[
+    {id:"swl",label:"Static water level",u:"ft",def:120,step:1,min:0},
+    {id:"pwl",label:"Pumping water level",u:"ft",def:210,step:1,min:0},
+    {id:"drawAllow",label:"Seasonal drawdown allowance",u:"ft",def:15,step:1,min:0},
+    {id:"perfTop",label:"Top of perforations",u:"ft",def:150,step:1,min:0},
+    {id:"perfBot",label:"Bottom of perforations",u:"ft",def:420,step:1,min:0},
+    {id:"intake",label:"Pump intake setting",u:"ft",def:320,step:1,min:1},
+  ]},
+  {key:"flow",title:"Flow and pump",open:true,fields:[
+    {id:"q",label:"Pump design flow",u:"gpm",def:1200,step:10,min:1},
+    {id:"fracAbove",label:"Flow entering above intake",u:"%",def:70,step:1,min:1,max:100},
+    {id:"slope",label:"Pump curve slope at duty",u:"ft/100gpm",def:10,step:0.5,min:0.1},
+    {id:"npshr",label:"NPSH required",u:"ft",def:22,step:1,min:0},
+    {id:"elev",label:"Site elevation",u:"ft",def:300,step:10,min:-500,max:14000},
+    {id:"tempF",label:"Water temperature",u:"°F",def:65,step:1,min:33,max:150},
+    {id:"motorMinV",label:"Min. motor cooling velocity",u:"ft/s",def:0.5,step:0.05,min:0},
+  ]},
+  {key:"build",title:"Disc build",open:false,fields:[
+    {id:"segments",label:"Segments per disc (even)",u:"pcs",def:8,step:2,min:2,max:16},
+    {id:"thick",label:"Plate thickness",u:"in",def:0.375,step:0.0625,min:0.0625},
+    {id:"gap",label:"Clearance to casing (radial)",u:"in",def:0.25,step:0.0625,min:0},
+    {id:"jointGap",label:"Gap between segments",u:"in",def:0.125,step:0.0625,min:0},
+    {id:"boreClear",label:"Bore clearance on column",u:"in",def:0.0625,step:0.03125,min:0},
+    {id:"hubWidth",label:"Hub ring width (radial)",u:"in",def:1.5,step:0.125,min:0.5,max:8},
+    {id:"boltsPerSeg",label:"Hub bolts per segment",u:"pcs",def:1,step:1,min:0,max:2},
+    {id:"boltDia",label:"Bolt hole diameter",u:"in",def:0.4375,step:0.0625,min:0.125},
+    {id:"nPorts",label:"Pass-through ports",u:"pcs",def:2,step:1,min:0,max:4},
+    {id:"portD",label:"Port diameter",u:"in",def:2,step:0.125,min:0.5},
+    {id:"portOcc",label:"Tube or cable in each port",u:"in OD",def:1.25,step:0.125,min:0},
+    {id:"portTab",label:"Web between ports",u:"in",def:0.5,step:0.125,min:0.125},
+    {id:"holeMode",label:"Hole size",type:"select",opts:[["auto","Auto-select"]].concat(STD_HOLES.map(h=>[String(h),frac(h)+'"'])),def:"auto"},
+    {id:"fixedPitch",label:"Pitch (0 = auto)",u:"in",def:0,step:0.0625,min:0},
+    {id:"minHole",label:"Min. hole (anti-fouling)",u:"in",def:0.625,step:0.0625,min:0.25},
+    {id:"targetOpen",label:"Target open area",u:"%",def:20,step:1,min:5,max:60},
+    {id:"ligament",label:"Min. pitch ÷ hole",u:"×",def:1.6,step:0.05,min:1.15,max:4},
+    {id:"edgeMargin",label:"Edge margin",u:"× hole",def:0.5,step:0.25,min:0.25,max:4},
+  ]},
+  {key:"place",title:"Placement",open:false,note:"Falling water: the stack starts below the design pumping level at your spacing. Aquifer air: it is built up from the intake clearance at your spacing. Both: the discs are spread evenly across the whole zone, never closer than your spacing.",fields:[
+    {id:"submerge",label:"Top disc below design PWL",u:"ft",def:10,step:1,min:0},
+    {id:"intakeClear",label:"Bottom disc above intake",u:"ft",def:15,step:1,min:0},
+    {id:"spacing",label:"Disc spacing",u:"ft",def:10,step:1,min:1},
+    {id:"discMode",label:"Number of discs",type:"select",opts:[["auto","Auto (design rule)"]].concat([1,2,3,4,5,6,7,8].map(n=>[String(n),n+" disc"+(n>1?"s":"")])),def:"auto"},
+  ]},
+  {key:"model",title:"Model assumptions",open:false,note:"Field-judgment values. Calibrate them against wells with before-and-after results. C0: bubbles ride the faster core of the flow, about 1.2 × the average (drift-flux). The merged-gas cap stops the slug-rise formula being stretched to large casings, where big bubbles break into cap bubbles.",fields:[
+    {id:"vb",label:"Small-bubble rise",u:"ft/s",def:0.75,step:0.05,min:0.1},
+    {id:"slugSF",label:"Safety factor, merged gas",u:"×",def:0.6,step:0.05,min:0.1,max:1},
+    {id:"hMin",label:"Min. head loss per disc",u:"ft",def:0.05,step:0.01,min:0},
+    {id:"hMax",label:"Max. head loss per disc",u:"ft",def:0.5,step:0.05,min:0.01},
+    {id:"maxFlowLoss",label:"Max. flow loss",u:"%",def:1,step:0.1,min:0},
+    {id:"ftPerStage",label:"Fall or wetted screen per disc",u:"ft",def:30,step:1,min:5},
+    {id:"c0",label:"Velocity profile factor (C0)",u:"×",def:1.2,step:0.05,min:1,max:1.5},
+    {id:"capRise",label:"Max merged-gas rise (cap bubbles)",u:"ft/s",def:1.0,step:0.05,min:0.3,max:3},
+    {id:"npshMargin",label:"Min. NPSH margin",u:"ft",def:3,step:0.5,min:0},
+  ]},
+  {key:"unc",title:"Uncertainty",open:false,note:"Ranges for the risk analysis: the spread either side of each design value.",fields:[
+    {id:"uPwl",label:"Pumping level ±",u:"ft",def:20,step:1,min:0},
+    {id:"uQ",label:"Flow ±",u:"%",def:10,step:1,min:0,max:60},
+    {id:"uFrac",label:"Flow from above ±",u:"pts",def:15,step:1,min:0,max:60},
+    {id:"uVb",label:"Bubble rise ±",u:"ft/s",def:0.15,step:0.05,min:0},
+    {id:"uSlope",label:"Pump curve slope ±",u:"%",def:25,step:5,min:0,max:80},
+    {id:"mcRuns",label:"Runs",u:"runs",def:4000,step:500,min:500,max:20000},
+  ]},
+];
+const ALL=GROUPS.flatMap(g=>g.fields), DEFAULTS={};
+ALL.forEach(f=>DEFAULTS[f.id]=f.def);
+const isTxt=f=>f.type==="select"||f.type==="text";
+const form=$("inputs");
+GROUPS.forEach(g=>{
+  const d=document.createElement("details"); d.className="group"; d.dataset.key=g.key; if(g.open) d.open=true;
+  let h='<summary><h3>'+esc(g.title)+'</h3><small id="sum_'+g.key+'">'+(g.sum?esc(g.sum):"")+'</small></summary><div class="gbody">';
+  if(g.note) h+='<p class="note">'+esc(g.note)+'</p>';
+  g.fields.forEach(f=>{
+    h+='<div class="field'+(isTxt(f)?" full":"")+'" id="f_'+f.id+'"><label for="'+f.id+'">'+esc(f.label)+'</label><div class="inbox">';
+    if(f.type==="select") h+='<select id="'+f.id+'">'+f.opts.map(o=>'<option value="'+o[0]+'">'+esc(o[1])+'</option>').join("")+'</select>';
+    else if(f.type==="text") h+='<input id="'+f.id+'" type="text" placeholder="'+esc(f.ph||"")+'" maxlength="80">';
+    else h+='<input id="'+f.id+'" type="number" inputmode="decimal" step="'+f.step+'"'+(f.min!=null?' min="'+f.min+'"':'')+(f.max!=null?' max="'+f.max+'"':'')+'><span class="u">'+esc(f.u)+'</span>';
+    h+='</div></div>';
+  });
+  d.innerHTML=h+'</div>'; form.appendChild(d);
+  if(window.innerWidth<=1000&&!["air","well"].includes(g.key)) d.open=false;
+});
+function setValues(v){ALL.forEach(f=>{let val=v[f.id]!=null?v[f.id]:f.def; if(f.type==="select"&&!f.opts.some(o=>o[0]===String(val))) val=f.def; $(f.id).value=val;});markChanged();}
+function readValues(){const v={};ALL.forEach(f=>{const el=$(f.id);v[f.id]=isTxt(f)?el.value:parseFloat(el.value);});return v;}
+function markChanged(){ALL.forEach(f=>{if(f.type==="text")return;const el=$(f.id);const cur=f.type==="select"?el.value:parseFloat(el.value);$("f_"+f.id).classList.toggle("changed",String(cur)!==String(f.def));});}
+const LS_KEY="ead-ws-v3";
+let saved=null; try{saved=JSON.parse(localStorage.getItem(LS_KEY)||"null")}catch(e){}
+setValues(Object.assign({},DEFAULTS,saved||{}));
+$("columnNom").addEventListener("change",e=>{const m=COLUMN.find(c=>c[0]===e.target.value); if(m&&m[1]!=="custom") $("columnOD").value=parseFloat(m[1]);});
+$("columnOD").addEventListener("input",e=>{const v=parseFloat(e.target.value);const m=COLUMN.find(c=>c[1]!=="custom"&&Math.abs(parseFloat(c[1])-v)<1e-3);$("columnNom").value=m?m[0]:"custom";});
+
+/* ---------------- physics ---------------- */
+function vaporFt(tF){const tC=(tF-32)*5/9;return Math.pow(10,8.07131-1730.63/(233.426+tC))*0.0446;}
+function atmFt(el){return 33.96*Math.pow(1-6.8754e-6*el,5.2559);}
+function zeta(phi){phi=clamp(phi,1e-4,0.9999);return Math.pow(0.707*Math.sqrt(1-phi)+1-phi,2)/(phi*phi);}
+function phiForLoss(V,h){const k=V*V/(2*G); if(k<=0) return 0.01; if(zeta(0.95)*k>h) return 0.95;
+  let lo=0.005,hi=0.95; for(let i=0;i<60;i++){const m=(lo+hi)/2; if(zeta(m)*k>h) lo=m; else hi=m;} return hi;}
+function screenAbove(v,pwl){return Math.max(0,Math.min(v.intake,v.perfBot)-Math.max(pwl,v.perfTop));}
+function stagesRequired(hc,regime,ftPer,mode,scr){
+  mode=mode||"cascade";
+  const nC=(mode!=="aquifer"&&hc>0)?Math.ceil(hc/ftPer):0;
+  const nA=(mode!=="cascade"&&scr>0)?Math.max(regime==="A"?1:2,Math.ceil(scr/ftPer)):0;
+  if(nC===0&&nA===0) return 0;
+  if(regime==="A") return Math.max(nC,nA);
+  return Math.max(2,nC>0?nC+1:0,nA);
+}
+
+/* ---------------- geometry (one source for screen, PDF, DXF) ----------------
+   Local segment frame: segment centred on angle 0. Assembly: segment k centred at -90deg + k*360/n; segment 0 carries the ports. */
+function geom(v){
+  const nseg=Math.round(v.segments), half=Math.PI/nseg, Rs=v.columnOD/2+v.boreClear, Rh=Rs+v.hubWidth, Ro=(v.casingID-2*v.gap)/2;
+  const nP=Math.round(v.nPorts), rp=v.portD/2;
+  const dA=nP>1?2*Math.asin(Math.min(1,(v.portD+v.portTab)/(2*Rh))):0;
+  const portsL=[]; for(let i=0;i<nP;i++) portsL.push(pol(Rh,(i-(nP-1)/2)*dA));
+  const Rb=(Rs+Rh)/2, nb=Math.round(v.boltsPerSeg);
+  const boltsL=nb>=2?[pol(Rb,-half/2),pol(Rb,half/2)]:(nb===1?[pol(Rb,0)]:[]);
+  const clearOf=b=>!portsL.some(p=>Math.hypot(b[0]-p[0],b[1]-p[1])<rp+v.boltDia/2+0.125);
+  let boltsP=boltsL.filter(clearOf);
+  if(boltsL.length&&!boltsP.length) boltsP=[pol(Rb,-half/2),pol(Rb,half/2)].filter(clearOf).slice(0,Math.max(1,boltsL.length));
+  return {nseg,half,th:2*half,Rs,Rh,Ro,rp,nP,portsL,boltsL,boltsP,Rb,jg:v.jointGap,columnR:v.columnOD/2,m:0};
+}
+const segAngle=(G_,k)=>-Math.PI/2+k*G_.th;
+function segHoles(Gm,d,p,ports){
+  const clr=Gm.m+d/2, half=Gm.half, rMin=Gm.Rh+clr, rMax=Gm.Ro-clr, pts=[];
+  if(rMax<=rMin||p<=0) return pts;
+  const dy=p*Math.sqrt(3)/2, xc=(rMin+rMax)/2, J=Math.ceil(rMax/dy)+1, I=Math.ceil(rMax/p)+2;
+  for(let j=-J;j<=J;j++){const y=j*dy, off=(Math.abs(j)%2)*p/2;
+    for(let i=-I;i<=I;i++){const x=xc+i*p+off, r=Math.hypot(x,y);
+      if(r<rMin||r>rMax) continue; const a=Math.atan2(y,x);
+      if(Math.abs(a)>=half) continue; if(r*Math.sin(half-Math.abs(a))<clr+Gm.jg/2) continue;
+      if(ports&&ports.some(q=>Math.hypot(x-q[0],y-q[1])<Gm.rp+clr)) continue;
+      pts.push([x,y]);}}
+  return pts;
+}
+function layout(Gm,d,p){const std=segHoles(Gm,d,p,null), port=Gm.nP?segHoles(Gm,d,p,Gm.portsL):std;return {std,port,N:(Gm.nseg-1)*std.length+port.length,d,p};}
+function solvePitch(Gm,d,nReq,L){
+  const pMin=Math.ceil(L*d*16-1e-9)/16; if(layout(Gm,d,pMin).N<nReq) return {p:pMin,fits:false};
+  let lo=pMin,hi=Math.max(pMin*1.01,Gm.Ro-Gm.Rh);
+  if(layout(Gm,d,hi).N>=nReq) return {p:Math.max(pMin,Math.floor(hi*16+1e-9)/16),fits:true};
+  for(let i=0;i<32;i++){const m=(lo+hi)/2; if(layout(Gm,d,m).N>=nReq) lo=m; else hi=m;}
+  return {p:Math.max(pMin,Math.floor(lo*16+1e-9)/16),fits:true};
+}
+/* polylines: [x,y,bulge]; bulge applies to the edge to the next vertex (DXF convention, + = ccw) */
+function segmentOutline(Gm){
+  const h=Gm.half, ai=Math.asin(Math.min(1,Gm.jg/(2*Gm.Rs))), ao=Math.asin(Math.min(1,Gm.jg/(2*Gm.Ro)));
+  return [[...pol(Gm.Rs,-h+ai),0],[...pol(Gm.Ro,-h+ao),Math.tan(2*(h-ao)/4)],[...pol(Gm.Ro,h-ao),0],[...pol(Gm.Rs,h-ai),-Math.tan(2*(h-ai)/4)]];
+}
+function hubPieces(Gm){
+  const n=Gm.nseg, kk=Math.max(0,Math.floor((Math.floor(n/2)-1)/2)), s0=-Math.PI/2-Gm.half-kk*Gm.th, s1=s0+Math.floor(n/2)*Gm.th, pieces=[];
+  const portsA=Gm.portsL.map(p=>rot(p,-Math.PI/2));
+  const beta=Gm.nP?2*Math.asin(Math.min(1,Gm.rp/(2*Gm.Rh))):0;
+  const gs=Math.asin(Math.min(1,Gm.jg/(2*Gm.Rs))), gh=Math.asin(Math.min(1,Gm.jg/(2*Gm.Rh)));
+  for(const [a0,a1] of [[s0,s1],[s1,s0+TAU]]){
+    const a0s=a0+gs,a1s=a1-gs,a0h=a0+gh,a1h=a1-gh, notches=[];
+    portsA.forEach(p=>{let ph=Math.atan2(p[1],p[0]); while(ph<a0h) ph+=TAU; while(ph>a0h+TAU) ph-=TAU; if(ph-beta>a0h&&ph+beta<a1h) notches.push({ph,c:p});});
+    notches.sort((x,y)=>x.ph-y.ph);
+    const pts=[[...pol(Gm.Rs,a0s),0]]; let cur=a0h;
+    notches.forEach(nc=>{
+      const P1=pol(Gm.Rh,nc.ph-beta), P2=pol(Gm.Rh,nc.ph+beta);
+      const t1=Math.atan2(P1[1]-nc.c[1],P1[0]-nc.c[0]), t2=Math.atan2(P2[1]-nc.c[1],P2[0]-nc.c[0]);
+      const sw=((t1-t2)%TAU+TAU)%TAU;
+      pts.push([...pol(Gm.Rh,cur),Math.tan((nc.ph-beta-cur)/4)]);
+      pts.push([P1[0],P1[1],-Math.tan(sw/4)]);
+      cur=nc.ph+beta;
+    });
+    pts.push([...pol(Gm.Rh,cur),Math.tan((a1h-cur)/4)]);
+    pts.push([...pol(Gm.Rh,a1h),0]);
+    pts.push([...pol(Gm.Rs,a1s),-Math.tan((a1s-a0s)/4)]);
+    pieces.push({pts,bolts:[],a0,a1});
+  }
+  for(let k=0;k<n;k++){const c=segAngle(Gm,k); (k===0?Gm.boltsP:Gm.boltsL).forEach(b=>{const B=rot(b,c);const a=Math.atan2(B[1],B[0]);
+    for(const pc of pieces){let x=a; while(x<pc.a0) x+=TAU; while(x>pc.a0+TAU) x-=TAU; if(x>pc.a0&&x<pc.a1){pc.bolts.push(B);break;}}});}
+  return pieces;
+}
+function bulgeArc(p1,p2,b){
+  const th=4*Math.atan(b), dx=p2[0]-p1[0], dy=p2[1]-p1[1], c=Math.hypot(dx,dy);
+  const mx=(p1[0]+p2[0])/2, my=(p1[1]+p2[1])/2, h=(c/2)/Math.tan(th/2);
+  const cx=mx-dy/c*h, cy=my+dx/c*h;
+  return {cx,cy,r:Math.hypot(p1[0]-cx,p1[1]-cy),a1:Math.atan2(p1[1]-cy,p1[0]-cx),sweep:th};
+}
+function tess(pts,stepRad=0.03){
+  const out=[];
+  for(let i=0;i<pts.length;i++){const p=pts[i], q=pts[(i+1)%pts.length]; out.push([p[0],p[1]]);
+    if(Math.abs(p[2])>1e-9){const a=bulgeArc(p,q,p[2]); const n=Math.max(2,Math.ceil(Math.abs(a.sweep)/stepRad));
+      for(let k=1;k<n;k++){const t=a.a1+a.sweep*k/n; out.push([a.cx+a.r*Math.cos(t),a.cy+a.r*Math.sin(t)]);}}}
+  return out;
+}
+function polyLen(pts){let L=0;for(let i=0;i<pts.length;i++){const p=pts[i],q=pts[(i+1)%pts.length],c=Math.hypot(q[0]-p[0],q[1]-p[1]);
+  if(Math.abs(p[2])<1e-9) L+=c; else {const th=4*Math.atan(Math.abs(p[2])); L+=c/(2*Math.sin(th/2))*th;}} return L;}
+const transformPoly=(pts,f)=>pts.map(p=>{const q=f([p[0],p[1]]);return [q[0],q[1],p[2]];});
+
+/* ---------------- hydraulics core (design, risk, sensitivity) ---------------- */
+function hydro(v,ctx,over){
+  const s=Object.assign({q:v.q,frac:v.fracAbove,pwl:v.pwl+v.drawAllow,vb:v.vb,slope:v.slope},over||{});
+  const Va=s.q*s.frac/100/448.831/ctx.Aann, Vc=v.c0*Va;
+  const regime=Vc<=s.vb?"A":(Vc<=ctx.UtA?"B":"C");
+  const hDisc=ctx.z*Va*Va/(2*G), hTot=ctx.nUse*hDisc;
+  const dQpct=hTot/s.slope*100/s.q*100;
+  const npsha=ctx.Hatm+(v.intake-s.pwl)-ctx.Hv-hTot;
+  const hc=v.airMode==="aquifer"?0:Math.max(0,s.pwl-v.perfTop);
+  return {Va,Vc,regime,hDisc,hTot,dQpct,npsha,margin:npsha-v.npshr,cover:ctx.nUse?ctx.top-s.pwl:NaN,hc,ratio:Vc/s.vb,nReq:stagesRequired(hc,regime,v.ftPerStage,v.airMode,screenAbove(v,s.pwl))};
+}
+
+/* ---------------- main compute ---------------- */
+function compute(v){
+  const flags=[], err=[];
+  const bad=t=>flags.push(["bad",t]), warn=t=>flags.push(["warn",t]), info=t=>flags.push(["info",t]), ok=t=>flags.push(["ok",t]);
+  ALL.forEach(f=>{if(!isTxt(f)&&!isFinite(v[f.id])) err.push(f.id);});
+  if(err.length) return {err,flags:[["bad","Fill in every highlighted field with a number."]]};
+  const need=(c,id,msg)=>{if(!c){err.push(id);bad(msg);}};
+  ALL.forEach(f=>{
+    if(f.type==="select"){ need(f.opts.some(o=>o[0]===String(v[f.id])),f.id,"Choose a value for “"+f.label+"”."); return; }
+    if(f.type==="text") return;
+    const x=v[f.id]; if((f.min!=null&&x<f.min)||(f.max!=null&&x>f.max)) need(false,f.id,"“"+f.label+"” must be "+(f.max!=null?"between "+f.min+" and "+f.max:"at least "+f.min)+(f.u?" "+f.u:"")+".");
+  });
+  ["segments","nPorts","boltsPerSeg","mcRuns"].forEach(id=>need(Number.isInteger(v[id]),id,"“"+ALL.find(f=>f.id===id).label+"” must be a whole number."));
+  if(err.length) return {err,flags};
+  need(v.segments%2===0,"segments","Use an even number of segments, so the hub ring splits into two equal halves that can be fitted around an installed column.");
+  need(v.perfTop<v.intake,"perfTop","All perforations are at or below the pump intake, so no water flows down past discs placed above it. Discs cannot treat this well; consider a shroud or a different pump setting.");
+  need(v.columnOD<v.casingID-1,"columnOD","Column OD must be at least 1 in smaller than the casing ID.");
+  const Gm=geom(v);
+  need(Gm.Rh<Gm.Ro-1,"hubWidth","The hub ring leaves less than 1 in of perforated plate. Narrow the hub or check the casing ID.");
+  need(v.pwl>=v.swl,"pwl","Pumping level should be at or below the static level.");
+  const pwlD=v.pwl+v.drawAllow;
+  need(v.intake>pwlD,"intake","Pump intake must be below the design pumping level ("+fmt(pwlD,0)+" ft).");
+  need(v.perfBot>v.perfTop,"perfBot","Bottom of perforations must be below the top.");
+  if(Gm.nP>0) need(v.portOcc<v.portD,"portOcc","The tube or cable must be smaller than the port.");
+  if(err.length) return {err,flags};
+  if(v.perfBot<=v.intake&&v.fracAbove<100){ warn("All perforations are above the intake, so all of the flow comes down the annulus. The design uses 100% instead of your "+fmt(v.fracAbove,0)+"% for flow entering above the intake."); v=Object.assign({},v,{fracAbove:100}); }
+
+  const Q=v.q, Qa=Q*v.fracAbove/100, Qb=Q-Qa, qcfs=Qa/448.831;
+  const Aann_in=Math.PI/4*(v.casingID**2-v.columnOD**2), Aann=Aann_in/144, Va=qcfs/Aann;
+  const Dt=v.casingID/12, Dc=v.columnOD/12, Vc=v.c0*Va;
+  const Ut=(0.32+0.016*Dc/Dt)*Math.sqrt(G*Dt), UtSF=Ut*v.slugSF, UtA=Math.min(UtSF,v.capRise), riseCapped=UtSF>v.capRise;
+  const regime=Vc<=v.vb?"A":(Vc<=UtA?"B":"C");
+  const mode=v.airMode||"cascade", cascOn=mode!=="aquifer", aqOn=mode!=="cascade";
+  const hcRaw=Math.max(0,pwlD-v.perfTop), hc=cascOn?hcRaw:0, Vj=Math.sqrt(2*G*hc), hcNow=cascOn?Math.max(0,v.pwl-v.perfTop):0;
+  const scr=screenAbove(v,pwlD), wetTop=Math.max(pwlD,v.perfTop);
+  const Qclean=v.vb/v.c0*Aann*448.831/(v.fracAbove/100), Qmax=UtA/v.c0*Aann*448.831/(v.fracAbove/100);
+
+  const Agap=Math.PI/4*(v.casingID**2-(2*Gm.Ro)**2);
+  const portFree=Gm.nP*Math.PI/4*Math.max(0,v.portD**2-v.portOcc**2);
+  const Ajoint=Gm.nseg*v.jointGap*Math.max(0,Gm.Ro-Gm.Rh), Abore=Math.PI/4*((2*Gm.Rs)**2-v.columnOD**2);
+  const nRec=stagesRequired(hc,regime,v.ftPerStage,mode,scr);
+  const zoneTop=(aqOn&&!cascOn)?Math.max(pwlD,v.perfTop)+v.submerge:pwlD+v.submerge, zoneBot=v.intake-v.intakeClear, zoneLen=zoneBot-zoneTop;
+  const nFit=zoneLen<0?0:Math.floor(zoneLen/v.spacing+1e-9)+1;
+  const nUse=Math.min(20,v.discMode==="auto"?Math.min(nRec,nFit):parseInt(v.discMode,10));
+  const depths=[];
+  if(mode==="aquifer"){for(let i=nUse-1;i>=0;i--) depths.push(zoneBot-i*v.spacing);}
+  else if(mode==="both"&&nUse>1&&zoneLen>0){const sp=zoneLen/(nUse-1); for(let i=0;i<nUse;i++) depths.push(zoneTop+i*sp);}
+  else for(let i=0;i<nUse;i++) depths.push(zoneTop+i*v.spacing);
+  const hAllow=Math.min(v.hMax,nUse>0?(v.maxFlowLoss/100*Q)*(v.slope/100)/nUse:v.hMax);
+  const phiLoss=phiForLoss(Va,hAllow), phiReq=Math.max(v.targetOpen/100,phiLoss);
+  const holeAreaReq=Math.max(0,phiReq*Aann_in-Agap-portFree-Ajoint-Abore);
+
+  const sizes=v.holeMode==="auto"?STD_HOLES.filter(h=>h>=v.minHole-1e-9):[parseFloat(v.holeMode)];
+  if(!sizes.length) sizes.push(STD_HOLES[STD_HOLES.length-1]);
+  let choice=null; const tried=[];
+  for(const d of sizes){
+    const Gd=Object.assign({},Gm,{m:v.edgeMargin*d}), a=Math.PI/4*d*d, nReq=Math.max(Gd.nseg,Math.ceil(holeAreaReq/a));
+    const sp=v.fixedPitch>0?{p:Math.max(v.fixedPitch,d+0.0625),fits:true,clamped:v.fixedPitch<d+0.0625}:solvePitch(Gd,d,nReq,v.ligament);
+    const t={d,Gd,a,sp}; tried.push(t);
+    if(sp.fits){choice=t;break;}
+  }
+  let fits=true;
+  if(!choice){fits=false; const area=t=>layout(t.Gd,t.d,t.sp.p).N*t.a; choice=tried.reduce((b,t)=>area(t)>area(b)?t:b,tried[0]);}
+  const d=choice.d, Gd=choice.Gd, lay=layout(Gd,d,choice.sp.p), N=lay.N;
+  const Aholes=N*choice.a, Aopen=Aholes+Agap+portFree+Ajoint+Abore, phi=Aopen/Aann_in;
+  const Vhole=qcfs/(Aopen/144), z=zeta(phi), hDisc=z*Va*Va/(2*G);
+  const pitch=lay.p, lig=pitch-d;
+
+
+  const Hv=vaporFt(v.tempF), Hatm=atmFt(v.elev);
+  const ctx={Aann,UtA,z,nUse,Hatm,Hv,top:depths[0]};
+  const hy=hydro(v,ctx,{pwl:pwlD});
+  const hTot=hy.hTot, dQ=hTot/v.slope*100, dQpct=dQ/Q*100, npsha=hy.npsha, margin=hy.margin;
+  let Vmotor=NaN; if(v.motorOD>0&&v.motorOD<v.casingID) Vmotor=(Qb/448.831)/(Math.PI/4*(v.casingID**2-v.motorOD**2)/144);
+
+  const segOut=segmentOutline(Gd), hubs=hubPieces(Gd);
+  const fixedCut=Gd.nseg*polyLen(segOut)+Gd.nP*Math.PI*v.portD+hubs.reduce((s,h)=>s+polyLen(h.pts),0)+2*((Gd.nseg-1)*Gd.boltsL.length+Gd.boltsP.length)*Math.PI*v.boltDia;
+  const cutDisc=fixedCut+N*Math.PI*d;
+  const wDisc=(Math.PI*(Gd.Ro**2-Gd.Rs**2)-Aholes-portFree-Ajoint+Math.PI*(Gd.Rh**2-Gd.Rs**2))*v.thick*0.2836;
+
+  if(Gd.nP){const p=Gd.portsL[0], a=Math.abs(Math.atan2(p[1],p[0])), dj=Gd.Rh*Math.sin(Gd.half-a)-Gd.jg/2;
+    if(dj<Gd.rp+0.125) bad("The ports run into the segment joints. Use fewer or smaller ports, a narrower web between them, fewer segments or a wider hub.");}
+  if(Gd.nP&&Gd.Rh-Gd.rp<Gd.Rs+0.25) bad("The ports cut through the hub ring. Widen the hub to at least "+frac(Math.ceil((Gd.rp+0.25)*8)/8)+'" or use smaller ports.');
+  if(Gd.nP&&Gd.Rh+Gd.rp>Gd.Ro-0.25) bad("The ports run past the disc edge. Use smaller ports or a narrower hub.");
+  if(Gd.boltsL.length&&Gd.nP&&Gd.boltsP.length===0) bad("Every hub bolt in the port segment would land in or beside a port, so that segment has no bolt. Use two bolts per segment, move the ports apart or widen the hub.");
+  else if(Gd.boltsP.length<Gd.boltsL.length) warn((Gd.boltsL.length-Gd.boltsP.length)+" hub bolt in the port segment would land in or beside a port, so it is left out of the drawings and parts list. That segment is held by "+Gd.boltsP.length+" bolt"+(Gd.boltsP.length>1?"s":"")+".");
+  else if(Gd.nP&&Gd.boltsL.length&&Gd.boltsP.some((b,i)=>!Gd.boltsL[i]||Math.hypot(b[0]-Gd.boltsL[i][0],b[1]-Gd.boltsL[i][1])>1e-6)) info("In the port segment the hub bolt is moved off the centreline to clear the port. The drawings and cut files show it there.");
+  if(v.fixedPitch>0&&choice.sp.clamped) warn("A "+frac(v.fixedPitch)+'" pitch would make holes touch, so the drawings use '+frac(pitch)+'".');
+  else if(v.fixedPitch>0&&v.fixedPitch<v.ligament*d-1e-6) warn("Your "+frac(v.fixedPitch)+'" pitch is '+fmt(v.fixedPitch/d,2)+"× the hole, under your "+v.ligament+"× minimum.");
+  if(Gd.boltsL.length&&v.hubWidth<v.boltDia+0.5) warn("The hub ring is narrow for the bolt holes (under 1/4 in of steel each side).");
+  if(lig<v.thick-1e-6) warn("The ligament between holes ("+frac(Math.round(lig*32)/32)+'") is thinner than the plate. Plasma and punch cutting need ligament at least the plate thickness.');
+  if(d<v.thick-1e-6) warn("Hole diameter is smaller than the plate thickness, which is hard to punch or plasma cut cleanly.");
+
+  const noSource=mode==="cascade"&&hc===0;
+  if(riseCapped&&!noSource) info("Merged-gas rise is capped at "+fmt(v.capRise,2)+" ft/s. The slug-rise formula gives "+fmt(UtSF,2)+" ft/s here, but it was fitted on small annuli; in a "+fmt(v.casingID,0)+" in casing large bubbles break into cap bubbles that rise slower.");
+  if(noSource) info("With no perforations exposed above the design pumping level there is no falling water to entrain air, so the falling-water rule calls for no discs. Core downward velocity is "+fmt(Vc,2)+" ft/s against "+fmt(v.vb,2)+" ft/s small-bubble rise, for reference. If recharge ponds feed this well, check aquifer air.");
+  else if(regime==="C") bad("Bubbles ride the core of the flow down at about "+fmt(Vc,2)+" ft/s ("+fmt(Va,2)+" ft/s average × "+fmt(v.c0,2)+"), faster than merged gas can rise here (about "+fmt(UtA,2)+" ft/s). Discs alone are unlikely to keep air off the pump. Larger casing, smaller column, a rate under "+fmt(Qmax,0)+" gpm, a shroud, or ending the cascade would change this.");
+  else if(regime==="B") warn("Small bubbles rise at about "+fmt(v.vb,2)+" ft/s, but the core of the flow carries them down at about "+fmt(Vc,2)+" ft/s ("+fmt(Va,2)+" ft/s average × "+fmt(v.c0,2)+"). Separation depends on the discs merging bubbles, so at least two discs are needed.");
+  else if(Vc>0.9*v.vb) warn("The core of the flow moves down at about "+fmt(Vc,3)+" ft/s, only just under the "+fmt(v.vb,2)+" ft/s small-bubble rise. There is little margin: up to "+fmt(Qclean,0)+" gpm keeps it, and more flow or a lower pumping level makes separation depend on bubble merging.");
+  else ok("The core of the flow moves down at about "+fmt(Vc,2)+" ft/s, slower than small bubbles rise ("+fmt(v.vb,2)+" ft/s), so freed bubbles can escape upward.");
+  if(cascOn&&hc>0) info("Perforations are exposed above the design pumping level: up to "+fmt(hc,0)+" ft of cascade (free-fall impact up to "+fmt(Vj,0)+" ft/s, ignoring wall friction). That is the air source the discs are fighting.");
+
+  const zBot=depths.length?depths[depths.length-1]:NaN, treatedShare=(aqOn&&scr>0&&nUse)?clamp((zBot-wetTop)/scr,0,1):0;
+  const airCfm=v.q*v.airFrac/100/7.48052, airTreatedPct=treatedShare*v.fracAbove;
+  if(aqOn){
+    info("Aquifer air: about "+fmt(airCfm,1)+" cfm of free air, at well pressure, arrives with "+fmt(v.q,0)+" gpm at your "+fmt(v.airFrac,1)+"% estimate, across "+fmt(scr,0)+" ft of wetted screen above the intake. The air fraction is your estimate, not a measurement.");
+    if(nUse>1) info(mode==="aquifer"?"The stack is set from the intake clearance upward, so air entering low on the screen still crosses a disc.":"The discs are spread evenly from below the design pumping level down to the intake clearance, to serve both air sources.");
+    if(scr<=0) warn("There is no wetted screen above the intake, so aquifer air enters below it and goes straight to the pump. Discs above the intake cannot intercept it.");
+    else if(nUse&&treatedShare<0.7) warn("Only "+fmt(treatedShare*100,0)+"% of the wetted screen above the intake sits above the bottom disc. Air entering below the bottom disc reaches the pump without crossing one. Lower the stack or space the discs closer to the intake.");
+    if(v.fracAbove<100) warn(fmt(100-v.fracAbove,0)+"% of the flow enters below the intake. Air carried in it reaches the pump without crossing a disc, so discs cannot treat it. A shroud or a different pump setting would change that.");
+    if(!cascOn&&v.perfTop<v.pwl) info("Perforations are also exposed above the pumping level. If water falls into the casing as well, choose Both sources.");
+  }
+  if(zoneLen<0) bad("No room for discs: the top disc ("+fmt(zoneTop,0)+" ft) would sit below the lowest allowed position above the intake ("+fmt(zoneBot,0)+" ft).");
+  else if(v.discMode==="auto"&&nRec>nFit) warn("The design rule calls for "+nRec+" discs but only "+nFit+" fit at "+fmt(v.spacing,0)+" ft spacing. Tighten the spacing or lower the pump.");
+  if(v.discMode!=="auto"&&nUse>nFit) bad(nUse+" discs at "+fmt(v.spacing,0)+" ft spacing run past the intake clearance. Only "+nFit+" fit.");
+  if(v.discMode!=="auto"&&nUse<nRec) warn("You chose "+nUse+" disc"+(nUse>1?"s":"")+"; the design rule calls for "+nRec+".");
+  if(!fits) warn("No standard hole size reaches "+fmt(phiReq*100,0)+"% open area at "+v.ligament+"× pitch. The plate is laid out at its maximum, "+fmt(phi*100,0)+"%. A narrower hub, tighter pitch or smaller holes add open area.");
+  if(phiLoss>v.targetOpen/100+0.005&&fits) info("Open area raised from your "+fmt(v.targetOpen,0)+"% target to "+fmt(phiLoss*100,0)+"% to keep each disc under "+fmt(hAllow,2)+" ft of head loss"+(hAllow<v.hMax?", which keeps the stack inside your "+fmt(v.maxFlowLoss,1)+"% flow-loss limit":"")+".");
+  if(hDisc>v.hMax*1.001) warn("Each disc costs "+fmt(hDisc,2)+" ft of head, over your "+fmt(v.hMax,2)+" ft limit.");
+  if(nUse>0&&hDisc<v.hMin) info("Each disc costs only "+fmt(hDisc,3)+" ft of head, under your "+fmt(v.hMin,2)+" ft minimum for breaking the cascade. Less open area would make each disc work harder.");
+  if(dQpct>v.maxFlowLoss) warn("The disc stack is estimated to cost "+fmt(dQpct,2)+"% of flow ("+fmt(dQ,0)+" gpm), over your "+fmt(v.maxFlowLoss,1)+"% limit.");
+  if(margin<0) bad("NPSH available ("+fmt(npsha,1)+" ft) is below NPSH required. Cavitation risk regardless of air.");
+  else if(margin<v.npshMargin) warn("NPSH margin is only "+fmt(margin,1)+" ft.");
+  if(v.gap>0.375) warn("A "+frac(v.gap)+'" gap to the casing lets the cascading sheet slide down the wall past the disc. Keep it as tight as the casing drift allows.');
+  if(isFinite(Vmotor)&&Vmotor<v.motorMinV) warn("Only "+fmt(Vmotor,2)+" ft/s of flow passes the motor from below the intake (minimum "+fmt(v.motorMinV,2)+"). Consider a flow inducer sleeve.");
+  if(nUse>0&&depths[0]-v.pwl<5) warn("The top disc is only "+fmt(depths[0]-v.pwl,0)+" ft under today's pumping level.");
+
+  const geoBad=flags.some(f=>f[0]==="bad"&&/ports|bolt|room for discs|run past the intake/i.test(f[1]));
+  const blockCAD=geoBad?"Fix the red notes first. Cut files are not produced for a disc that cannot be built or installed as drawn.":(nUse===0?"This design uses no discs, so there is nothing to cut.":"");
+  const level=(regime==="C"&&!noSource)||flags.some(f=>f[0]==="bad")?"bad":(flags.some(f=>f[0]==="warn")?"warn":"ok");
+  return {blockCAD,Vc,UtSF,riseCapped,Abore,mode,cascOn,aqOn,scr,wetTop,treatedShare,airCfm,airTreatedPct,v,err:[],flags,level,regime,Q,Qa,Qb,Aann,Aann_in,Va,Ut,UtA,hc,hcNow,Vj,pwlD,Qclean,Qmax,
+    Agap,portFree,Ajoint,phiLoss,phiReq,d,N,lay,pitch,lig,Aholes,Aopen,phi,Vhole,z,hDisc,hTot,dQ,dQpct,Hv,Hatm,npsha,margin,Vmotor,
+    nRec,nFit,nUse,depths,zoneTop,zoneBot,fits,Gd,segOut,hubs,fixedCut,cutDisc,wDisc,ctx};
+}
+
+/* ---------------- optimizer ---------------- */
+/* Auto mode adopts the optimizer's balanced pick when it beats the first-fit sizing. */
+function design(v){
+  const r=compute(v);
+  if(r.err.length||v.holeMode!=="auto"||v.fixedPitch>0) return r;
+  const best=optimize(r,"balanced").feas.find(c=>c.d<=Math.max(1,v.minHole)+1e-9&&c.N>=8*r.Gd.nseg);
+  if(!best||(Math.abs(best.d-r.d)<1e-9&&Math.abs(best.p-r.pitch)<1e-9)) return r;
+  const r2=compute(Object.assign({},v,{holeMode:String(best.d),fixedPitch:best.p}));
+  if(r2.err.length) return r;
+  r2.v=Object.assign({},r2.v,{holeMode:v.holeMode,fixedPitch:v.fixedPitch}); r2.autoPick=true;
+  r2.flags=r2.flags.filter(f=>!/^No standard hole size reaches|^Open area raised from your/.test(f[1]));
+  r2.flags.push(["info","Hole size and pitch were picked by the optimizer's balanced ranking, kept to 1 in holes or smaller and at least 8 holes per segment so the flow stays evenly spread. Set a hole size or pitch in Disc build to override."]);
+  return r2;
+}
+function optimize(r,pr){
+  const v=r.v, Gm=r.Gd, out=[];
+  const sizes=STD_HOLES.filter(h=>h>=v.minHole-1e-9&&h>=v.thick-1e-9);
+  const ratios=[0,0.25,0.5,0.75,1,1.25,1.5,2].map(x=>v.ligament+x);
+  const nUse=Math.max(1,r.nUse);
+  const pairs=[]; for(const d of sizes) for(const k of ratios) pairs.push([d,Math.ceil(k*d*16-1e-9)/16]);
+  pairs.unshift([r.d,r.pitch]);
+  for(const [d,p] of pairs){
+    if(out.some(o=>o.d===d&&Math.abs(o.p-p)<1e-9)) continue;
+    const Gd=Object.assign({},Gm,{m:v.edgeMargin*d}), lay=layout(Gd,d,p); if(!lay.N) continue;
+    const Aopen=lay.N*Math.PI/4*d*d+r.Agap+r.portFree+r.Ajoint+r.Abore, phi=Aopen/r.Aann_in, h=zeta(phi)*r.Va*r.Va/(2*G);
+    const dQpct=nUse*h/v.slope*100/v.q*100, lig=p-d, cut=r.fixedCut+lay.N*Math.PI*d, why=[];
+    if(h>v.hMax) why.push("head loss over max"); if(h<v.hMin) why.push("head loss under min");
+    if(dQpct>v.maxFlowLoss) why.push("flow loss over limit"); if(lig<v.thick-1e-6) why.push("ligament thinner than plate");
+    out.push({d,p,N:lay.N,phi,h,dQpct,lig,cut,ok:!why.length,why,current:out.length===0});
+  }
+  const feas=out.filter(c=>c.ok);
+  const W={balanced:[1,1,1],loss:[3,1,.5],cut:[1,3,.5],foul:[1,.6,3]}[pr]||[1,1,1];
+  const nrm=(a,f)=>{const xs=a.map(f),lo=Math.min(...xs),hi=Math.max(...xs);return x=>hi>lo?(x-lo)/(hi-lo):0;};
+  if(feas.length){const nl=nrm(feas,c=>c.dQpct), nc=nrm(feas,c=>c.cut), nh=nrm(feas,c=>-c.d);
+    feas.forEach(c=>c.score=W[0]*nl(c.dQpct)+W[1]*nc(c.cut)+W[2]*nh(-c.d)); feas.sort((a,b)=>a.score-b.score);}
+  out.forEach(c=>c.pareto=c.ok&&!feas.some(o=>o!==c&&o.dQpct<=c.dQpct&&o.cut<=c.cut&&(o.dQpct<c.dQpct||o.cut<c.cut)));
+  return {all:out,feas,nUse};
+}
+
+/* ---------------- Monte Carlo + sensitivity ---------------- */
+function tri(u,lo,mode,hi){if(hi<=lo) return mode;const F=(mode-lo)/(hi-lo);return u<F?lo+Math.sqrt(u*(hi-lo)*(mode-lo)):hi-Math.sqrt((1-u)*(hi-lo)*(hi-mode));}
+function ranges(v){return {
+  q:[v.q*(1-v.uQ/100),v.q,v.q*(1+v.uQ/100)],
+  frac:[clamp(v.fracAbove-v.uFrac,1,100),v.fracAbove,clamp(v.fracAbove+v.uFrac,1,100)],
+  pwl:[Math.max(v.swl,v.pwl+v.drawAllow-v.uPwl),v.pwl+v.drawAllow,v.pwl+v.drawAllow+v.uPwl],
+  vb:[Math.max(0.1,v.vb-v.uVb),v.vb,v.vb+v.uVb],
+  slope:[Math.max(0.1,v.slope*(1-v.uSlope/100)),v.slope,v.slope*(1+v.uSlope/100)]};}
+function monteCarlo(r,runs){
+  const v=r.v, R=ranges(v), rnd=mulberry32(20261003), N=Math.round(clamp(runs||v.mcRuns,500,20000));
+  const c={C:0,B:0,A:0,loss:0,npsh:0,dry:0,short:0,holds:0}, Vas=new Float64Array(N), losses=new Float64Array(N);
+  for(let i=0;i<N;i++){
+    const s={q:tri(rnd(),...R.q),frac:tri(rnd(),...R.frac),pwl:tri(rnd(),...R.pwl),vb:tri(rnd(),...R.vb),slope:tri(rnd(),...R.slope)};
+    const h=hydro(v,r.ctx,s); c[h.regime]++;
+    const L=h.dQpct>v.maxFlowLoss, P=h.margin<v.npshMargin, D=r.nUse>0&&h.cover<0, S=r.nUse<h.nReq;
+    if(L)c.loss++; if(P)c.npsh++; if(D)c.dry++; if(S)c.short++;
+    if((h.regime!=="C"||h.nReq===0)&&!L&&!P&&!D&&!S) c.holds++;
+    Vas[i]=h.Vc; losses[i]=h.dQpct;
+  }
+  const sv=Array.from(Vas).sort((a,b)=>a-b), sl=Array.from(losses).sort((a,b)=>a-b);
+  const pct=(a,p)=>a[Math.min(a.length-1,Math.floor(p*a.length))];
+  return {N,c,Vas:sv,p:{va5:pct(sv,.05),va50:pct(sv,.5),va95:pct(sv,.95),l50:pct(sl,.5),l95:pct(sl,.95)}};
+}
+function tornado(r,out){
+  const v=r.v, R=ranges(v), names={q:"Pump flow",frac:"Share of flow from above",pwl:"Pumping level",vb:"Small-bubble rise",slope:"Pump curve slope"};
+  const f=h=>out==="loss"?h.dQpct:out==="ratio"?h.ratio:out==="sub"?h.cover:h.margin;
+  const base=f(hydro(v,r.ctx,{}));
+  const rows=Object.keys(R).map(k=>{const lo=f(hydro(v,r.ctx,{[k]:R[k][0]})), hi=f(hydro(v,r.ctx,{[k]:R[k][2]}));
+    const fl=x=>k==="q"?fmt(x,0)+" gpm":k==="frac"?fmt(x,0)+"%":k==="pwl"?fmt(x,0)+" ft":k==="vb"?fmt(x,2)+" ft/s":fmt(x,1)+" ft/100";
+    return {name:names[k],lo,hi,loL:fl(R[k][0]),hiL:fl(R[k][2]),sw:Math.abs(hi-lo)};}).filter(x=>isFinite(x.lo)&&isFinite(x.hi)&&x.sw>1e-9);
+  rows.sort((a,b)=>b.sw-a.sw);
+  return {rows,base,unit:{loss:"% flow lost",ratio:"× bubble rise",sub:"ft of water over top disc",npsh:"ft NPSH margin"}[out]};
+}
+
+/* ---------------- rendering ---------------- */
+let last=null, prio="balanced", tornOut="loss";
+const regimeWord=r=>(r.nRec===0&&r.nUse===0)?"No air source to treat":({A:"Clean separation",B:"Coalescing stack",C:"Beyond what discs can fix"}[r.regime]);
+function renderVerdict(r){
+  $("verdict").className="verdict "+(r.level||"bad");
+  ALL.forEach(f=>{const e=r.err.includes(f.id);$("f_"+f.id).classList.toggle("err",e);$(f.id).setAttribute("aria-invalid",e?"true":"false");});
+  const st=$("status"); st.className="status "+(r.level||"bad");
+  const fl=$("flags");
+  if(r.err.length){st.lastChild.textContent="Inputs need attention";$("headline").textContent="Check the inputs";$("subline").textContent="";$("kpis").innerHTML="";fl.innerHTML=r.flags.map(f=>'<li class="'+f[0]+'">'+esc(f[1])+'</li>').join("");return false;}
+  st.lastChild.textContent=regimeWord(r)+(r.level==="ok"?" · all checks pass":r.level==="warn"?" · review the notes":" · problem found");
+  const purpose={cascade:"to break the cascade",aquifer:"to catch aquifer air",both:"for falling and aquifer air"}[r.mode];
+  $("headline").textContent=(r.nUse===0&&r.nRec>0)?"No room for discs":(r.nUse===0&&r.nRec===0&&r.v.discMode==="auto")?"No EAD needed on these numbers":{A:r.nUse?r.nUse+" disc"+(r.nUse>1?"s":"")+" "+purpose:"No EAD needed on these numbers",B:r.nUse+" disc"+(r.nUse!==1?"s":"")+", coalescing stack",C:"Outside the range discs can fix"}[r.regime];
+  $("subline").textContent=r.nUse?(frac(r.d)+'" holes, '+r.N+" per disc on a "+frac(r.pitch)+'" pitch, '+fmt(r.phi*100,0)+"% open. Top disc at "+fmt(r.depths[0],0)+" ft"+(r.nUse>1?", then every "+fmt(r.depths[1]-r.depths[0],0)+" ft to "+fmt(r.depths[r.nUse-1],0)+" ft":"")+". Estimated flow cost "+fmt(r.dQpct,2)+"%."):"The disc pattern is still shown for reference.";
+  const depthTxt=r.nUse?(r.nUse>1?fmt(r.depths[0],0)+"–"+fmt(r.depths[r.nUse-1],0):fmt(r.depths[0],0)):"—";
+  $("kpis").innerHTML=[[r.nUse,"","discs"],[frac(r.d),'"',"hole diameter"],[r.N,"","holes per disc"],[depthTxt,"","ft below ground"]]
+    .map(k=>'<div class="kpi"><b'+(String(k[0]).length>5?' class="long"':'')+'>'+esc(k[0])+(k[1]?'<small>'+k[1]+'</small>':'')+'</b><span>'+esc(k[2])+'</span></div>').join("");
+  const order={bad:0,warn:1,ok:2,info:3}, sorted=r.flags.slice().sort((a,b)=>order[a[0]]-order[b[0]]), showN=4, exp=fl.dataset.exp==="1";
+  fl.innerHTML=sorted.map((f,i)=>'<li class="'+f[0]+'"'+(!exp&&i>=showN?' hidden':'')+'>'+esc(f[1])+'</li>').join("")+(sorted.length>showN?'<li class="more"><button type="button" class="flags-more" id="flagsMore">'+(exp?"Show fewer notes":"Show all "+sorted.length+" notes")+'</button></li>':'');
+  const fm=$("flagsMore"); if(fm) fm.onclick=()=>{fl.dataset.exp=exp?"0":"1";renderVerdict(r);};
+  $("mbarDot").className=r.level||""; $("mbarText").textContent=r.nUse+" disc"+(r.nUse!==1?"s":"")+" · "+frac(r.d)+'" × '+r.N+" holes · "+fmt(r.dQpct,2)+"% flow";
+  const pm=projMeta(); $("projLine").textContent=pm.well+(pm.util?" · "+pm.util:"")+" · rev "+pm.rev;
+  $("sum_well").textContent=fmt(r.v.casingID,2)+'" × '+fmt(r.v.columnOD,3)+'"';
+  $("sum_flow").textContent=fmt(r.v.q,0)+" gpm";
+  $("sum_build").textContent=r.Gd.nseg+" seg · "+frac(r.v.thick)+'" plate';
+  $("sum_place").textContent=r.nUse+" disc"+(r.nUse!==1?"s":"");
+  return true;
+}
+function renderVelo(r){
+  const rows=[["Water down, core (× C0)",r.Vc,r.regime==="A"?"var(--ok)":r.regime==="B"?"var(--warn)":"var(--bad)"],["Water down, average",r.Va,"var(--steel)"],["Small bubbles rise",r.v.vb,"var(--accent)"],["Merged gas rises (with SF)",r.UtA,"var(--accent)"],["Water through disc holes",r.Vhole,"var(--steel-dark)"]];
+  const mx=Math.max(...rows.map(x=>x[1]))*1.06;
+  $("velo").innerHTML=rows.map(x=>'<div class="vrow"><span>'+x[0]+'</span><div class="vbar"><i style="width:'+(x[1]/mx*100).toFixed(1)+'%;background:'+x[2]+'"></i></div><span class="v">'+fmt(x[1],2)+' ft/s</span></div>').join("");
+}
+const kv=rows=>rows.map(r=>'<tr><th>'+esc(r[0])+'</th><td>'+r[1]+'</td></tr>').join("");
+function parts(r){const v=r.v,n=r.nUse,G_=r.Gd,ps=[];
+  ps.push(["Perforated segment, standard",(G_.nseg-1)*n,r.lay.std.length+" holes"]);
+  ps.push([G_.nP?"Perforated segment with ports":"Perforated segment, standard",n,r.lay.port.length+" holes"+(G_.nP?", "+G_.nP+" ports":"")]);
+  ps.push(["Hub ring half A",n,r.hubs[0].bolts.length+" bolt holes"+(r.hubs[0].pts.length>4?", port notches":"")]);
+  ps.push(["Hub ring half B",n,r.hubs[1].bolts.length+" bolt holes"+(r.hubs[1].pts.length>4?", port notches":"")]);
+  if(G_.boltsL.length) ps.push(["Bolt, nut and washer set",n*((G_.nseg-1)*G_.boltsL.length+G_.boltsP.length),"for "+frac(v.boltDia)+'" holes']);
+  return ps;}
+function renderTables(r){
+  const v=r.v, G_=r.Gd;
+  $("fabTable").innerHTML=kv([
+    ["Discs",r.nUse+" (rule asks "+r.nRec+", "+r.nFit+" fit)"],
+    ["Depths, ft below ground",r.depths.length?r.depths.map(x=>fmt(x,0)).join(", "):"—"],
+    ["Disc OD",fmt(2*G_.Ro,3)+' in ('+frac(v.gap)+'" radial clearance)'],
+    ["Bore",fmt(2*G_.Rs,3)+" in on "+fmt(v.columnOD,3)+" in column"],
+    ["Hub ring",fmt(2*G_.Rh,3)+" in OD, split at two segment joints"],
+    ["Plate",frac(v.thick)+'" thick, '+G_.nseg+" segments, "+frac(v.jointGap)+'" joints'],
+    ["Holes",frac(r.d)+'" on a '+frac(r.pitch)+'" 60° triangular pitch, ligament '+frac(Math.round(r.lig*32)/32)+'"'],
+    ["Holes per segment",r.lay.std.length+(G_.nP?" (port segment "+r.lay.port.length+")":"")],
+    ["Holes per disc",String(r.N)],
+    ["Ports",G_.nP?G_.nP+" × "+frac(v.portD)+'" around '+frac(v.portOcc)+'" tube or cable':"None"],
+    ["Open area",fmt(r.phi*100,1)+"% of annulus ("+fmt(r.Aopen,1)+" in²)"],
+    ["Open area breakdown","holes "+fmt(r.Aholes,1)+", casing gap "+fmt(r.Agap,1)+", bore gap "+fmt(r.Abore,1)+", ports "+fmt(r.portFree,1)+", joints "+fmt(r.Ajoint,1)+" in²"],
+    ["Cut length per disc",fmt(r.cutDisc/12,1)+" ft"],
+    ["Steel per disc, approx.",fmt(r.wDisc,0)+" lb"],
+  ]);
+  $("partsTable").innerHTML='<thead><tr><th>Part</th><th class="r">Qty</th><th>Notes</th></tr></thead><tbody>'+parts(r).map(p=>'<tr><td>'+esc(p[0])+'</td><td class="r">'+p[1]+'</td><td>'+esc(p[2])+'</td></tr>').join("")+'</tbody>';
+  $("hydTable").innerHTML=kv([
+    ["Annulus area",fmt(r.Aann_in,1)+" in² ("+fmt(r.Aann,3)+" ft²)"],
+    ["Flow from above intake",fmt(r.Qa,0)+" of "+fmt(r.Q,0)+" gpm"],
+    ["Annular velocity, average / core",fmt(r.Va,2)+" / "+fmt(r.Vc,2)+" ft/s (C0 "+fmt(r.v.c0,2)+")"],
+    ["Hole velocity",fmt(r.Vhole,2)+" ft/s"],
+    ["Merged gas rise: formula × SF / used",fmt(r.UtSF,2)+" / "+fmt(r.UtA,2)+" ft/s"+(r.riseCapped?" (capped)":"")],
+    ["Air source",{cascade:"Falling water into the casing",aquifer:"Aquifer air from percolation ponds",both:"Falling water and aquifer air"}[r.mode]],
+    ...(r.cascOn?[["Cascade, design / today",fmt(r.hc,0)+" / "+fmt(r.hcNow,0)+" ft"]]:[]),
+    ...(r.aqOn?[["Air in inflow (your estimate)",fmt(v.airFrac,1)+"% ≈ "+fmt(r.airCfm,1)+" cfm"],["Wetted screen above intake",fmt(r.scr,0)+" ft"],["Aquifer air crossing a disc",fmt(r.airTreatedPct,0)+"% of inflow air"]]:[]),
+    ["Loss coefficient ζ",fmt(r.z,2)],
+    ["Head loss per disc",fmt(r.hDisc,3)+" ft"],
+    ["Stack head loss",fmt(r.hTot,3)+" ft"],
+    ["Estimated flow change","−"+fmt(r.dQ,1)+" gpm (−"+fmt(r.dQpct,2)+"%)"],
+    ["NPSH available / required",fmt(r.npsha,1)+" / "+fmt(v.npshr,1)+" ft (margin "+fmt(r.margin,1)+")"],
+    ["Max flow, clean separation",fmt(r.Qclean,0)+" gpm"],
+    ["Max flow, with merging",fmt(r.Qmax,0)+" gpm"],
+    ["Motor cooling velocity",isFinite(r.Vmotor)?fmt(r.Vmotor,2)+" ft/s":"Not checked"],
+  ]);
+}
+function niceTicks(a,b,n){const span=b-a; if(!(span>0)) return [a]; const step0=span/n,mag=Math.pow(10,Math.floor(Math.log10(step0))),f=step0/mag,step=(f<1.5?1:f<3?2:f<7?5:10)*mag,out=[];for(let x=Math.ceil(a/step)*step;x<=b+1e-9;x+=step) out.push(x);return out;}
+function wellSVG(r){
+  const v=r.v, W=360, H=800, gy=86, bot=H-16;
+  const maxD=Math.max(v.intake+40,Math.min(v.perfBot,v.intake+110));
+  const y=d=>gy+(d/maxD)*(bot-gy);
+  const cx=148, cw=112, xl=cx-cw/2, xr=cx+cw/2, wall=7;
+  const colW=Math.max(12,cw*v.columnOD/v.casingID), cl=cx-colW/2, cr=cx+colW/2;
+  const motW=Math.min(cw-8,v.motorOD>0?cw*Math.min(v.motorOD,v.casingID-0.5)/v.casingID:colW*0.85);
+  const rnd=mulberry32(11), yP=y(v.pwl);
+  const regCol=r.regime==="A"?"#45C98B":r.regime==="B"?"#FFB547":"#FF5A5F";
+  let s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Well cutaway: water levels, perforations, disc stack and pump" font-family="Barlow, sans-serif">';
+  let dots=""; for(let i=0;i<26;i++) dots+='<circle cx="'+(rnd()*22).toFixed(1)+'" cy="'+(rnd()*22).toFixed(1)+'" r="'+(0.5+rnd()*1.3).toFixed(2)+'" fill="'+(rnd()<.5?"#2E261C":"#0F0C09")+'" opacity="'+(0.5+rnd()*.5).toFixed(2)+'"/>';
+  s+='<defs>'+
+   '<pattern id="ws-earth" width="22" height="22" patternUnits="userSpaceOnUse"><rect width="22" height="22" fill="#1B1711"/>'+dots+'</pattern>'+
+   '<linearGradient id="ws-shade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#050D17" stop-opacity=".05"/><stop offset="1" stop-color="#050D17" stop-opacity=".75"/></linearGradient>'+
+   '<linearGradient id="ws-sideL" x1="0" x2="1"><stop offset="0" stop-color="#050D17" stop-opacity=".85"/><stop offset="1" stop-color="#050D17" stop-opacity="0"/></linearGradient>'+
+   '<linearGradient id="ws-steel" x1="0" x2="1"><stop offset="0" stop-color="#1D2834"/><stop offset=".28" stop-color="#8797A7"/><stop offset=".42" stop-color="#E2E9EF"/><stop offset=".66" stop-color="#7A8A9A"/><stop offset="1" stop-color="#18212B"/></linearGradient>'+
+   '<linearGradient id="ws-casing" x1="0" x2="1"><stop offset="0" stop-color="#151D27"/><stop offset=".45" stop-color="#9AAABA"/><stop offset=".6" stop-color="#5E6E7F"/><stop offset="1" stop-color="#121A23"/></linearGradient>'+
+   '<linearGradient id="ws-water" gradientUnits="userSpaceOnUse" x1="0" y1="'+yP+'" x2="0" y2="'+bot+'"><stop offset="0" stop-color="#2A8AD8" stop-opacity=".95"/><stop offset=".18" stop-color="#14558F"/><stop offset="1" stop-color="#051A31"/></linearGradient>'+
+   '<linearGradient id="ws-air" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0B1828"/><stop offset="1" stop-color="#0F2236"/></linearGradient>'+
+   '<linearGradient id="ws-ray" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9AD8FF" stop-opacity=".22"/><stop offset="1" stop-color="#9AD8FF" stop-opacity="0"/></linearGradient>'+
+   '<linearGradient id="ws-disc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E4F6FF"/><stop offset=".4" stop-color="#6FC2F5"/><stop offset="1" stop-color="#1D5E99"/></linearGradient>'+
+   '<linearGradient id="ws-pad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9AA4AE"/><stop offset="1" stop-color="#4E5863"/></linearGradient>'+
+   '<linearGradient id="ws-motor" x1="0" x2="1"><stop offset="0" stop-color="#121922"/><stop offset=".4" stop-color="#4A5868"/><stop offset="1" stop-color="#0E141B"/></linearGradient>'+
+   '<filter id="ws-glow" x="-50%" y="-300%" width="200%" height="700%"><feGaussianBlur stdDeviation="2.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>'+
+   '<filter id="ws-soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="1.1"/></filter>'+
+   '<clipPath id="ws-cw"><rect x="'+xl+'" y="'+yP+'" width="'+cw+'" height="'+(bot-yP)+'"/></clipPath>'+
+   '<pattern id="ws-sat" width="16" height="16" patternUnits="userSpaceOnUse"><rect width="16" height="16" fill="#1A5A96" fill-opacity=".30"/><circle cx="4" cy="4" r="3.1" fill="#9FD3FF" fill-opacity=".08" stroke="#AEDBFF" stroke-opacity=".22" stroke-width=".6"/><circle cx="12" cy="11" r="3.6" fill="#9FD3FF" fill-opacity=".06" stroke="#AEDBFF" stroke-opacity=".18" stroke-width=".6"/><circle cx="12" cy="2.5" r="1.6" fill="#9FD3FF" fill-opacity=".1"/><circle cx="3" cy="12.5" r="1.9" fill="#9FD3FF" fill-opacity=".1"/></pattern>'+
+   '<linearGradient id="ws-pond" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3FA6F0"/><stop offset="1" stop-color="#0D3F70"/></linearGradient>'+
+  '</defs>';
+  // ground and earth
+  s+='<rect x="0" y="'+gy+'" width="'+W+'" height="'+(H-gy)+'" fill="url(#ws-earth)"/><rect x="0" y="'+gy+'" width="'+W+'" height="'+(H-gy)+'" fill="url(#ws-shade)"/>';
+  s+='<rect x="0" y="'+gy+'" width="40" height="'+(H-gy)+'" fill="url(#ws-sideL)"/>';
+  s+='<rect x="0" y="'+(gy-2)+'" width="'+W+'" height="3" fill="#3C7A4E"/><rect x="0" y="'+(gy+1)+'" width="'+W+'" height="5" fill="#2A2018" opacity=".9"/>';
+  // cone of depression and saturated formation (shape illustrative)
+  const seep=r.cascOn&&r.hcNow>0?Math.min(r.hcNow*0.45,(v.pwl-v.swl)*0.5):0, dEdge=v.pwl-seep, lam=42;
+  const wtD=x=>{const dist=x<cx?(xl-wall)-x:x-(xr+wall);return v.swl+(dEdge-v.swl)*Math.exp(-Math.max(0,dist)/lam);};
+  const wtPath=(x0,x1)=>{let p="",st=x1>x0?4:-4;for(let x=x0;st>0?x<=x1:x>=x1;x+=st) p+=(p?" L":"M")+x.toFixed(1)+" "+y(wtD(x)).toFixed(1);return p;};
+  s+='<path d="'+wtPath(0,xl-wall)+' L'+(xl-wall)+' '+bot+' L0 '+bot+'Z" fill="url(#ws-sat)"/>';
+  s+='<path d="'+wtPath(xr+wall,W)+' L'+W+' '+bot+' L'+(xr+wall)+' '+bot+'Z" fill="url(#ws-sat)"/>';
+  s+='<path d="'+wtPath(0,xl-wall)+'" fill="none" stroke="#5CC8FF" stroke-width="1.2" stroke-dasharray="5 4" opacity=".8"/><path d="'+wtPath(xr+wall,W)+'" fill="none" stroke="#5CC8FF" stroke-width="1.2" stroke-dasharray="5 4" opacity=".8"/>';
+  s+='<text x="33" y="'+(y(wtD(33))-6).toFixed(1)+'" font-size="10.5" fill="#7FCBFF">Water table</text>';
+  // percolation pond + infiltration
+  const p0=246,p1=354,pd=15;
+  s+='<path d="M'+p0+' '+(gy+1)+' Q'+((p0+p1)/2)+' '+(gy+pd*2)+' '+p1+' '+(gy+1)+'Z" fill="url(#ws-pond)"/>';
+  s+='<path d="M'+(p0+14)+' '+(gy+4)+' h16 M'+(p0+44)+' '+(gy+7)+' h22 M'+(p0+78)+' '+(gy+4)+' h14" stroke="#CFEFFF" stroke-opacity=".7" stroke-linecap="round"/>';
+  s+='<text x="'+((p0+p1)/2)+'" y="'+(gy-8)+'" text-anchor="middle" font-size="10.5" font-weight="600" fill="#9FDFFF">Percolation pond</text>';
+  [262,284,306,328].forEach(x=>{const yb=y(wtD(x))-3, ya=gy+pd*0.9;if(yb>ya+10) s+='<path d="M'+x+' '+ya+' V'+yb+' m-3 -5 l3 5 l3 -5" fill="none" stroke="#5CC8FF" stroke-opacity=".35" stroke-dasharray="3 4"/>';});
+  const bez=(p0_,p1_,p2_,p3_,t)=>{const u=1-t;return [u*u*u*p0_[0]+3*u*u*t*p1_[0]+3*u*t*t*p2_[0]+t*t*t*p3_[0],u*u*u*p0_[1]+3*u*u*t*p1_[1]+3*u*t*t*p2_[1]+t*t*t*p3_[1]];};
+  if(r.aqOn){
+    const lo=Math.max(v.pwl,v.perfTop), hi=Math.min(v.perfBot,maxD);
+    if(hi>lo){
+      let ap='<g>';
+      for(let k=0;k<5;k++){const dT=lo+(hi-lo)*(k+0.5)/5, P0=[260+k*19,gy+pd], P3=[xr+wall,y(dT)], P1=[P0[0],y(wtD(P0[0]))+30], P2=[xr+wall+50,y(dT)-10];
+        ap+='<path d="M'+P0[0]+' '+P0[1]+' C'+P1[0]+' '+P1[1]+' '+P2[0]+' '+P2[1]+' '+P3[0]+' '+P3[1]+'" fill="none" stroke="#9FDFFF" stroke-opacity=".16" stroke-width="4" stroke-linecap="round"/>';
+        for(let j=1;j<=16;j++){const q=bez(P0,P1,P2,P3,j/17);ap+='<circle cx="'+q[0].toFixed(1)+'" cy="'+q[1].toFixed(1)+'" r="'+(1.1+1.1*(j%3===0)).toFixed(1)+'" fill="#F2FAFF" opacity="'+(0.55+0.45*j/16).toFixed(2)+'"/>';}}
+      for(let k=0;k<4;k++){const dT=lo+(hi-lo)*(k+0.6)/4, yy=y(dT), x0=4;
+        for(let j=0;j<10;j++){const t=j/10, xx=x0+(xl-wall-x0)*t; ap+='<circle cx="'+xx.toFixed(1)+'" cy="'+(yy+Math.sin(t*9+k)*3).toFixed(1)+'" r="'+(0.8+0.8*(j%3===0)).toFixed(1)+'" fill="#EAF7FF" opacity="'+(0.25+0.55*t).toFixed(2)+'"/>';}}
+      s+=ap+'</g>';
+    }
+  }
+  // borehole interior
+  s+='<rect x="'+xl+'" y="'+gy+'" width="'+cw+'" height="'+(yP-gy)+'" fill="url(#ws-air)"/>';
+  s+='<rect x="'+xl+'" y="'+yP+'" width="'+cw+'" height="'+(bot-yP)+'" fill="url(#ws-water)"/>';
+  s+='<g clip-path="url(#ws-cw)" style="mix-blend-mode:screen">';
+  [0.12,0.42,0.72].forEach((f,i)=>{const x0=xl+cw*f;s+='<polygon points="'+x0+','+yP+' '+(x0+10)+','+yP+' '+(x0+34+i*6)+','+bot+' '+(x0-14)+','+bot+'" fill="url(#ws-ray)" opacity=".6"/>';});
+  s+='</g>';
+  // flow chevrons in annulus
+  for(let d=v.pwl+12; d<v.intake-20; d+=14){ if(r.depths.some(z=>Math.abs(z-d)<5)) continue; const yy=y(d);
+    for(const xx of [(xl+cl)/2,(cr+xr)/2]) s+='<path d="M'+(xx-4)+' '+(yy-2.5)+' L'+xx+' '+(yy+1.5)+' L'+(xx+4)+' '+(yy-2.5)+'" fill="none" stroke="'+regCol+'" stroke-width="1.3" opacity=".55" stroke-linecap="round" stroke-linejoin="round"/>';}
+  // perforations
+  const pt=Math.min(v.perfTop,maxD), pb=Math.min(v.perfBot,maxD);
+  // casing walls
+  s+='<rect x="'+(xl-wall)+'" y="'+(gy-14)+'" width="'+wall+'" height="'+(bot-gy+14)+'" fill="url(#ws-casing)"/><rect x="'+xr+'" y="'+(gy-14)+'" width="'+wall+'" height="'+(bot-gy+14)+'" fill="url(#ws-casing)"/>';
+  for(let d=pt; d<pb; d+=Math.max(2.5,maxD/120)){const yy=y(d); s+='<rect x="'+(xl-wall)+'" y="'+yy+'" width="'+wall+'" height="1.6" fill="#03070C"/><rect x="'+xr+'" y="'+yy+'" width="'+wall+'" height="1.6" fill="#03070C"/>';
+    if(d>v.pwl) s+='<rect x="'+(xl-wall-3)+'" y="'+yy+'" width="3" height="1.2" fill="#5CC8FF" opacity=".55"/><rect x="'+(xr+wall)+'" y="'+yy+'" width="3" height="1.2" fill="#5CC8FF" opacity=".55"/>';}
+  // cascade spray
+  if(r.hcNow>0){
+    const d0=Math.max(v.perfTop,0), n=Math.max(4,Math.min(10,Math.round((v.pwl-d0)/8)));
+    let sp='<g opacity=".9">';
+    for(let side=0;side<2;side++){const sgn=side?-1:1, wx=side?xr:xl;
+      for(let k=0;k<n;k++){const dd=d0+(v.pwl-d0)*(k+0.3)/n, y1=y(dd), reach=6+rnd()*16, x2=wx+sgn*reach;
+        sp+='<path d="M'+wx+' '+y1+' Q'+(wx+sgn*reach*0.9)+' '+(y1+3)+' '+x2+' '+yP+'" fill="none" stroke="#BFE6FF" stroke-width="'+(0.8+rnd()*0.8).toFixed(2)+'" opacity="'+(0.35+rnd()*0.45).toFixed(2)+'"/>';
+        for(let j=0;j<3;j++){const t=rnd(), yy=y1+(yP-y1)*t; sp+='<circle cx="'+(wx+sgn*reach*Math.sqrt(t)*(0.9+rnd()*.3)).toFixed(1)+'" cy="'+yy.toFixed(1)+'" r="'+(0.5+rnd()*0.8).toFixed(2)+'" fill="#E8F6FF" opacity=".8"/>';}}}
+    sp+='</g><g filter="url(#ws-soft)">';
+    for(let side=0;side<2;side++){for(let k=0;k<16;k++){const xx=side?xr-2-rnd()*30:xl+2+rnd()*30; sp+='<circle cx="'+xx.toFixed(1)+'" cy="'+(yP+rnd()*7).toFixed(1)+'" r="'+(1+rnd()*2.4).toFixed(2)+'" fill="#F2FAFF" opacity="'+(0.5+rnd()*0.4).toFixed(2)+'"/>';}}
+    s+=sp+'</g>';
+    const zB=r.depths.length?y(r.depths[0]):y(v.intake);
+    for(let k=0;k<36;k++){const t=Math.pow(rnd(),1.8), yy=yP+4+(zB-yP-6)*t, side=rnd()<.5, xx=side?xl+2+rnd()*(cl-xl-4):cr+2+rnd()*(xr-cr-4);
+      s+='<circle cx="'+xx.toFixed(1)+'" cy="'+yy.toFixed(1)+'" r="'+(0.7+rnd()*1.6).toFixed(2)+'" fill="#DFF3FF" opacity="'+(0.85-t*0.5).toFixed(2)+'"/>';}
+  }
+  // aquifer air entering through the wetted screen
+  if(r.aqOn){const lo=Math.max(v.pwl,v.perfTop), hi=Math.min(v.perfBot,maxD);
+    for(let k=0;k<40&&hi>lo;k++){const d=lo+rnd()*(hi-lo), side=rnd()<.5, below=d>v.intake, xx=side?xl+2+rnd()*10:xr-2-rnd()*10;
+      s+='<circle cx="'+xx.toFixed(1)+'" cy="'+y(d).toFixed(1)+'" r="'+(0.8+rnd()*1.4).toFixed(2)+'" fill="'+(below?"#FFB3B3":"#E6F6FF")+'" opacity=".85"/>';}
+    if(v.perfBot>v.intake+2) s+='<text x="'+(cx)+'" y="'+Math.min(bot-6,y(v.intake+30)+14)+'" text-anchor="middle" font-size="10" fill="#FF9A9A">air below intake bypasses discs</text>';
+  }
+  // surface glow
+  s+='<line x1="'+xl+'" x2="'+xr+'" y1="'+yP+'" y2="'+yP+'" stroke="#9FDFFF" stroke-width="1.4" filter="url(#ws-glow)"/>';
+  // column + couplings + cable
+  const bowlTop=y(v.intake-18);
+  s+='<rect x="'+cl+'" y="'+(gy-40)+'" width="'+colW+'" height="'+(bowlTop-gy+40)+'" fill="url(#ws-steel)"/>';
+  for(let d=21; d<v.intake-20; d+=21) s+='<rect x="'+(cl-2)+'" y="'+y(d)+'" width="'+(colW+4)+'" height="3.2" rx="1" fill="url(#ws-steel)" opacity=".95"/>';
+  s+='<line x1="'+(cl-4.5)+'" x2="'+(cl-4.5)+'" y1="'+(gy-12)+'" y2="'+y(v.intake+4)+'" stroke="#070C12" stroke-width="2.2"/>';
+  // discs
+  r.depths.forEach(d=>{const yy=y(d);
+    s+='<g filter="url(#ws-glow)"><rect x="'+xl+'" y="'+(yy-3)+'" width="'+(cl-xl)+'" height="6" rx="1" fill="url(#ws-disc)"/><rect x="'+cr+'" y="'+(yy-3)+'" width="'+(xr-cr)+'" height="6" rx="1" fill="url(#ws-disc)"/></g>';
+    for(let x=xl+4;x<cl-3;x+=6) s+='<rect x="'+x+'" y="'+(yy-3)+'" width="2" height="6" fill="#06223D" opacity=".75"/>';
+    for(let x=cr+4;x<xr-3;x+=6) s+='<rect x="'+x+'" y="'+(yy-3)+'" width="2" height="6" fill="#06223D" opacity=".75"/>';
+    s+='<rect x="'+(cl-5)+'" y="'+(yy-5.5)+'" width="5" height="11" rx="1" fill="url(#ws-steel)"/><rect x="'+cr+'" y="'+(yy-5.5)+'" width="5" height="11" rx="1" fill="url(#ws-steel)"/>';
+  });
+  // pump bowls, intake screen, motor
+  const yI=y(v.intake), bw=Math.min(cw-10,colW*1.55), st=4, sh=(yI-bowlTop)/st;
+  for(let k=0;k<st;k++) s+='<rect x="'+(cx-bw/2)+'" y="'+(bowlTop+k*sh+0.6)+'" width="'+bw+'" height="'+(sh-1.2)+'" rx="3" fill="url(#ws-steel)"/>';
+  s+='<rect x="'+(cx-bw/2+2)+'" y="'+yI+'" width="'+(bw-4)+'" height="9" fill="#0C141C"/>';
+  for(let x=cx-bw/2+5;x<cx+bw/2-4;x+=3.2) s+='<rect x="'+x+'" y="'+(yI+1.5)+'" width="1.2" height="6" fill="#7C8B9A"/>';
+  const mT=yI+9, mB=Math.min(bot-2,y(v.intake+30));
+  s+='<rect x="'+(cx-motW/2)+'" y="'+mT+'" width="'+motW+'" height="'+(mB-mT)+'" rx="4" fill="url(#ws-motor)"/>';
+  for(let yy=mT+5;yy<mB-4;yy+=4) s+='<line x1="'+(cx-motW/2+2)+'" x2="'+(cx+motW/2-2)+'" y1="'+yy+'" y2="'+yy+'" stroke="#000" stroke-opacity=".35"/>';
+  // wellhead
+  s+='<polygon points="'+(xl-34)+','+(gy+1)+' '+(xr+34)+','+(gy+1)+' '+(xr+24)+','+(gy-9)+' '+(xl-24)+','+(gy-9)+'" fill="url(#ws-pad)"/>';
+  s+='<rect x="'+(xl-wall-4)+'" y="'+(gy-20)+'" width="'+(cw+2*wall+8)+'" height="6" rx="1.5" fill="url(#ws-steel)"/>';
+  s+='<rect x="'+(cx-colW*0.9)+'" y="'+(gy-58)+'" width="'+(colW*1.8)+'" height="38" rx="4" fill="url(#ws-steel)"/>';
+  s+='<rect x="'+(cx+colW*0.9)+'" y="'+(gy-49)+'" width="'+(W-cx-colW*0.9-6)+'" height="16" fill="url(#ws-steel)" transform="rotate(0)"/>';
+  s+='<rect x="'+(W-14)+'" y="'+(gy-54)+'" width="6" height="26" rx="1" fill="#9AA8B6"/>';
+  // depth ruler (left)
+  niceTicks(0,maxD,8).forEach(d=>{const yy=y(d);s+='<line x1="8" x2="18" y1="'+yy+'" y2="'+yy+'" stroke="#8EA6BF" stroke-opacity=".6"/><text x="21" y="'+(yy+3.5)+'" font-size="10" fill="#8EA6BF">'+fmt(d,0)+'</text>';});
+  s+='<line x1="8" x2="8" y1="'+gy+'" y2="'+bot+'" stroke="#8EA6BF" stroke-opacity=".35"/>';
+  // labels with leaders (right)
+  const L=[], add=(d,t,col,strong)=>L.push({y0:y(d),y:y(d),t,col,strong});
+  add(v.swl,"Static "+fmt(v.swl,0)+" ft","#9FDFFF"); add(v.pwl,"Pumping "+fmt(v.pwl,0)+" ft","#9FDFFF");
+  if(v.drawAllow>0) add(r.pwlD,"Design "+fmt(r.pwlD,0)+" ft","#FFB547");
+  if(v.perfTop<=maxD) add(v.perfTop,"Perfs "+fmt(v.perfTop,0)+" ft","#8EA6BF");
+  if(r.nUse) add((r.depths[0]+r.depths[r.nUse-1])/2,(r.nUse>1?r.nUse+" discs "+fmt(r.depths[0],0)+"–"+fmt(r.depths[r.nUse-1],0):"Disc "+fmt(r.depths[0],0))+" ft","#5CC8FF",true);
+  add(v.intake,"Intake "+fmt(v.intake,0)+" ft","#E6F0FA");
+  L.sort((a,b)=>a.y-b.y); for(let i=1;i<L.length;i++) if(L[i].y-L[i-1].y<24) L[i].y=L[i-1].y+24;
+  const lx=xr+wall+22;
+  L.forEach(l=>{const w=l.t.length*6.5+18;
+    s+='<path d="M'+(xr+wall+1)+' '+l.y0+' L'+(lx-6)+' '+l.y0+' L'+lx+' '+l.y+'" fill="none" stroke="'+l.col+'" stroke-opacity=".6" stroke-width="1"/>';
+    s+='<rect x="'+lx+'" y="'+(l.y-10)+'" width="'+w+'" height="20" rx="10" fill="#07131F" fill-opacity=".85" stroke="'+l.col+'" stroke-opacity="'+(l.strong?.9:.35)+'"/>';
+    s+='<text x="'+(lx+9)+'" y="'+(l.y+4)+'" font-size="12" font-weight="'+(l.strong?700:500)+'" fill="'+l.col+'">'+esc(l.t)+'</text>';});
+  return s+'</svg>';
+}
+function polyPathSVG(pts){let d="M"+pts[0][0].toFixed(3)+" "+(-pts[0][1]).toFixed(3);
+  for(let i=0;i<pts.length;i++){const p=pts[i],q=pts[(i+1)%pts.length];
+    if(Math.abs(p[2])<1e-9) d+=" L"+q[0].toFixed(3)+" "+(-q[1]).toFixed(3);
+    else{const th=4*Math.atan(p[2]),c=Math.hypot(q[0]-p[0],q[1]-p[1]),R=c/(2*Math.sin(Math.abs(th)/2));
+      d+=" A"+R.toFixed(3)+" "+R.toFixed(3)+" 0 "+(Math.abs(th)>Math.PI?1:0)+" "+(p[2]>0?0:1)+" "+q[0].toFixed(3)+" "+(-q[1]).toFixed(3);}}
+  return d+"Z";}
+function assembly(r){
+  const G_=r.Gd, segs=[], holes=[], bolts=[];
+  for(let k=0;k<G_.nseg;k++){const c=segAngle(G_,k);
+    segs.push(transformPoly(r.segOut,p=>rot(p,c)));
+    (k===0?r.lay.port:r.lay.std).forEach(h=>holes.push(rot(h,c)));
+    (k===0?G_.boltsP:G_.boltsL).forEach(b=>bolts.push(rot(b,c)));}
+  return {segs,holes,bolts,ports:G_.portsL.map(p=>rot(p,-Math.PI/2))};
+}
+function discSVG(r,o){
+  o=o||{}; const v=r.v,G_=r.Gd,A=assembly(r),Rc=v.casingID/2,pad=o.dims?Rc*0.22:0.9,S=2*(Rc+pad),sw=S/450;
+  const C=o.print?{plate:"#2B3846",hub:"#AEB9C4",hubS:"#56677A",hole:"#FFFFFF",ref:"#7A8A9A",ink:"#0E2236",acc:"#1270D6",bg:"#FFFFFF"}:{plate:"var(--plate)",hub:"var(--steel)",hubS:"var(--steel-dark)",hole:"var(--hole)",ref:"var(--muted)",ink:"var(--ink)",acc:"var(--accent)"};
+  let s='<svg xmlns="http://www.w3.org/2000/svg" viewBox="'+(-Rc-pad)+' '+(-Rc-pad)+' '+S+' '+S+'" role="img" aria-label="Disc face, '+r.N+' holes" font-family="Barlow, Helvetica, Arial, sans-serif">';
+  if(o.print) s+='<rect x="'+(-Rc-pad)+'" y="'+(-Rc-pad)+'" width="'+S+'" height="'+S+'" fill="#FFFFFF"/>';
+  s+='<circle r="'+Rc+'" fill="none" stroke="'+C.ref+'" stroke-width="'+sw+'" stroke-dasharray="'+(S/110)+' '+(S/170)+'"/>';
+  A.segs.forEach(p=>s+='<path d="'+polyPathSVG(p)+'" fill="'+C.plate+'"/>');
+  s+='<g fill="'+C.hole+'">'+A.holes.map(h=>'<circle cx="'+h[0].toFixed(3)+'" cy="'+(-h[1]).toFixed(3)+'" r="'+r.d/2+'"/>').join("")+'</g>';
+  A.ports.forEach(p=>s+='<circle cx="'+p[0].toFixed(3)+'" cy="'+(-p[1]).toFixed(3)+'" r="'+G_.rp+'" fill="'+C.hole+'"/>');
+  r.hubs.forEach(h=>s+='<path d="'+polyPathSVG(h.pts)+'" fill="'+C.hub+'" stroke="'+C.hubS+'" stroke-width="'+sw+'"/>');
+  A.bolts.forEach(b=>s+='<circle cx="'+b[0].toFixed(3)+'" cy="'+(-b[1]).toFixed(3)+'" r="'+v.boltDia/2+'" fill="'+C.hubS+'"/>');
+  A.ports.forEach(p=>{if(v.portOcc>0) s+='<circle cx="'+p[0].toFixed(3)+'" cy="'+(-p[1]).toFixed(3)+'" r="'+v.portOcc/2+'" fill="'+C.hubS+'" opacity=".5"/>';});
+  s+='<circle r="'+G_.columnR+'" fill="none" stroke="'+C.ref+'" stroke-width="'+sw+'" stroke-dasharray="'+(S/200)+' '+(S/200)+'"/>';
+  if(o.dims){const fs=S/46,yD=-Rc-pad*0.5,yC=Rc+pad*0.6;
+    const dim=(yy,r_,t)=>{s+='<line x1="'+(-r_)+'" x2="'+r_+'" y1="'+yy+'" y2="'+yy+'" stroke="'+C.acc+'" stroke-width="'+sw+'"/><line x1="'+(-r_)+'" x2="'+(-r_)+'" y1="'+(yy-fs*.5)+'" y2="'+(yy+fs*.5)+'" stroke="'+C.acc+'" stroke-width="'+sw+'"/><line x1="'+r_+'" x2="'+r_+'" y1="'+(yy-fs*.5)+'" y2="'+(yy+fs*.5)+'" stroke="'+C.acc+'" stroke-width="'+sw+'"/><text x="0" y="'+(yy-fs*.35)+'" text-anchor="middle" font-size="'+fs+'" fill="'+C.ink+'">'+esc(t)+'</text>';};
+    dim(yD,G_.Ro,"Disc OD "+fmt(2*G_.Ro,3)+" in");
+    dim(yC,Rc,"Casing ID "+fmt(v.casingID,3)+" in (reference)");
+    s+='<text x="0" y="'+(fs*0.35)+'" text-anchor="middle" font-size="'+fs+'" fill="'+C.ink+'">Bore '+fmt(2*G_.Rs,3)+' in</text><text x="0" y="'+(fs*1.6)+'" text-anchor="middle" font-size="'+fs+'" fill="'+C.ink+'">Hub OD '+fmt(2*G_.Rh,3)+' in</text>';}
+  return s+'</svg>';
+}
+let discMode="render"; try{discMode=localStorage.getItem("ead-discmode")||"render";}catch(e){}
+function hexPts(x,y,R){let p="";for(let i=0;i<6;i++){const a=Math.PI/6+i*Math.PI/3;p+=(x+R*Math.cos(a)).toFixed(3)+","+(-(y+R*Math.sin(a))).toFixed(3)+" ";}return p;}
+function discSteel(r,o){
+  o=o||{}; const v=r.v,G_=r.Gd,A=assembly(r),R=G_.Ro+0.9,S=2*R,k=o.k||"a";
+  let s='<svg xmlns="http://www.w3.org/2000/svg" viewBox="'+(-R)+' '+(-R)+' '+S+' '+S+'" role="img" aria-label="Rendered disc, '+r.N+' holes">';
+  if(o.sil){ s+='<g fill="'+o.fill+'">'; A.segs.forEach(p=>s+='<path d="'+polyPathSVG(p)+'"/>'); r.hubs.forEach(h=>s+='<path d="'+polyPathSVG(h.pts)+'" fill="'+(o.hubFill||o.fill)+'"/>'); return s+'</g></svg>'; }
+  const id=n=>k+n;
+  s+='<defs>'+
+   '<linearGradient id="'+id("pl")+'" gradientUnits="userSpaceOnUse" x1="'+(-R)+'" y1="'+(-R)+'" x2="'+R+'" y2="'+R+'"><stop offset="0" stop-color="#4A5664"/><stop offset=".45" stop-color="#222B35"/><stop offset=".7" stop-color="#323D4A"/><stop offset="1" stop-color="#171E26"/></linearGradient>'+
+   '<linearGradient id="'+id("hb")+'" gradientUnits="userSpaceOnUse" x1="'+(-G_.Rh)+'" y1="'+(-G_.Rh)+'" x2="'+G_.Rh+'" y2="'+G_.Rh+'"><stop offset="0" stop-color="#F4F7FA"/><stop offset=".3" stop-color="#AAB6C2"/><stop offset=".52" stop-color="#E9EEF2"/><stop offset=".78" stop-color="#8996A3"/><stop offset="1" stop-color="#CDD5DD"/></linearGradient>'+
+   '<radialGradient id="'+id("ho")+'" cx=".5" cy=".38" r=".62"><stop offset="0" stop-color="#121D29"/><stop offset="1" stop-color="#020509"/></radialGradient>'+
+   '<radialGradient id="'+id("bt")+'" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".5" stop-color="#A9B4BF"/><stop offset="1" stop-color="#55616D"/></radialGradient>'+
+   '<radialGradient id="'+id("sp")+'" cx=".3" cy=".22" r=".75"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".22"/><stop offset=".5" stop-color="#FFFFFF" stop-opacity=".04"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>'+
+   '<filter id="'+id("br")+'" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.06 5" numOctaves="2" seed="7" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0.3 0 0 0 -0.13" result="w"/><feComposite in="w" in2="SourceAlpha" operator="in" result="m"/><feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="m"/></feMerge></filter>'+
+   '<filter id="'+id("sh")+'" x="-15%" y="-15%" width="130%" height="135%"><feDropShadow dx="0" dy="'+(S*0.012)+'" stdDeviation="'+(S*0.016)+'" flood-color="#000" flood-opacity=".65"/></filter>'+
+   '<clipPath id="'+id("cp")+'">'+A.segs.map(p=>'<path d="'+polyPathSVG(p)+'"/>').join("")+r.hubs.map(h=>'<path d="'+polyPathSVG(h.pts)+'"/>').join("")+'</clipPath>'+
+  '</defs>';
+  if(!o.noShadow) s+='<g filter="url(#'+id("sh")+')">'+A.segs.map(p=>'<path d="'+polyPathSVG(p)+'" fill="#0A1119"/>').join("")+'</g>';
+  s+='<g filter="url(#'+id("br")+')">'+A.segs.map(p=>'<path d="'+polyPathSVG(p)+'" fill="url(#'+id("pl")+')" stroke="#FFFFFF" stroke-opacity=".12" stroke-width="'+(S/700)+'"/>').join("")+'</g>';
+  const hr=r.d/2, off=hr*0.16;
+  s+='<g fill="#FFFFFF" fill-opacity=".2">'+A.holes.map(h=>'<circle cx="'+h[0].toFixed(3)+'" cy="'+(-h[1]+off).toFixed(3)+'" r="'+hr+'"/>').join("")+'</g>';
+  s+='<g fill="url(#'+id("ho")+')">'+A.holes.map(h=>'<circle cx="'+h[0].toFixed(3)+'" cy="'+(-h[1]).toFixed(3)+'" r="'+hr+'"/>').join("")+'</g>';
+  A.ports.forEach(p=>{s+='<circle cx="'+p[0].toFixed(3)+'" cy="'+(-p[1]+G_.rp*0.08).toFixed(3)+'" r="'+G_.rp+'" fill="#FFFFFF" fill-opacity=".22"/><circle cx="'+p[0].toFixed(3)+'" cy="'+(-p[1]).toFixed(3)+'" r="'+G_.rp+'" fill="url(#'+id("ho")+')"/>';});
+  s+='<g filter="url(#'+id("br")+')">'+r.hubs.map(h=>'<path d="'+polyPathSVG(h.pts)+'" fill="url(#'+id("hb")+')" stroke="#5E6B78" stroke-width="'+(S/500)+'"/>').join("")+'</g>';
+  r.hubs.forEach(h=>s+='<path d="'+polyPathSVG(h.pts)+'" fill="none" stroke="#FFFFFF" stroke-opacity=".55" stroke-width="'+(S/900)+'" transform="translate(0,'+(S/1400)+')"/>');
+  A.bolts.forEach(b=>{const R2=v.boltDia*0.95;s+='<circle cx="'+b[0].toFixed(3)+'" cy="'+(-b[1]).toFixed(3)+'" r="'+(R2*1.25)+'" fill="#C9D2DA" stroke="#6C7884" stroke-width="'+(S/1200)+'"/><polygon points="'+hexPts(b[0],b[1],R2)+'" fill="url(#'+id("bt")+')" stroke="#4D5965" stroke-width="'+(S/1200)+'"/>';});
+  if(v.portOcc>0) A.ports.forEach(p=>{s+='<circle cx="'+p[0].toFixed(3)+'" cy="'+(-p[1]).toFixed(3)+'" r="'+v.portOcc/2+'" fill="url(#'+id("bt")+')" stroke="#2C3743" stroke-width="'+(S/700)+'"/><circle cx="'+p[0].toFixed(3)+'" cy="'+(-p[1]).toFixed(3)+'" r="'+v.portOcc/2*0.62+'" fill="#05090E"/>';});
+  s+='<g clip-path="url(#'+id("cp")+')"><rect x="'+(-R)+'" y="'+(-R)+'" width="'+S+'" height="'+S+'" fill="url(#'+id("sp")+')"/></g>';
+  return s+'</svg>';
+}
+function discBlueprint(r){
+  const v=r.v,G_=r.Gd,A=assembly(r),Rc=v.casingID/2,pad=Rc*0.34,S=2*(Rc+pad),sw=S/620,fs=S/42,W="#EAF4FF",Cy="#9CCBFF";
+  let s='<svg xmlns="http://www.w3.org/2000/svg" viewBox="'+(-Rc-pad)+' '+(-Rc-pad)+' '+S+' '+S+'" role="img" aria-label="Blueprint drawing of the disc" font-family="Barlow Condensed, Arial Narrow, sans-serif" fill="none" stroke="'+W+'" stroke-width="'+sw+'">';
+  s+='<circle r="'+Rc+'" stroke="'+Cy+'" stroke-dasharray="'+(S/80)+' '+(S/160)+' '+(S/400)+' '+(S/160)+'"/>';
+  const L=Rc+pad*0.35; s+='<line x1="'+(-L)+'" x2="'+L+'" y1="0" y2="0" stroke="'+Cy+'" stroke-dasharray="'+(S/60)+' '+(S/200)+' '+(S/300)+' '+(S/200)+'"/><line y1="'+(-L)+'" y2="'+L+'" x1="0" x2="0" stroke="'+Cy+'" stroke-dasharray="'+(S/60)+' '+(S/200)+' '+(S/300)+' '+(S/200)+'"/>';
+  A.segs.forEach(p=>s+='<path d="'+polyPathSVG(p)+'"/>');
+  r.hubs.forEach(h=>s+='<path d="'+polyPathSVG(h.pts)+'" stroke-width="'+sw*1.6+'"/>');
+  A.holes.forEach(h=>s+='<circle cx="'+h[0].toFixed(3)+'" cy="'+(-h[1]).toFixed(3)+'" r="'+r.d/2+'"/>');
+  A.ports.forEach(p=>s+='<circle cx="'+p[0].toFixed(3)+'" cy="'+(-p[1]).toFixed(3)+'" r="'+G_.rp+'"/>');
+  A.bolts.forEach(b=>s+='<circle cx="'+b[0].toFixed(3)+'" cy="'+(-b[1]).toFixed(3)+'" r="'+v.boltDia/2+'"/>');
+  const T=(x,y,t,a,sz)=>'<text x="'+x+'" y="'+y+'" font-size="'+(sz||fs)+'" fill="'+W+'" stroke="none" text-anchor="'+(a||"middle")+'" letter-spacing="'+(fs*0.06)+'">'+esc(t)+'</text>';
+  const dim=(yy,rr,t)=>{const a=fs*0.45;s+='<line x1="'+(-rr)+'" x2="'+rr+'" y1="'+yy+'" y2="'+yy+'"/><path d="M'+(-rr)+' '+yy+' l'+a+' '+(-a/2.5)+' v'+(a/1.25)+'z M'+rr+' '+yy+' l'+(-a)+' '+(-a/2.5)+' v'+(a/1.25)+'z" fill="'+W+'"/><line x1="'+(-rr)+'" x2="'+(-rr)+'" y1="'+(yy-fs*0.6)+'" y2="'+(yy+fs*0.6)+'" stroke-opacity=".6"/><line x1="'+rr+'" x2="'+rr+'" y1="'+(yy-fs*0.6)+'" y2="'+(yy+fs*0.6)+'" stroke-opacity=".6"/>'+T(0,yy-fs*0.45,t);};
+  dim(-Rc-pad*0.45,G_.Ro,"Ø"+(2*G_.Ro).toFixed(3)+" DISC OD");
+  dim(Rc+pad*0.4,Rc,"Ø"+v.casingID.toFixed(3)+" CASING ID (REF)");
+  // hole callout (upper-left, under the title)
+  const h0=A.holes.reduce((b,h)=>(h[0]<0&&h[1]>0&&Math.hypot(h[0],h[1])>Math.hypot(b[0],b[1])&&Math.atan2(h[1],-h[0])>0.5?h:b),[0,0]);
+  const bx0=-Rc-pad*0.92, ty0=-Rc-pad*0.92+fs*3.6;
+  if(h0[0]||h0[1]) s+='<path d="M'+(bx0+fs*5.2)+' '+(ty0+fs*0.55)+' L'+h0[0].toFixed(3)+' '+(-h0[1]).toFixed(3)+'" stroke="'+Cy+'"/><circle cx="'+h0[0].toFixed(3)+'" cy="'+(-h0[1]).toFixed(3)+'" r="'+(fs*0.12)+'" fill="'+Cy+'" stroke="none"/>';
+  s+=T(bx0,ty0,r.N+"× Ø"+frac(r.d)+" HOLES","start",fs*0.85)+T(bx0,ty0+fs*1.0,frac(r.pitch)+" PITCH 60°","start",fs*0.75);
+  if(A.ports.length){const p=A.ports[A.ports.length-1], px=p[0]+G_.rp*0.7, py=-p[1]+G_.rp*0.7, tx=Rc*0.55, ty=Rc+pad*0.02;
+    s+='<path d="M'+px.toFixed(3)+' '+py.toFixed(3)+' L'+tx+' '+ty+' L'+(tx+fs*0.6)+' '+ty+'" stroke="'+Cy+'"/>'+T(tx+fs*0.8,ty+fs*0.35,A.ports.length+"× Ø"+frac(v.portD)+" PORT","start",fs*0.85);}
+  s+=T(0,fs*0.1,"BORE Ø"+(2*G_.Rs).toFixed(3),"middle",fs*0.8)+T(0,fs*1.25,"HUB Ø"+(2*G_.Rh).toFixed(3),"middle",fs*0.8);
+  const bx=-Rc-pad*0.92, by=-Rc-pad*0.92;
+  s+=T(bx,by+fs,"EAD DISC · "+projMeta().well.toUpperCase(),"start",fs*0.85)+T(bx,by+fs*2.05,G_.nseg+" SEG · "+frac(v.thick)+'" PL · REV '+projMeta().rev,"start",fs*0.7);
+  return s+'</svg>';
+}
+let orbit={rx:58,rz:-18,auto:true,raf:0,drag:null};
+function renderDiscView(r){
+  const st=$("discStage"); st.className="disc-stage"+(discMode==="blueprint"?" blueprint":"");
+  cancelAnimationFrame(orbit.raf);
+  document.querySelectorAll("#discMode button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.m===discMode)));
+  if(discMode==="blueprint"){st.innerHTML=discBlueprint(r);return;}
+  if(discMode==="render"){st.innerHTML=discSteel(r,{k:"dr"});return;}
+  let h='<div class="disc3d" id="orbit"><div class="rig" id="rig"><div class="floor"></div>';
+  const n=6; for(let i=n;i>=1;i--){const c=Math.round(18+ (n-i)*4); h+='<div class="layer" style="transform:translateZ('+(-i*1.5)+'px)">'+discSteel(r,{sil:true,fill:"rgb("+c+","+(c+8)+","+(c+18)+")",hubFill:"rgb("+(c+60)+","+(c+68)+","+(c+78)+")"})+'</div>';}
+  h+='<div class="layer">'+discSteel(r,{k:"do",noShadow:true})+'</div></div></div><div class="orbit-hint">Drag to orbit</div>';
+  st.innerHTML=h; const rig=$("rig"), ob=$("orbit");
+  const apply=()=>{rig.style.setProperty("--rx",orbit.rx+"deg");rig.style.setProperty("--rz",orbit.rz+"deg");};
+  apply();
+  const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const spin=()=>{if(orbit.auto&&!orbit.drag&&!reduced){orbit.rz+=0.08;apply();} orbit.raf=requestAnimationFrame(spin);};
+  orbit.raf=requestAnimationFrame(spin);
+  ob.onpointerdown=e=>{orbit.drag={x:e.clientX,y:e.clientY,rx:orbit.rx,rz:orbit.rz};ob.setPointerCapture(e.pointerId);orbit.auto=false;};
+  ob.onpointermove=e=>{if(!orbit.drag)return;orbit.rz=orbit.drag.rz+(e.clientX-orbit.drag.x)*0.5;orbit.rx=clamp(orbit.drag.rx-(e.clientY-orbit.drag.y)*0.35,0,80);apply();};
+  ob.onpointerup=ob.onpointercancel=()=>{orbit.drag=null;};
+}
+document.querySelectorAll("#discMode button").forEach(b=>b.onclick=()=>{discMode=b.dataset.m;try{localStorage.setItem("ead-discmode",discMode)}catch(e){} if(last&&!last.err.length) renderDiscView(last);});
+function envSVG(r){
+  const v=r.v, W=720, H=300, m={l:52,r:16,t:16,b:40}, xMax=Math.max(r.Q*1.6,r.Qmax*1.15), yMax=Math.max(r.UtA*1.3,r.Vc*1.25,v.vb*2);
+  const X=q=>m.l+q/xMax*(W-m.l-m.r), Y=u=>H-m.b-u/yMax*(H-m.t-m.b);
+  let s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Annular velocity against pump flow" font-family="Barlow, sans-serif">';
+  s+='<rect x="'+m.l+'" y="'+Y(v.vb)+'" width="'+(W-m.l-m.r)+'" height="'+(Y(0)-Y(v.vb))+'" fill="var(--ok)" opacity=".10"/>';
+  s+='<rect x="'+m.l+'" y="'+Y(r.UtA)+'" width="'+(W-m.l-m.r)+'" height="'+(Y(v.vb)-Y(r.UtA))+'" fill="var(--warn)" opacity=".12"/>';
+  s+='<rect x="'+m.l+'" y="'+m.t+'" width="'+(W-m.l-m.r)+'" height="'+(Y(r.UtA)-m.t)+'" fill="var(--bad)" opacity=".09"/>';
+  niceTicks(0,yMax,5).forEach(u=>{s+='<line x1="'+m.l+'" x2="'+(W-m.r)+'" y1="'+Y(u)+'" y2="'+Y(u)+'" stroke="var(--line)"/><text x="'+(m.l-6)+'" y="'+(Y(u)+4)+'" text-anchor="end" font-size="11" fill="var(--muted)">'+fmt(u,1)+'</text>';});
+  niceTicks(0,xMax,6).forEach(q=>{s+='<text x="'+X(q)+'" y="'+(H-m.b+16)+'" text-anchor="middle" font-size="11" fill="var(--muted)">'+fmt(q,0)+'</text>';});
+  s+='<text x="'+((W+m.l)/2)+'" y="'+(H-6)+'" text-anchor="middle" font-size="12" fill="var(--ink2)">Pump flow, gpm</text>';
+  s+='<text transform="translate(13,'+((H-m.b+m.t)/2)+') rotate(-90)" text-anchor="middle" font-size="12" fill="var(--ink2)">Core downward velocity, ft/s</text>';
+  const xEnd=Math.min(xMax,yMax*r.Q/r.Vc);
+  s+='<line x1="'+X(0)+'" y1="'+Y(0)+'" x2="'+X(xEnd)+'" y2="'+Y(r.Vc/r.Q*xEnd)+'" stroke="var(--ink)" stroke-width="2.2"/>';
+  const tag=(q,t,col,dy)=>{if(q<=xMax){s+='<line x1="'+X(q)+'" x2="'+X(q)+'" y1="'+m.t+'" y2="'+Y(0)+'" stroke="'+col+'" stroke-dasharray="4 3"/><text x="'+(X(q)-5)+'" y="'+(Y(0)-8-dy)+'" text-anchor="end" font-size="11.5" fill="'+col+'" font-weight="600">'+t+'</text>';}};
+  tag(r.Qclean,fmt(r.Qclean,0)+" gpm","var(--ok)",0); tag(r.Qmax,fmt(r.Qmax,0)+" gpm","var(--bad)",0);
+  s+='<circle cx="'+X(r.Q)+'" cy="'+Y(r.Vc)+'" r="6.5" fill="var(--accent)" stroke="var(--panel)" stroke-width="2.5"/><text x="'+(X(r.Q)-12)+'" y="'+(Y(r.Vc)-12)+'" text-anchor="end" font-size="12" font-weight="700" fill="var(--ink)">Design, '+fmt(r.Q,0)+' gpm</text>';
+  s+='<text x="'+(m.l+8)+'" y="'+(Y(v.vb)+15)+'" font-size="11.5" font-weight="600" fill="var(--ok)">Bubbles escape</text>';
+  s+='<text x="'+(m.l+8)+'" y="'+(Y(r.UtA)+15)+'" font-size="11.5" font-weight="600" fill="var(--warn)">Discs must merge bubbles</text>';
+  s+='<text x="'+(m.l+8)+'" y="'+(m.t+14)+'" font-size="11.5" font-weight="600" fill="var(--bad)">Air carried to pump</text>';
+  return s+'</svg>';
+}
+function renderOpt(){
+  if(!last||last.err.length) return;
+  const r=last, opt=optimize(r,prio), best=opt.feas[0];
+  $("optSummary").innerHTML=[[opt.all.length,"candidates searched"],[opt.feas.length,"pass every rule"],[best?frac(best.d)+'" @ '+frac(best.p)+'"':"None","top-ranked hole and pitch"],[best?fmt(best.dQpct,2)+"%":"—","its flow cost, "+opt.nUse+" disc"+(opt.nUse>1?"s":"")]]
+    .map(t=>'<div class="tile"><b>'+esc(t[0])+'</b><span>'+esc(t[1])+'</span></div>').join("");
+  const W=720,H=320,m={l:56,r:16,t:14,b:42}, pts=opt.all;
+  if(!pts.length){$("paretoSvg").innerHTML='<p class="muted">No candidate hole fits this plate.</p>';$("optTable").innerHTML="";return;}
+  const xMax=Math.max(...pts.map(p=>p.dQpct),r.v.maxFlowLoss)*1.08, yv=pts.map(p=>p.cut/12), yMin=Math.min(...yv)*0.95, yMax=Math.max(...yv)*1.03;
+  const X=x=>m.l+x/xMax*(W-m.l-m.r), Y=y=>H-m.b-(y-yMin)/(yMax-yMin||1)*(H-m.t-m.b);
+  let s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Candidate designs, flow loss against cut length" font-family="Barlow, sans-serif">';
+  s+='<rect x="'+X(r.v.maxFlowLoss)+'" y="'+m.t+'" width="'+Math.max(0,W-m.r-X(r.v.maxFlowLoss))+'" height="'+(H-m.t-m.b)+'" fill="var(--bad)" opacity=".07"/>';
+  niceTicks(yMin,yMax,5).forEach(y=>{s+='<line x1="'+m.l+'" x2="'+(W-m.r)+'" y1="'+Y(y)+'" y2="'+Y(y)+'" stroke="var(--line)"/><text x="'+(m.l-6)+'" y="'+(Y(y)+4)+'" text-anchor="end" font-size="11" fill="var(--muted)">'+fmt(y,0)+'</text>';});
+  niceTicks(0,xMax,6).forEach(x=>{s+='<text x="'+X(x)+'" y="'+(H-m.b+16)+'" text-anchor="middle" font-size="11" fill="var(--muted)">'+fmt(x,xMax<3?2:1)+'</text>';});
+  s+='<text x="'+(X(r.v.maxFlowLoss)+5)+'" y="'+(m.t+12)+'" font-size="11" fill="var(--bad)">over flow-loss limit</text>';
+  s+='<text x="'+((W+m.l)/2)+'" y="'+(H-6)+'" text-anchor="middle" font-size="12" fill="var(--ink2)">Flow lost to the disc stack, %</text>';
+  s+='<text transform="translate(14,'+((H-m.b+m.t)/2)+') rotate(-90)" text-anchor="middle" font-size="12" fill="var(--ink2)">Cut length per disc, ft</text>';
+  const fr=pts.filter(p=>p.pareto).sort((a,b)=>a.dQpct-b.dQpct);
+  if(fr.length>1) s+='<polyline points="'+fr.map(p=>X(p.dQpct)+","+Y(p.cut/12)).join(" ")+'" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="4 3"/>';
+  pts.forEach(p=>{s+='<circle cx="'+X(p.dQpct)+'" cy="'+Y(p.cut/12)+'" r="'+(3+p.d*3)+'" fill="'+(p.ok?"var(--accent)":"var(--steel)")+'" opacity="'+(p.ok?.8:.35)+'"'+(p.pareto?' stroke="var(--ink)" stroke-width="1.6"':'')+'><title>'+frac(p.d)+'" @ '+frac(p.p)+'": '+fmt(p.dQpct,2)+'% flow loss, '+fmt(p.cut/12,0)+' ft cut'+(p.ok?"":" ("+p.why.join(", ")+")")+'</title></circle>';});
+  if(best) s+='<circle cx="'+X(best.dQpct)+'" cy="'+Y(best.cut/12)+'" r="'+(9+best.d*3)+'" fill="none" stroke="var(--ok)" stroke-width="2.5"/>';
+  $("paretoSvg").innerHTML=s+'</svg>';
+  const list=opt.feas.slice(0,8), curC=opt.all.find(c=>c.current);
+  if(curC&&!list.includes(curC)) list.push(curC);
+  if(!list.length){$("optTable").innerHTML='<tbody><tr><td class="muted" style="white-space:normal">No candidate passes every rule. Loosen the head-loss window or the flow-loss limit, or check the well geometry. Hover the grey dots to see what blocks each one.</td></tr></tbody>';return;}
+  $("optTable").innerHTML='<thead><tr><th>Rank</th><th>Hole</th><th>Pitch</th><th class="r">Holes/disc</th><th class="r">Open</th><th class="r">Loss/disc</th><th class="r">Flow cost</th><th class="r">Cut/disc</th><th></th></tr></thead><tbody>'+
+    list.map((c,i)=>{const cur=Math.abs(c.d-r.d)<1e-6&&Math.abs(c.p-r.pitch)<1e-3, rk=opt.feas.indexOf(c);return '<tr'+(cur?' class="sel"':'')+'><td>'+(rk>=0?(rk+1)+(c.pareto?' ◆':''):'<span title="'+esc(c.why.join(", "))+'">fails</span>')+'</td><td>'+frac(c.d)+'"</td><td>'+frac(c.p)+'"</td><td class="r">'+c.N+'</td><td class="r">'+fmt(c.phi*100,1)+'%</td><td class="r">'+fmt(c.h,3)+' ft</td><td class="r">'+fmt(c.dQpct,2)+'%</td><td class="r">'+fmt(c.cut/12,0)+' ft</td><td>'+(cur?'<span class="muted">In use</span>':'<button class="btn sm" type="button" data-apply="'+c.d+'|'+c.p+'">Apply</button>')+'</td></tr>';}).join("")+'</tbody>';
+  $("optTable").querySelectorAll("[data-apply]").forEach(b=>b.onclick=()=>{const [d,p]=b.dataset.apply.split("|");$("holeMode").value=String(parseFloat(d));$("fixedPitch").value=p;run();toast("Applied "+frac(+d)+'" holes on a '+frac(+p)+'" pitch');});
+}
+function renderRisk(){
+  if(!last||last.err.length) return;
+  const r=last, mc=monteCarlo(r), c=mc.c, N=mc.N, P=x=>fmt(100*x/N,x>0&&x/N<0.1?1:0)+"%";
+  const ph=c.holds/N, lvl=ph>=0.9?"ok":ph>=0.6?"warn":"bad";
+  $("mcLede").textContent=fmt(N,0)+" runs with the pumping level, flow, share of flow from above, bubble rise and pump curve slope each drawn across your uncertainty ranges. A run holds when air can still be separated, flow loss and NPSH stay within limits, the top disc stays under water, and the disc count still meets the rule.";
+  $("mcTiles").innerHTML='<div class="tile hero '+lvl+'"><b>'+P(c.holds)+'</b><span>of runs where the design holds</span></div>'+
+    [[P(c.C),"water outruns merged gas"],[P(c.B),"depend on bubble merging"],[P(c.loss),"flow loss over limit"],[P(c.dry),"top disc above water"],[P(c.short),"fewer discs than the rule needs"],[P(c.npsh),"NPSH margin under minimum"],[fmt(mc.p.va5,2)+"–"+fmt(mc.p.va95,2),"ft/s annular velocity, 90% range"]]
+    .map(t=>'<div class="tile"><b>'+t[0]+'</b><span>'+t[1]+'</span></div>').join("");
+  const W=480,H=250,m={l:40,r:14,t:40,b:40}, a=mc.Vas, lo=Math.min(a[0],r.v.vb*0.8), hi=Math.max(a[a.length-1],r.UtA*1.05), nb=28, bw=(hi-lo)/nb, bins=new Array(nb).fill(0);
+  a.forEach(x=>bins[Math.min(nb-1,Math.max(0,Math.floor((x-lo)/bw)))]++);
+  const bmax=Math.max(...bins), X=x=>m.l+(x-lo)/(hi-lo)*(W-m.l-m.r), Y=n=>H-m.b-n/bmax*(H-m.t-m.b);
+  let s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Histogram of annular velocity across runs" font-family="Barlow, sans-serif">';
+  bins.forEach((n,i)=>{const x0=lo+i*bw,xm=x0+bw/2,col=xm<=r.v.vb?"var(--ok)":xm<=r.UtA?"var(--warn)":"var(--bad)";s+='<rect x="'+(X(x0)+0.5)+'" y="'+Y(n)+'" width="'+Math.max(0.5,X(x0+bw)-X(x0)-1)+'" height="'+(Y(0)-Y(n))+'" rx="1.5" fill="'+col+'" opacity=".9"/>';});
+  s+='<line x1="'+m.l+'" x2="'+(W-m.r)+'" y1="'+Y(0)+'" y2="'+Y(0)+'" stroke="var(--line2)"/>';
+  niceTicks(lo,hi,5).forEach(x=>{s+='<text x="'+X(x)+'" y="'+(H-m.b+17)+'" text-anchor="middle" font-size="12.5" fill="var(--muted)">'+fmt(x,2)+'</text>';});
+  const marks=[[r.v.vb,"Small-bubble rise","var(--ok)"],[r.UtA,"Merged-gas rise","var(--bad)"],[r.Vc,"Design","var(--ink)"]].filter(q=>q[0]>=lo&&q[0]<=hi).sort((p,q)=>p[0]-q[0]);
+  marks.forEach((q,i)=>{const x=X(q[0]), right=x>W*0.62, ty=14+i*13;
+    s+='<line x1="'+x+'" x2="'+x+'" y1="'+(ty+4)+'" y2="'+Y(0)+'" stroke="'+q[2]+'" stroke-width="1.5" stroke-dasharray="4 3"/>';
+    s+='<text x="'+(right?x-5:x+5)+'" y="'+ty+'" text-anchor="'+(right?"end":"start")+'" font-size="12.5" font-weight="600" fill="'+q[2]+'">'+q[1]+'</text>';});
+  s+='<text x="'+((W+m.l)/2)+'" y="'+(H-6)+'" text-anchor="middle" font-size="13" fill="var(--ink2)">Core downward velocity, ft/s</text>';
+  $("histSvg").innerHTML=s+'</svg>';
+  renderTornado();
+}
+function renderTornado(){
+  if(!last||last.err.length) return;
+  const t=tornado(last,tornOut);
+  if(!t.rows.length||!isFinite(t.base)){$("tornSvg").innerHTML='<p class="muted">Not available for this design.</p>';return;}
+  const W=480,rowH=40,m={l:176,r:12,t:30,b:30},H=m.t+m.b+t.rows.length*rowH;
+  const vals=t.rows.flatMap(x=>[x.lo,x.hi]).concat([t.base]), lo=Math.min(...vals), hi=Math.max(...vals), span=(hi-lo)||Math.abs(t.base)||1, pl=span*0.55, pr=span*0.55;
+  const X=x=>m.l+(x-(lo-pl))/((hi+pr)-(lo-pl))*(W-m.l-m.r);
+  let s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Sensitivity of the selected result to each input" font-family="Barlow, sans-serif">';
+  s+='<text x="'+X(t.base)+'" y="15" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ink)">Design: '+fmt(t.base,2)+' '+esc(t.unit)+'</text>';
+  t.rows.forEach((rw,i)=>{const y=m.t+i*rowH+8, a=Math.min(rw.lo,rw.hi), b=Math.max(rw.lo,rw.hi), la=rw.lo<=rw.hi?rw.loL:rw.hiL, lb=rw.lo<=rw.hi?rw.hiL:rw.loL;
+    s+='<text x="'+(m.l-10)+'" y="'+(y+15)+'" text-anchor="end" font-size="13" fill="var(--ink)">'+esc(rw.name)+'</text>';
+    s+='<rect x="'+X(a)+'" y="'+y+'" width="'+Math.max(2,X(b)-X(a))+'" height="22" rx="3" fill="var(--accent)" opacity=".85"/>';
+    s+='<text x="'+(X(a)-5)+'" y="'+(y+15)+'" text-anchor="end" font-size="11.5" fill="var(--muted)">'+esc(la)+'</text>';
+    s+='<text x="'+(X(b)+5)+'" y="'+(y+15)+'" text-anchor="start" font-size="11.5" fill="var(--muted)">'+esc(lb)+'</text>';});
+  s+='<line x1="'+X(t.base)+'" x2="'+X(t.base)+'" y1="22" y2="'+(H-m.b+2)+'" stroke="var(--ink)" stroke-width="1.5"/>';
+  niceTicks(lo-pl,hi+pr,4).forEach(x=>{s+='<text x="'+X(x)+'" y="'+(H-8)+'" text-anchor="middle" font-size="12" fill="var(--muted)">'+fmt(x,Math.abs(hi-lo)<2?2:1)+'</text>';});
+  $("tornSvg").innerHTML=s+'</svg>';
+}
+
+/* ---------------- disc-zone simulator (illustrative) ---------------- */
+const SIM={on:!matchMedia("(prefers-reduced-motion: reduce)").matches,visible:true,lt:0,acc:0,dacc:0,facc:0,fb:[],bubbles:[],drops:[],tracers:[],froth:[],vented:0,pumped:0,flash:0,hudT:0};
+const cv=$("cv"), c2=cv.getContext("2d");
+const trail=document.createElement("canvas"), tctx=trail.getContext("2d");
+const stat=document.createElement("canvas"), sctx=stat.getContext("2d");
+let SC=null, EARTH=null, GRAIN=null; const SPR={};
+function grainPat(){ if(GRAIN) return GRAIN; const p=document.createElement("canvas"); p.width=p.height=48; const c=p.getContext("2d"), rn=mulberry32(9);
+  c.fillStyle="rgba(24,88,150,.42)"; c.fillRect(0,0,48,48);
+  for(let i=0;i<22;i++){const x=rn()*48,y=rn()*48,r=1.2+rn()*4.2;c.beginPath();c.arc(x,y,r,0,TAU);c.fillStyle="rgba(150,205,255,"+(0.05+rn()*0.08)+")";c.fill();c.strokeStyle="rgba(175,220,255,.2)";c.lineWidth=.6;c.stroke();}
+  GRAIN=p; return p; }
+function earthPat(){ if(EARTH) return EARTH; const p=document.createElement("canvas"); p.width=p.height=64; const c=p.getContext("2d"), rn=mulberry32(5);
+  c.fillStyle="#17130E"; c.fillRect(0,0,64,64);
+  for(let i=0;i<150;i++){c.fillStyle=rn()<.5?"rgba(58,47,34,"+(.4+rn()*.5)+")":"rgba(8,6,4,"+(.4+rn()*.5)+")";c.beginPath();c.arc(rn()*64,rn()*64,0.4+rn()*1.6,0,TAU);c.fill();}
+  EARTH=p; return p; }
+function sprite(kind,rad){
+  const key=kind+rad; if(SPR[key]) return SPR[key];
+  const dpr=Math.min(2,window.devicePixelRatio||1), pad=kind==="m"?rad*1.2:2, sz=Math.ceil((rad+pad)*2*dpr), c=document.createElement("canvas"); c.width=c.height=sz;
+  const x=c.getContext("2d"); x.scale(dpr,dpr); const m=rad+pad;
+  if(kind==="m"){const g0=x.createRadialGradient(m,m,rad*0.6,m,m,rad+pad);g0.addColorStop(0,"rgba(255,181,71,.45)");g0.addColorStop(1,"rgba(255,181,71,0)");x.fillStyle=g0;x.beginPath();x.arc(m,m,rad+pad,0,TAU);x.fill();}
+  const g=x.createRadialGradient(m-rad*0.35,m-rad*0.4,rad*0.05,m,m,rad);
+  if(kind==="m"){g.addColorStop(0,"rgba(255,248,230,.95)");g.addColorStop(.35,"rgba(255,196,110,.65)");g.addColorStop(1,"rgba(190,110,10,.55)");}
+  else{g.addColorStop(0,"rgba(255,255,255,.95)");g.addColorStop(.4,"rgba(190,228,255,.45)");g.addColorStop(1,"rgba(70,140,200,.35)");}
+  x.fillStyle=g;x.beginPath();x.arc(m,m,rad,0,TAU);x.fill();
+  x.strokeStyle=kind==="m"?"rgba(255,220,160,.9)":"rgba(225,245,255,.85)";x.lineWidth=Math.max(.6,rad*0.12);x.stroke();
+  SPR[key]={c,half:m}; return SPR[key];
+}
+function simConfig(r){
+  const v=r.v, viewTop=Math.max(0,r.hcNow>0?Math.max(v.perfTop,v.pwl-55)-4:v.pwl-25), viewBot=v.intake+(r.aqOn&&v.perfBot>v.intake?30:22);
+  SC={r,v,viewTop,viewBot}; SIM.vented=0;SIM.pumped=0;SIM.bubbles=[];SIM.drops=[];SIM.tracers=[];SIM.froth=[];SIM.fb=[];
+  simLayout();
+}
+function simLayout(){
+  if(!SC) return; const b=cv.getBoundingClientRect(), dpr=Math.min(2,window.devicePixelRatio||1);
+  const W=b.width, H=b.height; if(!W||!H) return;
+  for(const c of [cv,trail,stat]){c.width=Math.round(W*dpr);c.height=Math.round(H*dpr);}
+  const v=SC.v, ppf=(H-16)/(SC.viewBot-SC.viewTop), casW=Math.min(W-92,W*(SC.r.aqOn?0.6:0.74)), cx=W/2-10;
+  Object.assign(SC,{W,H,dpr,ppf,y:d=>8+(d-SC.viewTop)*ppf,xl:cx-casW/2,xr:cx+casW/2,wall:9,cl:cx-casW*v.columnOD/v.casingID/2,cr:cx+casW*v.columnOD/v.casingID/2,cx});
+  drawStatic();
+  c2.setTransform(1,0,0,1,0,0); c2.drawImage(stat,0,0);
+  hud(SC.r,clamp(40/(SC.ppf*Math.max(SC.r.Va,0.35)),1,60));
+}
+function metalH(c,x0,x1,stops){const g=c.createLinearGradient(x0,0,x1,0);stops.forEach(s_=>g.addColorStop(s_[0],s_[1]));return g;}
+const STEEL=[[0,"#1C2632"],[.28,"#8797A7"],[.42,"#E4EBF1"],[.66,"#778797"],[1,"#18212B"]];
+function drawStatic(){
+  const g=SC,c=sctx,{W,H,v,r,xl,xr,cl,cr,wall,cx}=Object.assign({},g,{v:g.v,r:g.r}), y=g.y, yP=y(v.pwl);
+  c.setTransform(g.dpr,0,0,g.dpr,0,0); c.clearRect(0,0,W,H);
+  c.fillStyle=c.createPattern(earthPat(),"repeat"); c.fillRect(0,0,W,H);
+  let gr=c.createLinearGradient(0,0,0,H); gr.addColorStop(0,"rgba(3,9,16,.35)"); gr.addColorStop(1,"rgba(3,9,16,.8)"); c.fillStyle=gr; c.fillRect(0,0,W,H);
+  gr=c.createLinearGradient(0,0,W,0); gr.addColorStop(0,"rgba(3,9,16,.7)"); gr.addColorStop(.18,"rgba(3,9,16,0)"); gr.addColorStop(.82,"rgba(3,9,16,0)"); gr.addColorStop(1,"rgba(3,9,16,.7)"); c.fillStyle=gr; c.fillRect(0,0,W,H);
+  // saturated formation under the cone of depression (shape illustrative)
+  const seep=r.cascOn&&r.hcNow>0?Math.min(r.hcNow*0.45,(v.pwl-v.swl)*0.5):0, dEdge=v.pwl-seep, lamPx=70;
+  g.wtD=x=>{const dist=x<g.cx?(xl-wall)-x:x-(xr+wall);return v.swl+(dEdge-v.swl)*Math.exp(-Math.max(0,dist)/lamPx);};
+  const trace=(x0,x1)=>{const st=x1>x0?3:-3;for(let x=x0;st>0?x<=x1:x>=x1;x+=st){const yy=Math.max(-5,y(g.wtD(x)));if(x===x0)c.moveTo(x,yy);else c.lineTo(x,yy);}};
+  for(const [x0,x1] of [[0,xl-wall],[W,xr+wall]]){c.beginPath();trace(x0,x1);c.lineTo(x1,H);c.lineTo(x0,H);c.closePath();c.fillStyle=c.createPattern(grainPat(),"repeat");c.fill();
+    c.save();c.setLineDash([6,5]);c.strokeStyle="rgba(92,200,255,.8)";c.lineWidth=1.3;c.beginPath();trace(x0,x1);c.stroke();c.restore();
+    const dir=x1>x0?1:-1, span=Math.abs(x1-x0); c.strokeStyle="rgba(120,210,255,.28)"; c.lineWidth=1.2;
+    for(let yy=12; yy<H; yy+=22){ for(let k=1;k<4;k++){const xx=x0+dir*span*k/4; if(yy<y(g.wtD(xx))+6) continue; const dd=SC.viewTop+(yy-8)/g.ppf; if(dd<v.perfTop||dd>v.perfBot) continue;
+      c.beginPath(); c.moveTo(xx-dir*3,yy-4); c.lineTo(xx+dir*2,yy); c.lineTo(xx-dir*3,yy+4); c.stroke();}}}
+  // borehole
+  gr=c.createLinearGradient(0,0,0,Math.max(1,yP)); gr.addColorStop(0,"#091523"); gr.addColorStop(1,"#0E2236"); c.fillStyle=gr; c.fillRect(xl,0,xr-xl,Math.max(0,yP));
+  gr=c.createLinearGradient(0,yP,0,H); gr.addColorStop(0,"#2C8EDD"); gr.addColorStop(.12,"#17609F"); gr.addColorStop(.55,"#0C3965"); gr.addColorStop(1,"#041730"); c.fillStyle=gr; c.fillRect(xl,yP,xr-xl,H-yP);
+  // god rays
+  c.save(); c.beginPath(); c.rect(xl,yP,xr-xl,H-yP); c.clip(); c.globalCompositeOperation="lighter";
+  [0.1,0.33,0.58,0.82].forEach((f,i)=>{const x0=xl+(xr-xl)*f, rg=c.createLinearGradient(0,yP,0,H); rg.addColorStop(0,"rgba(140,210,255,.16)"); rg.addColorStop(1,"rgba(140,210,255,0)"); c.fillStyle=rg; c.beginPath(); c.moveTo(x0,yP); c.lineTo(x0+16,yP); c.lineTo(x0+60+i*10,H); c.lineTo(x0-24,H); c.closePath(); c.fill();});
+  c.restore();
+  // casing walls
+  c.fillStyle=metalH(c,xl-wall,xl,[[0,"#121A23"],[.45,"#9EAEBE"],[.62,"#5D6D7E"],[1,"#101820"]]); c.fillRect(xl-wall,0,wall,H);
+  c.fillStyle=metalH(c,xr,xr+wall,[[0,"#101820"],[.38,"#5D6D7E"],[.55,"#9EAEBE"],[1,"#121A23"]]); c.fillRect(xr,0,wall,H);
+  const pTop=Math.max(v.perfTop,g.viewTop), pBot=Math.min(v.perfBot,g.viewBot), step=Math.max(1,5/g.ppf);
+  for(let d=pTop; d<pBot; d+=step){const yy=y(d); c.fillStyle="#02060A"; c.fillRect(xl-wall,yy,wall,2); c.fillRect(xr,yy,wall,2);
+    if(d>v.pwl){c.fillStyle="rgba(92,200,255,.55)"; c.fillRect(xl-wall-4,yy+0.5,4,1); c.fillRect(xr+wall,yy+0.5,4,1);}}
+  // column, couplings, cable
+  const yB=y(v.intake-16);
+  c.fillStyle=metalH(c,cl,cr,STEEL); c.fillRect(cl,0,cr-cl,yB);
+  for(let d=Math.ceil(g.viewTop/21)*21; d<v.intake-18; d+=21){c.fillStyle=metalH(c,cl-3,cr+3,STEEL); c.fillRect(cl-3,y(d),cr-cl+6,5);}
+  c.strokeStyle="#060B11"; c.lineWidth=2.4; c.beginPath(); c.moveTo(cl-6,0); c.lineTo(cl-6,y(v.intake+6)); c.stroke();
+  // discs (sectioned perforated plate)
+  r.depths.forEach(d=>{const yy=y(d), th=7;
+    for(const [a0,a1] of [[xl,cl],[cr,xr]]){
+      c.save(); c.shadowColor="rgba(92,200,255,.85)"; c.shadowBlur=14;
+      const pg=c.createLinearGradient(0,yy-th/2,0,yy+th/2); pg.addColorStop(0,"#E8F7FF"); pg.addColorStop(.35,"#7CC7F2"); pg.addColorStop(1,"#1A5A92");
+      c.fillStyle=pg; c.fillRect(a0,yy-th/2,a1-a0,th); c.restore();
+      c.fillStyle="#04182B"; for(let x=a0+5;x<a1-4;x+=8) c.fillRect(x,yy-th/2,3,th);
+      c.fillStyle="rgba(255,255,255,.7)"; c.fillRect(a0,yy-th/2,a1-a0,1);
+    }
+    c.fillStyle=metalH(c,cl-7,cl,STEEL); c.fillRect(cl-7,yy-7,7,14); c.fillStyle=metalH(c,cr,cr+7,STEEL); c.fillRect(cr,yy-7,7,14);
+  });
+  // pump bowls, screen, motor
+  const yI=y(v.intake), bw=Math.min(xr-xl-14,(cr-cl)*1.55), st=4, sh=(yI-yB)/st;
+  for(let k=0;k<st;k++){c.fillStyle=metalH(c,g.cx-bw/2,g.cx+bw/2,STEEL); roundRect(c,g.cx-bw/2,yB+k*sh+0.8,bw,sh-1.6,4); c.fill();}
+  c.fillStyle="#081019"; c.fillRect(g.cx-bw/2+3,yI,bw-6,12); c.fillStyle="#7E8E9E"; for(let x=g.cx-bw/2+6;x<g.cx+bw/2-5;x+=4) c.fillRect(x,yI+2,1.5,8);
+  const motW=Math.min(xr-xl-16,v.motorOD>0?(xr-xl)*Math.min(v.motorOD,v.casingID-0.5)/v.casingID:(cr-cl)*0.85);
+  c.fillStyle=metalH(c,g.cx-motW/2,g.cx+motW/2,[[0,"#0E141B"],[.4,"#4D5B6B"],[1,"#0B1016"]]); c.fillRect(g.cx-motW/2,yI+12,motW,H);
+  // depth ruler
+  c.font="500 10px Barlow, sans-serif"; c.textAlign="left"; const rx=xr+wall+6;
+  for(let d=Math.ceil(g.viewTop/5)*5; d<=g.viewBot; d+=5){const yy=y(d), major=d%10===0; c.fillStyle="rgba(142,166,191,"+(major?.8:.4)+")"; c.fillRect(rx,yy,major?10:5,1); if(major&&(g.ppf*10>18||d%20===0)) c.fillText(fmt(d,0),rx+13,yy+3.5);}
+}
+function roundRect(c,x,y,w,h,r_){c.beginPath();c.moveTo(x+r_,y);c.arcTo(x+w,y,x+w,y+h,r_);c.arcTo(x+w,y+h,x,y+h,r_);c.arcTo(x,y+h,x,y,r_);c.arcTo(x,y,x+w,y,r_);c.closePath();}
+function simFrame(t){
+  requestAnimationFrame(simFrame);
+  const dt=Math.min(0.05,(t-(SIM.lt||t))/1000); SIM.lt=t;
+  if(!SC||!SIM.visible||activeTab!=="design") return;
+  if(!SC.W){simLayout(); if(!SC.W) return;}
+  const g=SC,v=g.v,r=g.r,y=g.y,{xl,xr,cl,cr,W,H}=g, yP=y(v.pwl), c=c2;
+  const tScale=clamp(40/(g.ppf*Math.max(r.Va,0.35)),1,60), sdt=dt*tScale;
+  const cascade=r.hcNow>0&&v.perfTop<v.pwl;
+  if(SIM.on){
+    // cascade droplets (visual, real-time px physics)
+    if(cascade){SIM.dacc+=dt*70; while(SIM.dacc>=1){SIM.dacc-=1; const side=Math.random()<.5, d=Math.max(v.perfTop,g.viewTop)+Math.random()*(v.pwl-Math.max(v.perfTop,g.viewTop));
+      SIM.drops.push({x:side?xl+1:xr-1,y:y(d),vx:(side?1:-1)*(20+Math.random()*60),vy:Math.random()*30,side});}}
+    SIM.drops=SIM.drops.filter(p=>{p.vy+=720*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;
+      if(p.y>=yP){for(let k=0;k<2;k++) SIM.froth.push({x:p.x+(Math.random()-.5)*8,y:yP+Math.random()*5,life:.5+Math.random()*.4,r:1+Math.random()*2.2});
+        if(Math.random()<.45){const lo=p.side?xl+2:cr+2, hi=p.side?cl-2:xr-2; SIM.bubbles.push({x:clamp(p.x,lo,hi),y:v.pwl+0.2,pl:Math.min(r.Vj*0.3,6)*(0.6+Math.random()*0.8),m:false,side:p.side,s:1.4+Math.random()*1.4});}
+        return false;} return true;});
+    if(r.aqOn){const lo=Math.max(v.pwl,v.perfTop,g.viewTop), hi=Math.min(v.perfBot,g.viewBot-1);
+      if(hi>lo){SIM.facc+=dt*clamp(6+v.airFrac*6,4,40); while(SIM.facc>=1){SIM.facc-=1; const side=Math.random()<.5, x=side?4+Math.random()*Math.max(4,xl-g.wall-12):xr+g.wall+8+Math.random()*Math.max(4,W-xr-g.wall-14), midI=clamp(v.intake,lo,hi), belowOK=hi>midI+0.5, aboveOK=midI>lo+0.5, goBelow=belowOK&&(!aboveOK||Math.random()<1-v.fracAbove/100), d=goBelow?midI+Math.random()*(hi-midI):lo+Math.random()*(midI-lo);
+        if(d<g.wtD(x)+0.5) continue; SIM.fb.push({x,d,side,vx:(side?1:-1)*(9+Math.random()*14),ph:Math.random()*6});}}
+      SIM.fb=SIM.fb.filter(b=>{b.x+=b.vx*dt; b.d+=Math.sin(t*0.004+b.ph)*0.6*dt; const wx=b.side?xl-g.wall:xr+g.wall;
+        if(b.side?b.x>=wx:b.x<=wx){ if(b.d>=v.perfTop&&b.d<=v.perfBot) SIM.bubbles.push({x:b.side?xl+2:xr-2,y:b.d,pl:0,m:false,side:b.side,s:1.2+Math.random()*1.3,below:b.d>v.intake}); return false;} return true;});
+    }
+    if(!cascade&&!r.aqOn){SIM.acc+=dt*2.5; while(SIM.acc>=1){SIM.acc-=1; const side=Math.random()<.5; SIM.bubbles.push({x:side?xl+3+Math.random()*(cl-xl-6):cr+3+Math.random()*(xr-cr-6),y:v.pwl+0.2,pl:0.3,m:false,side,s:1.4+Math.random()*1.2});}}
+    while(SIM.tracers.length<80) SIM.tracers.push({u:Math.random(),y:v.pwl+Math.random()*(g.viewBot-v.pwl),side:Math.random()<.5});
+    SIM.tracers.forEach(p=>{p.y+=r.Va*sdt; if(p.y>v.intake){p.y=v.pwl+Math.random()*2;p.u=Math.random();}});
+    SIM.froth=SIM.froth.filter(f=>(f.life-=dt)>0);
+    const Vup=isFinite(r.Vmotor)?r.Vmotor:r.Qb/448.831/r.Aann;
+    SIM.bubbles=SIM.bubbles.filter(b=>{
+      if(b.below){b.y-=(Vup+v.vb)*sdt; b.x+=(Math.random()-.5)*0.6; if(b.y<=v.intake){SIM.pumped++;SIM.flash=1;return false;} return true;}
+      const rise=b.m?r.UtA:v.vb, y0=b.y; b.pl*=Math.exp(-sdt/1.2);
+      b.y+=(r.Vc+b.pl-rise)*sdt; b.x+=(Math.random()-.5)*0.7;
+      for(const d of r.depths){if(y0<d&&b.y>=d){b.pl=0;if(!b.m&&Math.random()<0.5){b.m=true;b.s=3.4+Math.random()*1.6;}}}
+      b.x=b.side?clamp(b.x,xl+2,cl-2):clamp(b.x,cr+2,xr-2);
+      if(b.y<v.pwl){SIM.vented++;return false;}
+      if(b.y>v.intake){SIM.pumped++;SIM.flash=1;return false;}
+      return true;});
+    if(SIM.bubbles.length>450) SIM.bubbles.splice(0,SIM.bubbles.length-450);
+  }
+  SIM.flash=Math.max(0,SIM.flash-dt*2.5);
+  // compose
+  c.setTransform(1,0,0,1,0,0); c.globalCompositeOperation="source-over"; c.drawImage(stat,0,0);
+  tctx.setTransform(1,0,0,1,0,0); tctx.globalCompositeOperation="destination-out"; tctx.fillStyle="rgba(0,0,0,"+(SIM.on?.16:0)+")"; tctx.fillRect(0,0,trail.width,trail.height);
+  tctx.globalCompositeOperation="lighter"; tctx.setTransform(g.dpr,0,0,g.dpr,0,0);
+  if(SIM.on){
+    tctx.fillStyle="rgba(110,200,255,.55)";
+    SIM.tracers.forEach(p=>{const x=p.side?xl+3+p.u*(cl-xl-6):cr+3+p.u*(xr-cr-6); tctx.fillRect(x-0.7,y(p.y),1.4,2.4);});
+    tctx.fillStyle="rgba(215,240,255,.9)"; SIM.drops.forEach(p=>tctx.fillRect(p.x-0.8,p.y-0.8,1.6,1.6));
+  }
+  c.globalCompositeOperation="lighter"; c.drawImage(trail,0,0); c.globalCompositeOperation="source-over";
+  c.setTransform(g.dpr,0,0,g.dpr,0,0);
+  // surface shimmer
+  c.save(); c.shadowColor="rgba(140,220,255,.9)"; c.shadowBlur=10; c.strokeStyle="rgba(190,235,255,.85)"; c.lineWidth=1.4; c.beginPath();
+  for(let x=xl;x<=xr;x+=3){const yy=yP+Math.sin(x*0.09+t*0.004)*1.1+Math.sin(x*0.031-t*0.0023)*0.8; if(x===xl) c.moveTo(x,yy); else c.lineTo(x,yy);} c.stroke(); c.restore();
+  SIM.froth.forEach(f=>{c.globalAlpha=Math.min(1,f.life*1.6)*0.8; c.fillStyle="#F4FBFF"; c.beginPath(); c.arc(f.x,f.y,f.r,0,TAU); c.fill();}); c.globalAlpha=1;
+  c.globalAlpha=.95; SIM.fb.forEach(b=>{const sp=sprite("s",2); c.drawImage(sp.c,b.x-sp.half,y(b.d)-sp.half,sp.half*2,sp.half*2);}); c.globalAlpha=1;
+  // caustics under the surface and a lens vignette
+  c.save(); c.beginPath(); c.rect(xl,yP,xr-xl,H-yP); c.clip(); c.globalCompositeOperation="lighter";
+  for(let k=0;k<6;k++){const span=xr-xl, px=xl+(((k*97+t*0.018*(k%2?1:-1))%span)+span)%span, py=yP+16+k*11, rg=c.createRadialGradient(px,py,0,px,py,46); rg.addColorStop(0,"rgba(150,215,255,.10)"); rg.addColorStop(1,"rgba(150,215,255,0)"); c.fillStyle=rg; c.fillRect(px-46,py-46,92,92);}
+  c.restore();
+  SIM.bubbles.forEach(b=>{const sp=sprite(b.m?"m":"s",Math.round(b.s*2)/2); c.drawImage(sp.c,b.x-sp.half,y(b.y)-sp.half,sp.half*2,sp.half*2);});
+  if(SIM.flash>0){const yI=y(v.intake), rg=c.createRadialGradient(g.cx,yI,4,g.cx,yI,70); rg.addColorStop(0,"rgba(255,90,95,"+(0.55*SIM.flash)+")"); rg.addColorStop(1,"rgba(255,90,95,0)"); c.fillStyle=rg; c.fillRect(g.cx-80,yI-80,160,160);}
+  {const vg=c.createRadialGradient(W/2,H*0.45,Math.min(W,H)*0.35,W/2,H*0.45,Math.max(W,H)*0.78); vg.addColorStop(0,"rgba(0,0,0,0)"); vg.addColorStop(1,"rgba(0,0,0,.5)"); c.fillStyle=vg; c.fillRect(0,0,W,H);}
+  c.fillStyle="rgba(230,240,250,.9)"; c.font="600 11px Barlow, sans-serif"; c.textAlign="right"; if(yP>14) c.fillText("PWL "+fmt(v.pwl,0)+" ft",xr-6,yP-6);
+  c.fillStyle="rgba(255,190,190,.9)"; c.fillText("Intake "+fmt(v.intake,0)+" ft",xr-6,Math.min(H-6,y(v.intake)-6));
+  if(t-SIM.hudT>300){SIM.hudT=t; hud(r,tScale);}
+}
+function hud(r,tScale){
+  const v=r.v, col=r.regime==="A"?"#45C98B":r.regime==="B"?"#FFB547":"#FF6F66", word={A:"Bubbles escape on their own",B:"Discs must merge bubbles",C:"Water outruns merged gas"}[r.regime];
+  $("hudTL").innerHTML='<div class="hr"><span class="k">Water down (core)</span><span class="val" style="color:'+col+'">'+fmt(r.Vc,3)+'<small>ft/s</small></span></div>'+
+    '<div class="hr"><span class="k">Small bubbles up</span><span class="val">'+fmt(v.vb,2)+'<small>ft/s</small></span></div>'+
+    '<div class="hr"><span class="k">Merged gas up</span><span class="val">'+fmt(r.UtA,2)+'<small>ft/s</small></span></div>'+
+    (r.aqOn?'<div class="hr"><span class="k">Aquifer air crossing a disc</span><span class="val">'+fmt(r.airTreatedPct,0)+'<small>%</small></span></div>':'')+
+    '<span class="chip" style="color:'+col+';background:'+col+'1f;box-shadow:inset 0 0 0 1px '+col+'66"><i></i>'+word+'</span>';
+  const tot=SIM.vented+SIM.pumped, pv=tot?SIM.vented/tot:0, pp=tot?SIM.pumped/tot:0;
+  $("hudBL").innerHTML='<div class="bars"><span class="k">Vented to surface</span><span class="hbar"><b style="width:'+(pv*100).toFixed(1)+'%;background:linear-gradient(90deg,#2A8AD8,#5CC8FF)"></b></span><span class="val">'+(tot>0?fmt(pv*100,0)+"%":"…")+'</span>'+
+    '<span class="k">Reaching intake</span><span class="hbar"><b style="width:'+(pp*100).toFixed(1)+'%;background:linear-gradient(90deg,#C3342B,#FF6F66)"></b></span><span class="val">'+(tot>0?fmt(pp*100,0)+"%":"…")+'</span></div>'+
+    '<div class="foot"><span>'+({cascade:"Falling water",aquifer:"Aquifer air",both:"Both sources"}[r.mode])+' · ×'+fmt(tScale,0)+'</span><span>Illustrative, from this model</span></div>';
+}
+requestAnimationFrame(simFrame);
+new IntersectionObserver(es=>{SIM.visible=es[0].isIntersecting;}).observe($("live"));
+new ResizeObserver(()=>{if(SC){simLayout();}}).observe($("live"));
+$("playBtn").textContent=SIM.on?"Pause":"Play";
+$("playBtn").onclick=()=>{SIM.on=!SIM.on;$("playBtn").textContent=SIM.on?"Pause":"Play";};
+
+/* ---------------- run loop & tabs ---------------- */
+let timer=null, activeTab="design";
+function run(){
+  const v=readValues(); markChanged();
+  try{localStorage.setItem(LS_KEY,JSON.stringify(v))}catch(e){}
+  const r=design(v); last=r;
+  if(!renderVerdict(r)) return;
+  renderVelo(r); renderTables(r);
+  $("wellSvg").innerHTML=wellSVG(r);
+  renderDiscView(r);
+  $("discCaption").textContent=r.N+" holes at "+frac(r.d)+'" on a '+frac(r.pitch)+'" triangular pitch. '+r.Gd.nseg+" segments under a split hub ring"+(r.Gd.nP?", "+r.Gd.nP+" pass-through port"+(r.Gd.nP>1?"s":""):"")+". Disc OD "+fmt(2*r.Gd.Ro,3)+" in in a "+fmt(r.v.casingID,2)+" in casing.";
+  $("envSvg").innerHTML=envSVG(r);
+  $("envLede").textContent="How the core downward velocity grows with flow in this casing. Up to "+fmt(r.Qclean,0)+" gpm, small bubbles escape on their own. Up to about "+fmt(r.Qmax,0)+" gpm, discs can still separate air by merging bubbles. Above that, water outruns even merged gas.";
+  simConfig(r);
+  if(activeTab==="optimize") renderOpt();
+  if(activeTab==="risk") renderRisk();
+}
+form.addEventListener("input",()=>{clearTimeout(timer);timer=setTimeout(run,150);});
+form.addEventListener("change",()=>{clearTimeout(timer);timer=setTimeout(run,60);});
+document.querySelectorAll(".tab").forEach(tb=>{const p=document.querySelector('.panel[data-panel="'+tb.dataset.tab+'"]');tb.id="tab-"+tb.dataset.tab;tb.setAttribute("aria-controls","panel-"+tb.dataset.tab);tb.tabIndex=tb.getAttribute("aria-selected")==="true"?0:-1;if(p){p.id="panel-"+tb.dataset.tab;p.setAttribute("role","tabpanel");p.setAttribute("aria-labelledby",tb.id);}});
+document.querySelector(".tabs").addEventListener("keydown",e=>{const ts=[...document.querySelectorAll(".tab")],i=ts.indexOf(document.activeElement);if(i<0)return;let j=null;if(e.key==="ArrowRight")j=(i+1)%ts.length;else if(e.key==="ArrowLeft")j=(i-1+ts.length)%ts.length;else if(e.key==="Home")j=0;else if(e.key==="End")j=ts.length-1;if(j!==null){e.preventDefault();ts.at(j).focus();ts.at(j).click();}});
+document.querySelectorAll(".tab").forEach(tb=>tb.onclick=()=>{
+  activeTab=tb.dataset.tab;
+  document.querySelectorAll(".tab").forEach(x=>{x.setAttribute("aria-selected",x===tb?"true":"false");x.tabIndex=x===tb?0:-1;});
+  document.querySelectorAll(".panel").forEach(p=>p.hidden=p.dataset.panel!==activeTab);
+  if(activeTab==="optimize") renderOpt(); if(activeTab==="risk") renderRisk(); if(activeTab==="compare") renderScen();
+  if(activeTab==="design") requestAnimationFrame(simLayout);
+});
+$("prioSeg").querySelectorAll("button").forEach(b=>b.onclick=()=>{prio=b.dataset.p;$("prioSeg").querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false"));renderOpt();});
+$("tornSeg").querySelectorAll("button").forEach(b=>b.onclick=()=>{tornOut=b.dataset.o;$("tornSeg").querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false"));renderTornado();});
+try{const t=localStorage.getItem("ead-theme"); if(t) document.documentElement.dataset.theme=t;}catch(e){}
+
+/* ---------------- compare ---------------- */
+const SC_KEY="ead-scen-v1";
+let scenMem=[]; try{scenMem=JSON.parse(localStorage.getItem(SC_KEY)||"[]")}catch(e){}
+function scenStore(){try{localStorage.setItem(SC_KEY,JSON.stringify(scenMem))}catch(e){}}
+function renderScen(){
+  const w=$("scenWrap");
+  if(!scenMem.length){w.innerHTML='<div class="empty">No saved designs yet. Save the current one to start comparing.</div>';return;}
+  w.innerHTML='<table class="grid-t"><thead><tr><th>Design</th><th class="r">Discs</th><th>Hole @ pitch</th><th class="r">Holes</th><th class="r">Open</th><th class="r">Ann. velocity</th><th class="r">Flow cost</th><th class="r">Holds (risk)</th><th></th></tr></thead><tbody>'+
+    scenMem.map((s,i)=>{const r=design(Object.assign({},DEFAULTS,s.v)); if(r.err.length) return '<tr><td>'+esc(s.name)+'</td><td colspan="7" class="muted">Inputs incomplete</td><td><button class="btn sm ghost" type="button" data-del="'+i+'">Delete</button></td></tr>';
+      const m=monteCarlo(r,1500);
+      return '<tr><td><span class="status '+r.level+'" style="padding:1px 8px 1px 6px"><i></i>'+esc(s.name)+'</span></td><td class="r">'+r.nUse+'</td><td>'+frac(r.d)+'" @ '+frac(r.pitch)+'"</td><td class="r">'+r.N+'</td><td class="r">'+fmt(r.phi*100,0)+'%</td><td class="r">'+fmt(r.Va,2)+' ft/s</td><td class="r">'+fmt(r.dQpct,2)+'%</td><td class="r">'+fmt(100*m.c.holds/m.N,0)+'%</td><td><button class="btn sm" type="button" data-load="'+i+'">Load</button> <button class="btn sm ghost" type="button" data-del="'+i+'">Delete</button></td></tr>';}).join("")+'</tbody></table>';
+  w.querySelectorAll("[data-load]").forEach(b=>b.onclick=()=>{const s=scenMem[+b.dataset.load];setValues(Object.assign({},DEFAULTS,s.v));run();toast("Loaded “"+s.name+"”");});
+  w.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{scenMem.splice(+b.dataset.del,1);scenStore();renderScen();});
+}
+$("scenSave").onclick=()=>{const v=readValues();const name=$("scenName").value.trim()||((v.projWell||"Design")+" "+(scenMem.length+1));
+  scenMem.push({name,v,at:Date.now()}); if(scenMem.length>16) scenMem.shift(); scenStore(); $("scenName").value=""; renderScen(); toast("Saved “"+name+"”");};
+
+/* ---------------- files ---------------- */
+let DL=null;
+async function saveFile(name,blob){
+  if(DL){try{await DL.save({filename:name,data:blob});return true;}catch(e){if(!e||e.code!=="declined") toast("Could not save "+name+(e&&e.code?" ("+e.code+")":""));return false;}}
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},2000);return true;
+}
+function projMeta(){return {well:$("projWell").value.trim()||"Example well",util:$("projUtility").value.trim(),loc:$("projLoc").value.trim(),by:$("projBy").value.trim(),rev:$("projRev").value.trim()||"A",date:new Date().toISOString().slice(0,10)};}
+function slug(){const pm=projMeta();return (pm.well+"-rev"+pm.rev).replace(/[^A-Za-z0-9_-]+/g,"_").slice(0,40);}
+const ascii=s=>String(s).replace(/[−–—]/g,"-").replace(/×/g,"x").replace(/²/g,"2").replace(/°/g," deg").replace(/≈/g,"~").replace(/÷/g,"/").replace(/[“”]/g,'"').replace(/[‘’]/g,"'").replace(/·/g,"-").replace(/ζ/g,"zeta").replace(/φ/g,"phi").replace(/π/g,"pi").replace(/√/g,"sqrt").replace(/◆/g,"*").replace(/…/g,"...").replace(/[^\x20-\x7E]/g,"");
+
+class DXF{
+  constructor(units){this.u=units;this.e=[];this.L={};this.min=[Infinity,Infinity];this.max=[-Infinity,-Infinity];}
+  layer(n,c){this.L[n]=c;return this;}
+  ext(x,y){this.min[0]=Math.min(this.min[0],x);this.min[1]=Math.min(this.min[1],y);this.max[0]=Math.max(this.max[0],x);this.max[1]=Math.max(this.max[1],y);}
+  n(x){return (Math.abs(x)<1e-12?0:x).toFixed(5);}
+  line(l,x1,y1,x2,y2){this.ext(x1,y1);this.ext(x2,y2);this.e.push("0\nLINE\n8\n"+l+"\n10\n"+this.n(x1)+"\n20\n"+this.n(y1)+"\n30\n0\n11\n"+this.n(x2)+"\n21\n"+this.n(y2)+"\n31\n0");}
+  circle(l,x,y,r){this.ext(x-r,y-r);this.ext(x+r,y+r);this.e.push("0\nCIRCLE\n8\n"+l+"\n10\n"+this.n(x)+"\n20\n"+this.n(y)+"\n30\n0\n40\n"+this.n(r));}
+  text(l,x,y,h,s,center){s=ascii(s);this.ext(x,y);this.e.push("0\nTEXT\n8\n"+l+"\n10\n"+this.n(x)+"\n20\n"+this.n(y)+"\n30\n0\n40\n"+this.n(h)+"\n1\n"+s+(center?"\n72\n1\n11\n"+this.n(x)+"\n21\n"+this.n(y)+"\n31\n0":""));}
+  poly(l,pts){tess(pts,0.2).forEach(p=>this.ext(p[0],p[1]));
+    let s="0\nPOLYLINE\n8\n"+l+"\n66\n1\n10\n0\n20\n0\n30\n0\n70\n1";
+    pts.forEach(p=>{s+="\n0\nVERTEX\n8\n"+l+"\n10\n"+this.n(p[0])+"\n20\n"+this.n(p[1])+"\n30\n0"+(Math.abs(p[2])>1e-12?"\n42\n"+this.n(p[2]):"");});
+    this.e.push(s+"\n0\nSEQEND\n8\n"+l);}
+  rect(l,x1,y1,x2,y2){this.poly(l,[[x1,y1,0],[x2,y1,0],[x2,y2,0],[x1,y2,0]]);}
+  toString(){
+    const mn=isFinite(this.min[0])?this.min:[0,0],mx=isFinite(this.max[0])?this.max:[1,1];
+    let h="0\nSECTION\n2\nHEADER\n9\n$ACADVER\n1\nAC1009\n9\n$EXTMIN\n10\n"+this.n(mn[0])+"\n20\n"+this.n(mn[1])+"\n30\n0\n9\n$EXTMAX\n10\n"+this.n(mx[0])+"\n20\n"+this.n(mx[1])+"\n30\n0\n0\nENDSEC\n";
+    h+="0\nSECTION\n2\nTABLES\n0\nTABLE\n2\nLTYPE\n70\n1\n0\nLTYPE\n2\nCONTINUOUS\n70\n0\n3\nSolid line\n72\n65\n73\n0\n40\n0.0\n0\nENDTAB\n";
+    const ls=Object.keys(this.L); h+="0\nTABLE\n2\nLAYER\n70\n"+(ls.length+1)+"\n0\nLAYER\n2\n0\n70\n0\n62\n7\n6\nCONTINUOUS\n";
+    ls.forEach(n=>h+="0\nLAYER\n2\n"+n+"\n70\n0\n62\n"+this.L[n]+"\n6\nCONTINUOUS\n");
+    h+="0\nENDTAB\n0\nENDSEC\n0\nSECTION\n2\nENTITIES\n"+this.e.join("\n")+"\n0\nENDSEC\n0\nEOF\n";
+    return h.replace(/\n/g,"\r\n");
+  }
+}
+function dxfAssembly(r){
+  const v=r.v,G_=r.Gd,A=assembly(r),pm=projMeta(),dx=new DXF("in");
+  dx.layer("CUT_OUTLINE",7).layer("CUT_HOLES",1).layer("CUT_PORTS",6).layer("CUT_BOLTS",5).layer("HUB",3).layer("REF_CASING",8).layer("REF_COLUMN",8).layer("REF_TUBE",8).layer("CENTERLINE",2).layer("DIMS",2).layer("TITLE",7);
+  A.segs.forEach(p=>dx.poly("CUT_OUTLINE",p));
+  A.holes.forEach(h=>dx.circle("CUT_HOLES",h[0],h[1],r.d/2));
+  A.ports.forEach(p=>{dx.circle("CUT_PORTS",p[0],p[1],G_.rp); if(v.portOcc>0) dx.circle("REF_TUBE",p[0],p[1],v.portOcc/2);});
+  A.bolts.forEach(b=>dx.circle("CUT_BOLTS",b[0],b[1],v.boltDia/2));
+  r.hubs.forEach(h=>dx.poly("HUB",h.pts));
+  dx.circle("REF_CASING",0,0,v.casingID/2); dx.circle("REF_COLUMN",0,0,v.columnOD/2);
+  const R=v.casingID/2+1.2; dx.line("CENTERLINE",-R,0,R,0); dx.line("CENTERLINE",0,-R,0,R);
+  const yD=v.casingID/2+1.8; dx.line("DIMS",-G_.Ro,yD,G_.Ro,yD); dx.line("DIMS",-G_.Ro,yD-0.3,-G_.Ro,yD+0.3); dx.line("DIMS",G_.Ro,yD-0.3,G_.Ro,yD+0.3);
+  dx.text("DIMS",0,yD+0.25,0.28,"DISC OD "+(2*G_.Ro).toFixed(3)+" IN",true);
+  dx.text("DIMS",0,0.25,0.22,"BORE "+(2*G_.Rs).toFixed(3)+" IN",true); dx.text("DIMS",0,-0.4,0.22,"HUB OD "+(2*G_.Rh).toFixed(3)+" IN",true);
+  const lines=["EAD DISC ASSEMBLY - "+pm.well,(pm.util?pm.util:"")+(pm.loc?(pm.util?" - ":"")+pm.loc:""),
+    "Disc OD "+(2*G_.Ro).toFixed(3)+" in, bore "+(2*G_.Rs).toFixed(3)+" in, hub OD "+(2*G_.Rh).toFixed(3)+" in",
+    G_.nseg+" segments, plate "+v.thick+" in, joints "+v.jointGap+" in",
+    r.N+" holes "+r.d.toFixed(4)+" in dia on "+r.pitch.toFixed(4)+" in 60 deg pitch",
+    (G_.nP?G_.nP+" ports "+v.portD+" in dia; ":"")+(G_.boltsL.length?G_.nseg*G_.boltsL.length+" bolt holes "+v.boltDia+" in dia":"no hub bolts"),
+    "Open area "+(r.phi*100).toFixed(1)+"% of annulus; "+r.nUse+" discs at "+(r.depths.map(d=>Math.round(d)).join(", ")||"-")+" ft",
+    "Units inches, scale 1:1. Rev "+pm.rev+"  "+pm.date+(pm.by?"  By "+pm.by:""),
+    "Verify casing drift and dimensions before cutting.","Not for construction without engineer review."].filter(Boolean);
+  const bx=v.casingID/2+3, by=-v.casingID/2, lh=0.42, h=lines.length*lh+0.5;
+  dx.rect("TITLE",bx,by,bx+12,by+h); lines.forEach((t,i)=>dx.text("TITLE",bx+0.2,by+h-0.45-i*lh,i===0?0.26:0.18,t));
+  return dx.toString();
+}
+function dxfPart(title,pts,circles,note,qty){
+  const dx=new DXF("in"); dx.layer("CUT_OUTLINE",7).layer("CUT_HOLES",1).layer("CUT_PORTS",6).layer("CUT_BOLTS",5).layer("NOTES_DO_NOT_CUT",8);
+  const tp=tess(pts,0.02), mnx=Math.min(...tp.map(p=>p[0])), mny=Math.min(...tp.map(p=>p[1])), mxy=Math.max(...tp.map(p=>p[1]));
+  const off=p=>[p[0]-mnx+0.5,p[1]-mny+0.5];
+  dx.poly("CUT_OUTLINE",transformPoly(pts,off));
+  circles.forEach(c=>{const q=off([c[0],c[1]]);dx.circle(c[3],q[0],q[1],c[2]);});
+  const ty=mxy-mny+1.4; dx.text("NOTES_DO_NOT_CUT",0.5,ty+0.9,0.3,title); dx.text("NOTES_DO_NOT_CUT",0.5,ty+0.45,0.2,"QTY "+qty+" - "+note); dx.text("NOTES_DO_NOT_CUT",0.5,ty,0.2,"Units inches, 1:1. Cut layers CUT_*. No kerf compensation. Verify before cutting.");
+  return dx.toString();
+}
+function dxfElevation(r){
+  const v=r.v,pm=projMeta(),dx=new DXF("ft"),X=10;
+  dx.layer("CASING",8).layer("COLUMN",7).layer("WATER",5).layer("DISCS",4).layer("PERFS",6).layer("LEVELS",2).layer("TEXT",7);
+  const cr=v.casingID/24*X, co=v.columnOD/24*X, Y=d=>-d, bot=Math.max(v.perfBot,v.intake+30);
+  dx.line("CASING",-cr,0,-cr,Y(bot)); dx.line("CASING",cr,0,cr,Y(bot)); dx.line("TEXT",-cr-15,0,cr+15,0); dx.text("TEXT",-cr-15,1,2,"GROUND 0 FT");
+  dx.line("COLUMN",-co,0,-co,Y(v.intake-18)); dx.line("COLUMN",co,0,co,Y(v.intake-18));
+  dx.rect("COLUMN",-co*1.3,Y(v.intake),co*1.3,Y(v.intake-18)); dx.text("TEXT",cr+3,Y(v.intake)-0.7,2,"PUMP INTAKE "+v.intake+" FT");
+  for(let d=v.perfTop;d<=v.perfBot;d+=5){dx.line("PERFS",-cr-1.5,Y(d),-cr,Y(d));dx.line("PERFS",cr,Y(d),cr+1.5,Y(d));}
+  dx.text("TEXT",cr+3,Y(v.perfTop)-0.7,2,"PERFORATIONS "+v.perfTop+"-"+v.perfBot+" FT");
+  const lv=(d,t,l)=>{dx.line(l,-cr-6,Y(d),cr+6,Y(d));dx.text("TEXT",-cr-60,Y(d)-0.7,2,t);};
+  lv(v.swl,"STATIC WL "+v.swl+" FT","LEVELS"); lv(v.pwl,"PUMPING WL "+v.pwl+" FT","WATER"); if(v.drawAllow>0) lv(r.pwlD,"DESIGN PWL "+r.pwlD+" FT","LEVELS");
+  r.depths.forEach((d,i)=>{dx.rect("DISCS",-cr,Y(d)-0.5,-co,Y(d)+0.5);dx.rect("DISCS",co,Y(d)-0.5,cr,Y(d)+0.5);dx.text("TEXT",cr+3,Y(d)-0.7,2,"EAD DISC "+(i+1)+" @ "+Math.round(d)+" FT");});
+  dx.text("TEXT",-cr-60,Y(bot)-6,2.4,"EAD WELL ELEVATION - "+pm.well+"  REV "+pm.rev+"  "+pm.date);
+  dx.text("TEXT",-cr-60,Y(bot)-9.5,1.8,"Units feet. Depth true scale; horizontal exaggerated x"+X+". Casing ID "+v.casingID+" in, column OD "+v.columnOD+" in.");
+  return dx.toString();
+}
+function cadPackage(r){
+  const v=r.v,G_=r.Gd,n=Math.max(1,r.nUse),files=[],pm=projMeta();
+  files.push(["EAD_assembly.dxf",dxfAssembly(r)]);
+  const rotV=p=>rot(p,Math.PI/2), seg=transformPoly(r.segOut,rotV);
+  const circ=(holes,ports,bolts)=>holes.map(h=>{const q=rotV(h);return [q[0],q[1],r.d/2,"CUT_HOLES"];}).concat(ports.map(p=>{const q=rotV(p);return [q[0],q[1],G_.rp,"CUT_PORTS"];}),bolts.map(b=>{const q=rotV(b);return [q[0],q[1],v.boltDia/2,"CUT_BOLTS"];}));
+  files.push(["EAD_segment_standard_qty"+((G_.nseg-1)*n)+".dxf",dxfPart("EAD STANDARD SEGMENT - "+pm.well,seg,circ(r.lay.std,[],G_.boltsL),r.lay.std.length+" holes "+r.d+" in, plate "+v.thick+" in",(G_.nseg-1)*n)]);
+  files.push([(G_.nP?"EAD_segment_ports_qty":"EAD_segment_standard_extra_qty")+n+".dxf",dxfPart((G_.nP?"EAD PORT SEGMENT - ":"EAD STANDARD SEGMENT - ")+pm.well,seg,circ(r.lay.port,G_.portsL,G_.boltsL),r.lay.port.length+" holes "+r.d+" in"+(G_.nP?" + "+G_.nP+" ports "+v.portD+" in":""),n)]);
+  r.hubs.forEach((h,i)=>{const mid=(h.a0+h.a1)/2,f=p=>rot(p,Math.PI/2-mid);
+    files.push(["EAD_hub_half_"+"AB"[i]+"_qty"+n+".dxf",dxfPart("EAD HUB RING HALF "+"AB"[i]+" - "+pm.well,transformPoly(h.pts,f),h.bolts.map(b=>{const q=f(b);return [q[0],q[1],v.boltDia/2,"CUT_BOLTS"];}),h.bolts.length+" bolt holes "+v.boltDia+" in, plate "+v.thick+" in",n)]);});
+  files.push(["EAD_well_elevation.dxf",dxfElevation(r)]);
+  files.push(["EAD_disc_drawing.svg",discSVG(r,{print:true,dims:true})]);
+  files.push(["README.txt",["EAD CAD PACKAGE - "+pm.well+" - rev "+pm.rev+" - "+pm.date,"",
+    "Files",
+    "  EAD_assembly.dxf        Full disc, inches 1:1, layered (cut, hub, reference, dims, title block)",
+    "  EAD_segment_*.dxf       Flat cut files for plasma, laser or waterjet, one part each, inches 1:1",
+    "  EAD_hub_half_*.dxf      Split hub ring halves, inches 1:1",
+    "  EAD_well_elevation.dxf  Well schematic, feet, horizontal exaggerated x10",
+    "  EAD_disc_drawing.svg    Dimensioned picture of the disc","",
+    "Quantities in file names cover "+n+" disc"+(n>1?"s":"")+(r.nUse?" at "+r.depths.map(d=>Math.round(d)).join(", ")+" ft":"")+".",
+    "Cut layers: CUT_OUTLINE, CUT_HOLES, CUT_PORTS, CUT_BOLTS. Do not cut NOTES_DO_NOT_CUT, REF_*, DIMS, TITLE or HUB in the assembly.","",
+    "Design",
+    "  Casing ID "+v.casingID+" in, column OD "+v.columnOD+" in, flow "+v.q+" gpm",
+    "  Disc OD "+(2*G_.Ro).toFixed(3)+" in, bore "+(2*G_.Rs).toFixed(3)+" in, hub OD "+(2*G_.Rh).toFixed(3)+" in, plate "+v.thick+" in",
+    "  Holes "+r.d+" in on "+r.pitch.toFixed(4)+" in 60 deg pitch, "+r.N+" per disc, open area "+(r.phi*100).toFixed(1)+"%","",
+    "Before cutting",
+    "  - Run a casing drift check and confirm the usable ID at each disc depth.",
+    "  - Confirm the column OD at the disc locations and coupling clearance for installation.",
+    "  - Fastener sizes, how the stack is supported on the column, and centralizers are not modeled. Detail them with the fabricator.",
+    "  - Kerf compensation is not applied. Set it in your CAM software.","",
+    "Generated by the EAD design workstation. Not a stamped engineering document."].join("\r\n")]);
+  return zip(files);
+}
+const CRC=(()=>{const t=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0;}return t;})();
+function crc32(b){let c=0xFFFFFFFF;for(let i=0;i<b.length;i++)c=CRC[(c^b[i])&255]^(c>>>8);return (c^0xFFFFFFFF)>>>0;}
+function zip(files){
+  const enc=new TextEncoder(), parts=[], central=[]; let off=0; const d=new Date();
+  const dt=((d.getHours()<<11)|(d.getMinutes()<<5)|(d.getSeconds()>>1))&0xFFFF, dd=(((d.getFullYear()-1980)<<9)|((d.getMonth()+1)<<5)|d.getDate())&0xFFFF;
+  files.forEach(([name,content])=>{
+    const nb=enc.encode(name), data=typeof content==="string"?enc.encode(content):content, crc=crc32(data);
+    const h=new DataView(new ArrayBuffer(30));
+    h.setUint32(0,0x04034b50,true);h.setUint16(4,20,true);h.setUint16(10,dt,true);h.setUint16(12,dd,true);
+    h.setUint32(14,crc,true);h.setUint32(18,data.length,true);h.setUint32(22,data.length,true);h.setUint16(26,nb.length,true);
+    parts.push(new Uint8Array(h.buffer),nb,data);
+    const c=new DataView(new ArrayBuffer(46));
+    c.setUint32(0,0x02014b50,true);c.setUint16(4,20,true);c.setUint16(6,20,true);c.setUint16(12,dt,true);c.setUint16(14,dd,true);
+    c.setUint32(16,crc,true);c.setUint32(20,data.length,true);c.setUint32(24,data.length,true);c.setUint16(28,nb.length,true);c.setUint32(42,off,true);
+    central.push(new Uint8Array(c.buffer),nb);
+    off+=30+nb.length+data.length;
+  });
+  const cdSize=central.reduce((s,a)=>s+a.length,0), e=new DataView(new ArrayBuffer(22));
+  e.setUint32(0,0x06054b50,true);e.setUint16(8,files.length,true);e.setUint16(10,files.length,true);e.setUint32(12,cdSize,true);e.setUint32(16,off,true);
+  return new Blob(parts.concat(central,[new Uint8Array(e.buffer)]),{type:"application/zip"});
+}
+
+/* ---------------- PDF design report ---------------- */
+function loadJsPDF(){
+  if(window.jspdf) return Promise.resolve(window.jspdf.jsPDF);
+  return new Promise((res,rej)=>{const s=document.createElement("script");s.src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";s.onload=()=>window.jspdf?res(window.jspdf.jsPDF):rej(new Error("load"));s.onerror=()=>rej(new Error("load"));document.head.appendChild(s);});
+}
+async function buildPDF(r){
+  const JsPDF=await loadJsPDF(); const doc=new JsPDF({unit:"pt",format:"letter"}); const v=r.v,G_=r.Gd,pm=projMeta();
+  const W=612,H=792,M=46, ink=[14,34,54], mut=[90,113,137], acc=[18,112,214], line=[205,216,227];
+  const lvlCol={ok:[27,134,85],warn:[176,116,0],bad:[195,52,43]}[r.level];
+  const T=ascii; let y=0;
+  const header=title=>{doc.setFillColor(11,27,46);doc.rect(0,0,W,58,"F");doc.setTextColor(255,255,255);doc.setFont("helvetica","bolditalic");doc.setFontSize(26);doc.text("EAD",M,38);
+    doc.setDrawColor(74,168,255);doc.setLineWidth(2);doc.circle(M+80,28,9,"S");
+    doc.setFont("helvetica","bold");doc.setFontSize(12);doc.setTextColor(255,255,255);doc.text(T(title),M+100,30);doc.setFont("helvetica","normal");doc.setFontSize(9);doc.setTextColor(185,204,222);doc.text(T(pm.well+(pm.util?"  |  "+pm.util:"")+"  |  Rev "+pm.rev+"  |  "+pm.date),M+100,44);y=88;doc.setTextColor(...ink);};
+  const ensure=h=>{if(y+h>H-50){doc.addPage();header("Design report, continued");}};
+  const h2=t=>{y+=12;ensure(48);doc.setFont("helvetica","bold");doc.setFontSize(14);doc.setTextColor(...ink);doc.text(T(t),M,y);doc.setDrawColor(...acc);doc.setLineWidth(1.4);doc.line(M,y+5,M+28,y+5);y+=22;};
+  const para=(t,size=9.5,col=ink,x=M,w=W-2*M)=>{doc.setFont("helvetica","normal");doc.setFontSize(size);doc.setTextColor(...col);doc.splitTextToSize(T(t),w).forEach(l=>{ensure(size*1.45);doc.text(l,x,y);y+=size*1.45;});y+=4;};
+  const kvTable=(rows,x,w,keyW)=>{doc.setFontSize(9);rows.forEach(([k,val])=>{const vl=doc.splitTextToSize(T(String(val)),w-keyW-6);const rh=Math.max(1,vl.length)*12+6;ensure(rh);doc.setFont("helvetica","normal");doc.setTextColor(...mut);doc.text(T(k),x,y+9);doc.setTextColor(...ink);doc.text(vl,x+keyW,y+9);doc.setDrawColor(...line);doc.setLineWidth(.5);doc.line(x,y+rh-1,x+w,y+rh-1);y+=rh;});y+=8;};
+  const gridTable=(head,rows,colW)=>{doc.setFontSize(8.8);ensure(36);doc.setFillColor(238,242,246);doc.rect(M,y,W-2*M,16,"F");doc.setFont("helvetica","bold");doc.setTextColor(...mut);let x=M+4;head.forEach((h,i)=>{doc.text(T(h),x,y+11);x+=colW[i];});y+=18;doc.setFont("helvetica","normal");doc.setTextColor(...ink);
+    rows.forEach(rw=>{ensure(15);let x=M+4;rw.forEach((c,i)=>{doc.text(T(String(c)),x,y+10);x+=colW[i];});doc.setDrawColor(...line);doc.setLineWidth(.5);doc.line(M,y+14,W-M,y+14);y+=15;});y+=10;};
+
+  // page 1 summary
+  header("Entrained Air Diffuser design report");
+  doc.setFont("helvetica","bold");doc.setFontSize(22);doc.setTextColor(...ink);
+  const hl=doc.splitTextToSize(T($("headline").textContent),W-2*M); doc.text(hl,M,y+6); y+=hl.length*26+8;
+  if(r.blockCAD||r.regime==="C"){doc.setFillColor(251,229,227);doc.roundedRect(M,y-12,W-2*M,22,3,3,"F");doc.setFont("helvetica","bold");doc.setFontSize(9.5);doc.setTextColor(195,52,43);doc.text(T(r.regime==="C"?"NOT RECOMMENDED: discs alone are not expected to keep air off the pump in this well.":"NOT FOR FABRICATION: "+r.blockCAD),M+8,y+2,{maxWidth:W-2*M-16});y+=24;}
+  doc.setFillColor(...lvlCol);doc.circle(M+4,y-3,4,"F");doc.setFont("helvetica","bold");doc.setFontSize(10);doc.setTextColor(...lvlCol);doc.text(T($("status").textContent.trim()),M+14,y);y+=18;
+  para($("subline").textContent,10.5,[47,74,100]);
+  const kp=[[String(r.nUse),"discs"],[frac(r.d)+'"',"hole diameter"],[String(r.N),"holes per disc"],[r.nUse?(r.nUse>1?Math.round(r.depths[0])+"-"+Math.round(r.depths[r.nUse-1]):String(Math.round(r.depths[0]))):"-","ft below ground"]];
+  const bw=(W-2*M-18)/4; kp.forEach((k,i)=>{const x=M+i*(bw+6);doc.setDrawColor(...line);doc.setLineWidth(.8);doc.roundedRect(x,y,bw,58,4,4,"S");doc.setFont("helvetica","bold");doc.setFontSize(24);doc.setTextColor(...ink);doc.text(T(k[0]),x+10,y+32);doc.setFont("helvetica","normal");doc.setFontSize(8.5);doc.setTextColor(...mut);doc.text(T(k[1]),x+10,y+48);});
+  y+=78;
+  h2("Project");
+  kvTable([["Well",pm.well],["Utility / owner",pm.util||"-"],["Location",pm.loc||"-"],["Prepared by",pm.by||"-"],["Revision / date",pm.rev+" / "+pm.date]],M,W-2*M,130);
+  h2("Findings");
+  const order={bad:0,warn:1,ok:2,info:3};
+  r.flags.slice().sort((a,b)=>order[a[0]]-order[b[0]]).forEach(f=>{const col={bad:[195,52,43],warn:[176,116,0],ok:[27,134,85],info:acc}[f[0]];
+    doc.setFontSize(9.5);const ls=doc.splitTextToSize(T(f[1]),W-2*M-16);ensure(ls.length*13+6);doc.setFillColor(...col);doc.circle(M+4,y-3,3,"F");doc.setTextColor(...ink);doc.setFont("helvetica","normal");doc.text(ls,M+14,y);y+=ls.length*13+6;});
+  y+=6; ensure(240); h2("Design basis");
+  const hw=(W-2*M-20)/2; ensure(130); const y0=y;
+  kvTable([["Casing ID",v.casingID+" in"],["Column OD",v.columnOD+" in"],["Motor OD",v.motorOD?v.motorOD+" in":"not checked"],["Design flow",fmt(v.q,0)+" gpm"],["Flow from above intake",v.fracAbove+"%"],["Pump curve slope",v.slope+" ft per 100 gpm"],["NPSH required",v.npshr+" ft"],["Elevation / water temp",fmt(v.elev,0)+" ft / "+v.tempF+" F"]],M,hw,112);
+  const y1=y; y=y0;
+  kvTable([["Air source",{cascade:"Falling water",aquifer:"Aquifer air (ponds)",both:"Both sources"}[v.airMode]+(v.airMode!=="cascade"?", "+v.airFrac+"% est.":"")],["Static water level",v.swl+" ft"],["Pumping water level",v.pwl+" ft"],["Drawdown allowance",v.drawAllow+" ft"],["Perforations",v.perfTop+" to "+v.perfBot+" ft"],["Pump intake",v.intake+" ft"],["Bubble rise / SF",v.vb+" ft/s / "+v.slugSF],["Head loss window",v.hMin+" to "+v.hMax+" ft per disc"],["Max flow loss",v.maxFlowLoss+"%"]],M+hw+20,hw,112);
+  y=Math.max(y,y1);
+
+  // page 2 drawing
+  doc.addPage(); header("Disc drawing and fabrication");
+  const A=assembly(r), Rc=v.casingID/2, box=W-2*M-250, sc=box/(2*Rc), cx=W/2, cy=y+22+box/2, P=p=>[cx+p[0]*sc,cy-p[1]*sc];
+  const fillPoly=(pts,fill,stroke)=>{const tp=tess(pts,0.04).map(P), d=[];for(let i=1;i<tp.length;i++) d.push([tp[i][0]-tp[i-1][0],tp[i][1]-tp[i-1][1]]);
+    if(fill) doc.setFillColor(...fill); if(stroke){doc.setDrawColor(...stroke);doc.setLineWidth(.6);} doc.lines(d,tp[0][0],tp[0][1],[1,1],fill&&stroke?"FD":fill?"F":"S",true);};
+  doc.setDrawColor(150,160,172);doc.setLineWidth(.6);doc.setLineDashPattern([4,3],0);doc.circle(cx,cy,Rc*sc,"S");doc.setLineDashPattern([],0);
+  A.segs.forEach(p=>fillPoly(p,[43,56,70]));
+  doc.setFillColor(255,255,255); A.holes.forEach(h=>{const q=P(h);doc.circle(q[0],q[1],r.d/2*sc,"F");});
+  A.ports.forEach(p=>{const q=P(p);doc.circle(q[0],q[1],G_.rp*sc,"F");});
+  r.hubs.forEach(h=>fillPoly(h.pts,[174,185,196],[86,103,122]));
+  doc.setFillColor(86,103,122); A.bolts.forEach(b=>{const q=P(b);doc.circle(q[0],q[1],v.boltDia/2*sc,"F");});
+  if(v.portOcc>0){doc.setFillColor(150,162,174);A.ports.forEach(p=>{const q=P(p);doc.circle(q[0],q[1],v.portOcc/2*sc,"F");});}
+  doc.setDrawColor(...acc);doc.setLineWidth(.8);const yd=cy-Rc*sc-12;doc.line(cx-G_.Ro*sc,yd,cx+G_.Ro*sc,yd);doc.line(cx-G_.Ro*sc,yd-4,cx-G_.Ro*sc,yd+4);doc.line(cx+G_.Ro*sc,yd-4,cx+G_.Ro*sc,yd+4);
+  doc.setFontSize(9);doc.setTextColor(...ink);doc.text("Disc OD "+(2*G_.Ro).toFixed(3)+" in",cx,yd-5,{align:"center"});
+  doc.text("Bore "+(2*G_.Rs).toFixed(3)+" in",cx,cy-2,{align:"center"});doc.text("Hub OD "+(2*G_.Rh).toFixed(3)+" in",cx,cy+10,{align:"center"});
+  doc.setTextColor(...mut);doc.setFontSize(8.5);doc.text(T("Dashed: casing ID "+v.casingID+" in (reference). Not to scale on paper; cut from the DXF files."),cx,cy+Rc*sc+14,{align:"center"});
+  y=cy+Rc*sc+34;
+  h2("Fabrication");
+  kvTable([["Plate",frac(v.thick)+" in thick, "+G_.nseg+" segments, "+frac(v.jointGap)+" in joints"],["Disc OD / bore / hub OD",(2*G_.Ro).toFixed(3)+" / "+(2*G_.Rs).toFixed(3)+" / "+(2*G_.Rh).toFixed(3)+" in"],["Holes",frac(r.d)+" in on "+frac(r.pitch)+" in 60 deg pitch, ligament "+frac(Math.round(r.lig*32)/32)+" in"],["Holes per segment / disc",r.lay.std.length+(G_.nP?" (port segment "+r.lay.port.length+")":"")+" / "+r.N],["Ports",G_.nP?G_.nP+" x "+frac(v.portD)+" in around "+frac(v.portOcc)+" in tube":"none"],["Open area",fmt(r.phi*100,1)+"% of annulus ("+fmt(r.Aopen,1)+" in2): holes "+fmt(r.Aholes,1)+", gap "+fmt(r.Agap,1)+", ports "+fmt(r.portFree,1)+", joints "+fmt(r.Ajoint,1)],["Cut length / steel per disc",fmt(r.cutDisc/12,1)+" ft / about "+fmt(r.wDisc,0)+" lb"]],M,W-2*M,150);
+  h2("Parts for this well");
+  gridTable(["Part","Qty","Notes"],parts(r),[230,50,240]);
+
+  // page 3 placement + hydraulics
+  doc.addPage(); header("Placement and hydraulics");
+  const et=y, eb=H-80, maxD=Math.max(v.intake+40,Math.min(v.perfBot,v.intake+110)), Yd=d=>et+(d/maxD)*(eb-et), ecx=M+34, ecw=56, exl=ecx-ecw/2, exr=ecx+ecw/2, colw=ecw*v.columnOD/v.casingID;
+  doc.setFillColor(207,229,246);doc.rect(exl,Yd(v.pwl),ecw,eb-Yd(v.pwl),"F");
+  doc.setFillColor(150,165,180);doc.rect(exl-3,et,3,eb-et,"F");doc.rect(exr,et,3,eb-et,"F");
+  doc.setFillColor(62,147,207);for(let d=Math.min(v.perfTop,maxD);d<Math.min(v.perfBot,maxD);d+=Math.max(3,maxD/80)){doc.rect(exl-3,Yd(d),3,1,"F");doc.rect(exr,Yd(d),3,1,"F");}
+  doc.setFillColor(163,176,189);doc.rect(ecx-colw/2,et,colw,Yd(v.intake-18)-et,"F");doc.setFillColor(86,103,122);doc.rect(ecx-colw*.62,Yd(v.intake-18),colw*1.24,Yd(v.intake)-Yd(v.intake-18),"F");
+  doc.setFillColor(43,56,70);doc.rect(ecx-colw*.4,Yd(v.intake),colw*.8,Yd(v.intake+22)-Yd(v.intake),"F");
+  doc.setFillColor(...acc);r.depths.forEach(d=>{doc.rect(exl,Yd(d)-2,ecx-colw/2-exl,4,"F");doc.rect(ecx+colw/2,Yd(d)-2,exr-ecx-colw/2,4,"F");});
+  const labs=[[v.swl,"SWL "+v.swl],[v.pwl,"PWL "+v.pwl],[r.pwlD,"Design "+r.pwlD],[v.intake,"Intake "+v.intake]].concat(r.depths.map((d,i)=>[d,"Disc "+(i+1)+" @ "+Math.round(d)])).sort((a,b)=>a[0]-b[0]);
+  let ly=-1e9; doc.setFontSize(8);labs.forEach(l=>{const yy=Math.max(Yd(l[0])+3,ly+10);ly=yy;doc.setTextColor(...(l[1].startsWith("Disc")?acc:ink));doc.text(T(l[1]+" ft"),exr+8,yy);});
+  doc.setTextColor(...mut);doc.setFontSize(7.5);doc.text("Depth to scale",exl-4,eb+14);
+  const sx=M+170, sw2=W-M-sx;
+  doc.setFont("helvetica","bold");doc.setFontSize(14);doc.setTextColor(...ink);doc.text("Disc placement",sx,y);y+=18;
+  doc.setFontSize(9);doc.setFont("helvetica","normal");
+  if(r.depths.length) r.depths.forEach((d,i)=>{doc.text(T("Disc "+(i+1)+": "+fmt(d,0)+" ft below ground ("+fmt(d-v.pwl,0)+" ft under today's pumping level)"),sx,y);y+=13;});
+  else {doc.text("No discs placed.",sx,y);y+=13;}
+  y+=10; doc.setFont("helvetica","bold");doc.setFontSize(14);doc.text("Hydraulics",sx,y);y+=16;
+  kvTable([["Annular velocity, avg / core",fmt(r.Va,2)+" / "+fmt(r.Vc,2)+" ft/s"],["Small-bubble rise",fmt(v.vb,2)+" ft/s"],["Merged gas rise used",fmt(r.UtA,2)+" ft/s"+(r.riseCapped?" (capped)":"")],["Hole velocity",fmt(r.Vhole,2)+" ft/s"],["Cascade design / today",fmt(r.hc,0)+" / "+fmt(r.hcNow,0)+" ft"],["Head loss per disc",fmt(r.hDisc,3)+" ft (zeta "+fmt(r.z,2)+")"],["Stack head loss",fmt(r.hTot,3)+" ft"],["Flow change","-"+fmt(r.dQ,1)+" gpm (-"+fmt(r.dQpct,2)+"%)"],["NPSH avail / req",fmt(r.npsha,1)+" / "+v.npshr+" ft"],["Max flow, clean",fmt(r.Qclean,0)+" gpm"],["Max flow, merging",fmt(r.Qmax,0)+" gpm"],["Motor cooling",isFinite(r.Vmotor)?fmt(r.Vmotor,2)+" ft/s":"not checked"]],sx,sw2,120);
+  doc.setFont("helvetica","bold");doc.setFontSize(11);doc.setTextColor(...ink);doc.text("Velocity race",sx,y+4);y+=14;
+  const vr=[["Water down, core",r.Vc,lvlCol],["Small bubbles rise",v.vb,acc],["Merged gas rises",r.UtA,acc]], vmax=Math.max(...vr.map(x=>x[1]))*1.05;
+  vr.forEach(x=>{doc.setFont("helvetica","normal");doc.setFontSize(8.5);doc.setTextColor(...ink);doc.text(T(x[0]),sx,y+8);doc.setFillColor(238,242,246);doc.rect(sx+100,y,sw2-150,10,"F");doc.setFillColor(...x[2]);doc.rect(sx+100,y,(sw2-150)*x[1]/vmax,10,"F");doc.text(fmt(x[1],2)+" ft/s",W-M,y+8,{align:"right"});y+=16;});
+
+  // page 4 risk + alternatives
+  doc.addPage(); header("Risk and alternatives");
+  const mc=monteCarlo(r), c=mc.c, Np=mc.N, pc=x=>fmt(100*x/Np,1)+"%";
+  h2("Monte Carlo risk, "+fmt(Np,0)+" runs");
+  para("Pumping level +/-"+v.uPwl+" ft, flow +/-"+v.uQ+"%, share of flow from above +/-"+v.uFrac+" points, bubble rise +/-"+v.uVb+" ft/s and pump curve slope +/-"+v.uSlope+"%, each from a triangular distribution centred on the design value. Seeded and repeatable.",9,mut);
+  kvTable([["Design holds",pc(c.holds)+" of runs"],["Water outruns merged gas",pc(c.C)],["Depends on bubble merging",pc(c.B)],["Flow loss over limit",pc(c.loss)],["Top disc above water",pc(c.dry)],["Fewer discs than the rule needs",pc(c.short)],["NPSH margin under minimum",pc(c.npsh)],["Annular velocity, 90% range",fmt(mc.p.va5,2)+" to "+fmt(mc.p.va95,2)+" ft/s"],["Flow loss, median / 95th percentile",fmt(mc.p.l50,2)+"% / "+fmt(mc.p.l95,2)+"%"]],M,W-2*M,200);
+  h2("What drives flow loss");
+  const tn=tornado(r,"loss"); gridTable(["Input","Low end","High end","Flow loss range"],tn.rows.map(x=>[x.name,x.loL,x.hiL,fmt(Math.min(x.lo,x.hi),2)+"% to "+fmt(Math.max(x.lo,x.hi),2)+"%"]),[170,100,100,150]);
+  h2("Optimizer: top alternatives");
+  const op=optimize(r,prio);
+  if(op.feas.length) gridTable(["Rank","Hole","Pitch","Holes","Open","Loss/disc","Flow cost","Cut/disc"],op.feas.slice(0,6).map((x,i)=>[i+1,frac(x.d)+" in",frac(x.p)+" in",x.N,fmt(x.phi*100,1)+"%",fmt(x.h,3)+" ft",fmt(x.dQpct,2)+"%",fmt(x.cut/12,0)+" ft"]),[38,62,62,56,56,74,70,70]);
+  else para("No candidate passes every rule for this well with the current limits.",9.5);
+
+  // page 5 method, AI notes, sign-off
+  doc.addPage(); header("Method, limits and review");
+  h2("Method");
+  ["Annular velocity = flow entering above the intake / (pi/4 x (casing ID^2 - column OD^2)).","Small-bubble rise is a user value (default 0.75 ft/s, 2-5 mm bubbles, Clift, Grace & Weber). Merged gas rise in an annulus follows Kelessidis & Dukler, U = (0.32 + 0.016 Dc/Dt) sqrt(g Dt), times a safety factor, capped at "+v.capRise+" ft/s for cap bubbles in large casings.","Bubbles ride the faster core of the flow: core velocity = "+v.c0+" x average annular velocity (drift-flux distribution coefficient). All regime checks use the core velocity.","Disc head loss uses the thin perforated plate coefficient zeta = (0.707 sqrt(1-phi) + 1 - phi)^2 / phi^2 on annular velocity (Idelchik). Open area counts holes, ports, casing gap, bore gap and joint slots. For plates thicker than the hole the loss is overstated: conservative for flow loss, optimistic for the minimum-loss check.","NPSH available = atmospheric head at elevation + submergence - vapor pressure - disc losses; intake and screen losses not included. Flow change = stack loss / pump curve slope at duty.","Disc count, falling water: one disc per "+v.ftPerStage+" ft of exposed perforation above the design pumping level, plus one coalescing disc when the core velocity exceeds small-bubble rise (minimum two). Aquifer air: one disc per "+v.ftPerStage+" ft of wetted screen above the intake (minimum one, or two when the core velocity exceeds bubble rise). Both: the larger count.","Placement: falling water starts below the design pumping level at the set spacing; aquifer air builds up from the intake clearance; both spreads the discs evenly over the zone. Risk runs are centred on the design pumping level."].forEach(t=>para("- "+t,9));
+  h2("What this report does not know");
+  ["Actual bubble sizes, air fraction, and how much of the casing wall the cascade covers.","Whether gas collects under a disc and releases in slugs. Verify with motor amps and discharge observations after install.","Casing condition (out-of-round, weld beads, scale, liners). Run a drift check before fabrication.","Fasteners, coupling clearance, centralizers and how the stack is supported on the column."].forEach(t=>para("- "+t,9));
+  if(aiLog.length){h2("Design engineer notes (AI-generated; review before relying on them)");
+    aiLog.forEach(x=>{para("Q: "+x.q,9,mut);x.a.replace(/\*\*/g,"").split("\n").forEach(l=>{if(l.trim()) para(l.replace(/^#+\s*/,""),8.8); else y+=3;});y+=6;});}
+  ensure(150); h2("Review and approval");
+  [["Prepared by",pm.by],["Reviewed by",""],["Approved by",""]].forEach(([k,val])=>{ensure(36);doc.setFontSize(9);doc.setTextColor(...mut);doc.text(k,M,y+10);doc.setDrawColor(...line);doc.setLineWidth(.6);doc.line(M+90,y+12,M+300,y+12);doc.line(M+330,y+12,W-M,y+12);doc.setTextColor(...ink);if(val) doc.text(T(val),M+94,y+9);doc.setTextColor(...mut);doc.setFontSize(7.5);doc.text("Name / signature",M+90,y+22);doc.text("Date",M+330,y+22);y+=36;});
+  para("This report is a design aid generated from the inputs shown. It is not a stamped engineering document.",8.5,mut);
+  const np=doc.getNumberOfPages(); for(let i=1;i<=np;i++){doc.setPage(i);doc.setFontSize(7.5);doc.setTextColor(...mut);doc.text(T("EAD design workstation  |  "+pm.well+"  |  Rev "+pm.rev),M,H-24);doc.text("Page "+i+" of "+np,W-M,H-24,{align:"right"});}
+  return doc.output("blob");
+}
+
+/* ---------------- buttons ---------------- */
+$("pdfBtn").onclick=async()=>{if(!last||last.err.length){toast("Fix the highlighted inputs first");return;}const b=$("pdfBtn"),lbl=b.querySelector("span");b.disabled=true;lbl.textContent="Building report…";
+  try{const blob=await buildPDF(last);await saveFile("EAD-design-report-"+slug()+".pdf",blob);}catch(e){console.error(e);toast(e&&e.message==="load"?"The PDF library did not load. Check your connection and try again.":"The report could not be built.");}finally{b.disabled=false;lbl.textContent="Design report";}};
+$("cadBtn").onclick=async()=>{if(!last||last.err.length){toast("Fix the highlighted inputs first");return;} if(last.blockCAD){toast(last.blockCAD);return;}try{await saveFile("EAD-CAD-"+slug()+".zip",cadPackage(last));}catch(e){console.error(e);toast("The CAD package could not be built.");}};
+$("menuBtn").onclick=e=>{e.stopPropagation();const p=$("menuPop");p.hidden=!p.hidden;$("menuBtn").setAttribute("aria-expanded",String(!p.hidden));};
+document.addEventListener("click",()=>{$("menuPop").hidden=true;$("menuBtn").setAttribute("aria-expanded","false");});
+$("menuPop").addEventListener("click",async e=>{const a=e.target.dataset.act;if(!a)return;
+  if(a==="copy"){try{await navigator.clipboard.writeText(specText());toast("Spec copied");}catch(err){toast("Copying is blocked in this view");}}
+  if(a==="svg"&&last&&!last.err.length) saveFile("EAD-disc-"+slug()+".svg",new Blob([discSVG(last,{print:true,dims:true})],{type:"image/svg+xml"}));
+  if(a==="json") saveFile("EAD-inputs-"+slug()+".json",new Blob([JSON.stringify(readValues(),null,2)],{type:"application/json"}));
+  if(a==="import") $("importFile").click();
+  if(a==="theme"){const cur=document.documentElement.dataset.theme||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");const nt=cur==="dark"?"light":"dark";document.documentElement.dataset.theme=nt;try{localStorage.setItem("ead-theme",nt)}catch(err){}run();}
+  if(a==="reset"){setValues(DEFAULTS);run();toast("Reset to the example well");}
+});
+$("importFile").onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const o=JSON.parse(await f.text());const clean={};ALL.forEach(fl=>{if(o[fl.id]!=null) clean[fl.id]=o[fl.id];});setValues(Object.assign({},DEFAULTS,clean));run();toast("Inputs imported");}catch(err){toast("That file is not a valid inputs file");}e.target.value="";};
+function specText(){const r=last;if(!r||r.err.length)return "";const L=[],pm=projMeta();
+  L.push("EAD design spec - "+pm.well+" rev "+pm.rev+" - "+pm.date);L.push("Verdict: "+$("headline").textContent+" ("+$("status").textContent.trim()+")");L.push("");
+  document.querySelectorAll("#fabTable tr,#hydTable tr").forEach(tr=>L.push(tr.children[0].textContent+": "+tr.children[1].textContent));
+  L.push("");L.push("Notes:");r.flags.forEach(f=>L.push("- "+f[1]));return L.join("\n");}
+
+/* ---------------- design engineer (Claude) ---------------- */
+let sample=null, history=[], ctl=null; const aiLog=[];
+const aiOut=$("aiOut"), aiNote=$("aiNote");
+function md(t){const lines=esc(t).split("\n");let h="",ul=false;
+  lines.forEach(l=>{l=l.replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>");
+    if(/^\s*[-*] /.test(l)){if(!ul){h+="<ul>";ul=true;}h+="<li>"+l.replace(/^\s*[-*] /,"")+"</li>";return;}
+    if(ul){h+="</ul>";ul=false;} if(/^#{1,4} /.test(l)) h+="<h4>"+l.replace(/^#{1,4} /,"")+"</h4>"; else if(l.trim()) h+="<p>"+l+"</p>";});
+  if(ul) h+="</ul>"; return h;}
+function contextBlock(){
+  const r=last,v=r.v,o=optimize(r,prio),m=monteCarlo(r);
+  const res={verdict:$("headline").textContent,status:$("status").textContent.trim(),regime:{A:"annular velocity below small-bubble rise",B:"coalescence-dependent",C:"beyond merged-gas rise"}[r.regime],
+    discs:r.nUse,discsByRule:r.nRec,discsThatFit:r.nFit,depthsFt:r.depths,holeIn:r.d,pitchIn:+r.pitch.toFixed(4),holesPerDisc:r.N,holesStdSeg:r.lay.std.length,holesPortSeg:r.lay.port.length,ligamentIn:+r.lig.toFixed(3),
+    openAreaPct:+(r.phi*100).toFixed(1),discODIn:+(2*r.Gd.Ro).toFixed(3),boreIn:+(2*r.Gd.Rs).toFixed(3),hubODIn:+(2*r.Gd.Rh).toFixed(3),annularVelAvgFtS:+r.Va.toFixed(3),coreVelFtS:+r.Vc.toFixed(3),c0:r.v.c0,mergedRiseCapped:r.riseCapped,holeVelFtS:+r.Vhole.toFixed(2),
+    mergedGasRiseRaw:+r.Ut.toFixed(2),mergedGasRiseSF:+r.UtA.toFixed(2),cascadeDesignFt:r.hc,cascadeTodayFt:r.hcNow,headLossPerDiscFt:+r.hDisc.toFixed(3),stackLossFt:+r.hTot.toFixed(3),
+    flowLossPct:+r.dQpct.toFixed(2),npshMarginFt:+r.margin.toFixed(1),maxFlowCleanGpm:Math.round(r.Qclean),maxFlowMergingGpm:Math.round(r.Qmax),motorCoolingFtS:isFinite(r.Vmotor)?+r.Vmotor.toFixed(2):null,
+    cutLengthPerDiscFt:+(r.cutDisc/12).toFixed(1),flags:r.flags.map(f=>f[0]+": "+f[1]),
+    monteCarlo:{runs:m.N,holdsPct:+(100*m.c.holds/m.N).toFixed(1),outrunPct:+(100*m.c.C/m.N).toFixed(1),flowLossOverPct:+(100*m.c.loss/m.N).toFixed(1),topDiscDryPct:+(100*m.c.dry/m.N).toFixed(1),shortDiscsPct:+(100*m.c.short/m.N).toFixed(1),npshPct:+(100*m.c.npsh/m.N).toFixed(1)},
+    optimizerTop3:o.feas.slice(0,3).map(c=>({holeIn:c.d,pitchIn:c.p,holes:c.N,openPct:+(c.phi*100).toFixed(1),flowLossPct:+c.dQpct.toFixed(2),cutFt:Math.round(c.cut/12)}))};
+  return "You are an elite downhole hydraulics engineer reviewing an Entrained Air Diffuser (EAD) design for a municipal water well. An EAD is a stack of segmented perforated steel discs clamped around the pump column with a split hub ring, extending to the casing wall above the pump intake. Where water cascades into the well from perforations above the pumping level (common in wells fed by recharge or percolation ponds), the discs break the cascade, spread the downflow over the annulus and make entrained bubbles merge so air separates and rises instead of reaching the pump, with as little loss of pump flow as possible.\n\n"+
+  "Physics to respect: discs cannot reduce the mean downward annular velocity (continuity sets it as flow above intake / annulus area). Be honest when the numbers say discs alone will not work. Separate physics from the tool's editable field rules. Do not invent data; say what should be measured in the field.\n\n"+
+  "Tool method: annular velocity vs small-bubble rise (user value) and Kelessidis-Dukler annular Taylor-bubble rise x safety factor; thin perforated plate loss (Idelchik) on annular velocity with open area = holes+ports+casing gap+joint slots; core velocity Vc = C0 x average annular velocity is compared with rise speeds; merged-gas rise is capped (cap-bubble limit) for large casings; disc count = one stage per 'fall or wetted screen per disc' of exposed perforation above design PWL (falling water) or of wetted screen above the intake (aquifer air), plus one coalescing stage (min 2) if Vc exceeds bubble rise; Monte Carlo with triangular distributions; optimizer over standard holes and pitches with head-loss window, flow-loss limit and ligament >= plate thickness.\n\n"+
+  "INPUTS (US units, depths ft below ground): "+JSON.stringify(v)+"\n\nRESULTS: "+JSON.stringify(res)+"\n\n"+
+  "Write for a water-utility pump professional: plain language, short paragraphs and '-' bullets, **bold** for key numbers, no tables, about 350 words unless asked for more.";
+}
+async function ask(q,fresh){
+  if(!sample) return;
+  if(!last||last.err.length){toast("Fix the highlighted inputs first");return;}
+  if(fresh) history=[];
+  ctl=new AbortController(); const btns=[$("aiAsk"),...document.querySelectorAll(".chip")]; btns.forEach(b=>b.disabled=true); $("aiStop").hidden=false; aiNote.textContent="";
+  const turns=history.concat([{role:"user",content:(history.length?"(Current design data, refreshed)\n":"")+contextBlock()+"\n\nQUESTION: "+q}]);
+  const prior=aiOut.dataset.has?aiOut.innerHTML:"", qh='<div class="q">'+esc(q)+'</div>';
+  aiOut.innerHTML=prior+qh+'<p class="muted">Thinking…</p>';
+  try{
+    const {text,truncated}=await sample(turns,{signal:ctl.signal,cache:false,onText:({text})=>{aiOut.innerHTML=prior+qh+md(text);aiOut.scrollTop=aiOut.scrollHeight;}});
+    aiOut.innerHTML=prior+qh+md(text); aiOut.dataset.has="1";
+    history=turns.concat([{role:"assistant",content:text}]).slice(-6);
+    aiLog.push({q,a:text});
+    aiNote.textContent=truncated?"The answer was cut short. Ask for one part at a time.":"This answer will be included in the design report.";
+  }catch(e){
+    aiOut.innerHTML=prior+qh+(e&&e.text?md(e.text):"");
+    const m={not_granted:"Claude access was declined for this page.",rate_limited:"Too many requests just now. Wait a minute, then ask again.",cancelled:"Stopped."};
+    aiNote.textContent=(e&&m[e.code])||"The answer could not finish"+(e&&e.code?" ("+e.code+")":"")+". Try again.";
+    if(e&&e.code==="not_granted"){$("aiCard").hidden=true;$("aiOff").hidden=false;}
+  }finally{btns.forEach(b=>b.disabled=false);$("aiStop").hidden=true;}
+}
+$("chips").querySelectorAll(".chip").forEach(c=>c.onclick=()=>ask(c.dataset.q,true));
+$("aiAsk").onclick=()=>{const q=$("aiQ").value.trim();if(!q)return;$("aiQ").value="";ask(q,false);};
+$("aiQ").addEventListener("keydown",e=>{if(e.key==="Enter"&&(e.metaKey||e.ctrlKey)){e.preventDefault();$("aiAsk").click();}});
+$("aiStop").onclick=()=>ctl&&ctl.abort();
+$("aiClear").onclick=()=>{history=[];aiLog.length=0;delete aiOut.dataset.has;aiOut.innerHTML='<span class="muted">Pick a question above or ask your own.</span>';aiNote.textContent="";};
+
+(async()=>{
+  const hideAI=()=>{$("aiCard").hidden=true;$("aiOff").hidden=false;const t=document.querySelector('.tab[data-tab="engineer"]');if(t)t.hidden=true;};
+  if(!window.claude||!window.claude.use){hideAI();return;}
+  try{const [s,d]=await Promise.all([claude.use("sample"),claude.use("downloads")]);
+    sample=s; DL=d; if(!sample) hideAI();
+  }catch(e){hideAI();}
+})();
+
+run();
+window.__ead={get last(){return last},cadPackage,buildPDF,optimize,monteCarlo,compute,design,readValues};
+})();
+</script>
+</body>
+</html>
