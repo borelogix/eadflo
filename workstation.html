@@ -17,7 +17,7 @@
   --ink:#0E2236; --ink2:#2F4A64; --muted:#5A7189;
   --accent:#1270D6; --accent2:#0B4F9C; --accent-ink:#FFFFFF; --accent-soft:#DCEBFB;
   --water:#CFE5F6; --water2:#A9D1EE; --water-line:#3E93CF;
-  --steel:#A3B0BD; --steel-dark:#56677A; --plate:#2B3846; --hole:#EEF2F6;
+  --steel:#A3B0BD; --steel-dark:#56677A; --plate:#1F2124; --hole:#EEF2F6;
   --ok:#1B8655; --warn:#B07400; --bad:#C3342B;
   --ok-bg:#E2F3EA; --warn-bg:#FCF1DA; --bad-bg:#FBE5E3;
   --shadow:0 1px 0 rgba(14,34,54,.04),0 8px 24px -16px rgba(14,34,54,.35);
@@ -28,7 +28,7 @@
     --ink:#E4EDF6; --ink2:#B9CCDE; --muted:#8AA3BC;
     --accent:#4AA8FF; --accent2:#8CC8FF; --accent-ink:#04111E; --accent-soft:#143A5E;
     --water:#123553; --water2:#1A4A72; --water-line:#4C9FDA;
-    --steel:#9AA9B8; --steel-dark:#5F7184; --plate:#2F3E4E; --hole:#0A1726;
+    --steel:#9AA9B8; --steel-dark:#5F7184; --plate:#2A2D31; --hole:#0A1726;
     --ok:#45C98B; --warn:#F2B544; --bad:#FF6F66;
     --ok-bg:#103626; --warn-bg:#382C10; --bad-bg:#3D1A1C;
     --shadow:0 1px 0 rgba(0,0,0,.2),0 10px 30px -18px rgba(0,0,0,.8);
@@ -39,7 +39,7 @@
   --ink:#E4EDF6; --ink2:#B9CCDE; --muted:#8AA3BC;
   --accent:#4AA8FF; --accent2:#8CC8FF; --accent-ink:#04111E; --accent-soft:#143A5E;
   --water:#123553; --water2:#1A4A72; --water-line:#4C9FDA;
-  --steel:#9AA9B8; --steel-dark:#5F7184; --plate:#2F3E4E; --hole:#0A1726;
+  --steel:#9AA9B8; --steel-dark:#5F7184; --plate:#2A2D31; --hole:#0A1726;
   --ok:#45C98B; --warn:#F2B544; --bad:#FF6F66;
   --ok-bg:#103626; --warn-bg:#382C10; --bad-bg:#3D1A1C;
   --shadow:0 1px 0 rgba(0,0,0,.2),0 10px 30px -18px rgba(0,0,0,.8);
@@ -249,7 +249,7 @@ th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertic
 .vp-legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;font-size:12px;color:var(--vmut)}
 .vp-legend span{display:inline-flex;align-items:center;gap:6px}
 .vp-legend i{width:10px;height:10px;border-radius:50%;display:inline-block}
-.lg-w{background:#5CC8FF;box-shadow:0 0 8px #5CC8FF}.lg-a{border-radius:3px!important;background:repeating-radial-gradient(circle at 30% 30%,#2a6aa8 0 2px,#16446f 2px 4px)}.lg-b{background:radial-gradient(circle at 35% 30%,#fff,#9fd6ff 60%,#3a7db8)}.lg-m{background:radial-gradient(circle at 35% 30%,#fff3d6,#FFB547 60%,#b86b00);box-shadow:0 0 8px #FFB547}.lg-d{border-radius:2px!important;height:5px!important;width:14px!important;background:linear-gradient(#DDF3FF,#3E7DB5);box-shadow:0 0 8px #5CC8FF}
+.lg-w{background:#5CC8FF;box-shadow:0 0 8px #5CC8FF}.lg-a{border-radius:3px!important;background:repeating-radial-gradient(circle at 30% 30%,#2a6aa8 0 2px,#16446f 2px 4px)}.lg-b{background:radial-gradient(circle at 35% 30%,#fff,#9fd6ff 60%,#3a7db8)}.lg-m{background:radial-gradient(circle at 35% 30%,#fff3d6,#FFB547 60%,#b86b00);box-shadow:0 0 8px #FFB547}.lg-d{border-radius:2px!important;height:6px!important;width:16px!important;background:linear-gradient(90deg,#2A2D31 0 70%,#C9D2DA 70% 100%);box-shadow:0 0 0 1px rgba(92,200,255,.55)}
 .disc-stage{position:relative;flex:1;min-height:400px;display:grid;place-items:center;border-radius:12px;overflow:hidden;
   background:radial-gradient(62% 56% at 50% 46%,#173352 0%,#0A1828 62%,#050D17 100%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
 .disc-stage.blueprint{background-color:#0B3A6E;background-image:linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:100px 100px,100px 100px,20px 20px,20px 20px}
@@ -327,10 +327,10 @@ th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertic
             <div class="hud hud-tl" id="hudTL"></div>
           </div>
           <div class="hud readout" id="hudBL"></div>
-          <div class="vp-legend"><span><i class="lg-w"></i>Water</span><span><i class="lg-b"></i>Small bubble</span><span><i class="lg-m"></i>Merged gas</span><span><i class="lg-a"></i>Saturated formation</span><span><i class="lg-d"></i>Disc</span></div>
+          <div class="vp-legend"><span><i class="lg-w"></i>Water</span><span><i class="lg-b"></i>Small bubble</span><span><i class="lg-m"></i>Merged gas</span><span><i class="lg-a"></i>Saturated formation</span><span><i class="lg-d"></i>Rubber disc + steel ring</span></div>
         </div>
         <div class="vp-cell vp-disc">
-          <div class="vp-h"><h3>Disc</h3><div class="vseg" id="discMode"><button type="button" data-m="render" aria-pressed="true">Steel</button><button type="button" data-m="orbit" aria-pressed="false">3D</button><button type="button" data-m="blueprint" aria-pressed="false">Blueprint</button></div></div>
+          <div class="vp-h"><h3>Disc</h3><div class="vseg" id="discMode"><button type="button" data-m="render" aria-pressed="true">Rendered</button><button type="button" data-m="orbit" aria-pressed="false">3D</button><button type="button" data-m="blueprint" aria-pressed="false">Blueprint</button></div></div>
           <div class="disc-stage" id="discStage"></div>
           <div class="vp-cap" id="discCaption"></div>
         </div>
@@ -357,7 +357,7 @@ th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertic
     <section class="panel" data-panel="optimize" hidden>
       <div class="card">
         <h2>Design optimizer</h2>
-        <p class="lede">Searches every standard hole size and pitch for this well, keeps only designs that pass every rule (head-loss window per disc, flow-loss limit, ligament and hole at least the plate thickness), then ranks them. Pitches are rounded up to 1/16 in so they can be cut as drawn.</p>
+        <p class="lede">Searches every standard hole size and pitch for this well, keeps only designs that pass every rule (head-loss window per disc, flow-loss limit, ligament and hole at least the rubber thickness), then ranks them. Pitches are rounded up to 1/16 in so they can be cut as drawn.</p>
         <div class="toolbar"><span class="muted" style="font-size:13.5px">Rank for</span>
           <div class="seg" id="prioSeg">
             <button type="button" data-p="balanced" aria-pressed="true">Balanced</button>
@@ -368,7 +368,7 @@ th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertic
         </div>
         <div id="optSummary" class="tiles" style="margin-bottom:14px"></div>
         <div class="svgbox" id="paretoSvg"></div>
-        <p class="caption">Each dot is a candidate disc, sized by hole diameter. Blue dots pass every rule. Outlined dots form the trade-off frontier: you cannot cut less steel without losing more flow. The green ring is the top-ranked design. Hover a dot for details.</p>
+        <p class="caption">Each dot is a candidate disc, sized by hole diameter. Blue dots pass every rule. Outlined dots form the trade-off frontier: you cannot cut less rubber without losing more flow. The green ring is the top-ranked design. Hover a dot for details.</p>
       </div>
       <div class="card">
         <h2>Ranked designs</h2>
@@ -537,11 +537,12 @@ const GROUPS=[
   ]},
   {key:"build",title:"Disc build",open:false,fields:[
     {id:"segments",label:"Segments per disc (even)",u:"pcs",def:8,step:2,min:2,max:16},
-    {id:"thick",label:"Plate thickness",u:"in",def:0.375,step:0.0625,min:0.0625},
+    {id:"thick",label:"Rubber disc thickness",u:"in",def:0.375,step:0.0625,min:0.0625},
     {id:"gap",label:"Clearance to casing (radial)",u:"in",def:0.25,step:0.0625,min:0},
     {id:"jointGap",label:"Gap between segments",u:"in",def:0.125,step:0.0625,min:0},
     {id:"boreClear",label:"Bore clearance on column",u:"in",def:0.0625,step:0.03125,min:0},
-    {id:"hubWidth",label:"Hub ring width (radial)",u:"in",def:1.5,step:0.125,min:0.5,max:8},
+    {id:"hubWidth",label:"Steel hub ring width (radial)",u:"in",def:1.5,step:0.125,min:0.5,max:8},
+    {id:"hubThick",label:"Steel hub ring thickness",u:"in",def:0.25,step:0.0625,min:0.0625,max:2},
     {id:"boltsPerSeg",label:"Hub bolts per segment",u:"pcs",def:1,step:1,min:0,max:2},
     {id:"boltDia",label:"Bolt hole diameter",u:"in",def:0.4375,step:0.0625,min:0.125},
     {id:"nPorts",label:"Pass-through ports",u:"pcs",def:2,step:1,min:0,max:4},
@@ -738,7 +739,7 @@ function compute(v){
   need(v.perfTop<v.intake,"perfTop","All perforations are at or below the pump intake, so no water flows down past discs placed above it. Discs cannot treat this well; consider a shroud or a different pump setting.");
   need(v.columnOD<v.casingID-1,"columnOD","Column OD must be at least 1 in smaller than the casing ID.");
   const Gm=geom(v);
-  need(Gm.Rh<Gm.Ro-1,"hubWidth","The hub ring leaves less than 1 in of perforated plate. Narrow the hub or check the casing ID.");
+  need(Gm.Rh<Gm.Ro-1,"hubWidth","The hub ring leaves less than 1 in of perforated rubber. Narrow the hub or check the casing ID.");
   need(v.pwl>=v.swl,"pwl","Pumping level should be at or below the static level.");
   const pwlD=v.pwl+v.drawAllow;
   need(v.intake>pwlD,"intake","Pump intake must be below the design pumping level ("+fmt(pwlD,0)+" ft).");
@@ -798,7 +799,10 @@ function compute(v){
   const segOut=segmentOutline(Gd), hubs=hubPieces(Gd);
   const fixedCut=Gd.nseg*polyLen(segOut)+Gd.nP*Math.PI*v.portD+hubs.reduce((s,h)=>s+polyLen(h.pts),0)+2*((Gd.nseg-1)*Gd.boltsL.length+Gd.boltsP.length)*Math.PI*v.boltDia;
   const cutDisc=fixedCut+N*Math.PI*d;
-  const wDisc=(Math.PI*(Gd.Ro**2-Gd.Rs**2)-Aholes-portFree-Ajoint+Math.PI*(Gd.Rh**2-Gd.Rs**2))*v.thick*0.2836;
+  const RUBBER_LB_IN3=0.047, STEEL_LB_IN3=0.2836; // potable-water-grade rubber, SG about 1.3
+  const wRubber=Math.max(0,Math.PI*(Gd.Ro**2-Gd.Rs**2)-Aholes-portFree-Ajoint)*v.thick*RUBBER_LB_IN3;
+  const wHub=Math.max(0,Math.PI*(Gd.Rh**2-Gd.Rs**2)-Gd.boltsL.length*Math.PI*(v.boltDia/2)**2)*v.hubThick*STEEL_LB_IN3;
+  const wDisc=wRubber+wHub;
 
   if(Gd.nP){const p=Gd.portsL[0], a=Math.abs(Math.atan2(p[1],p[0])), dj=Gd.Rh*Math.sin(Gd.half-a)-Gd.jg/2;
     if(dj<Gd.rp+0.125) bad("The ports run into the segment joints. Use fewer or smaller ports, a narrower web between them, fewer segments or a wider hub.");}
@@ -809,9 +813,9 @@ function compute(v){
   else if(Gd.nP&&Gd.boltsL.length&&Gd.boltsP.some((b,i)=>!Gd.boltsL[i]||Math.hypot(b[0]-Gd.boltsL[i][0],b[1]-Gd.boltsL[i][1])>1e-6)) info("In the port segment the hub bolt is moved off the centreline to clear the port. The drawings and cut files show it there.");
   if(v.fixedPitch>0&&choice.sp.clamped) warn("A "+frac(v.fixedPitch)+'" pitch would make holes touch, so the drawings use '+frac(pitch)+'".');
   else if(v.fixedPitch>0&&v.fixedPitch<v.ligament*d-1e-6) warn("Your "+frac(v.fixedPitch)+'" pitch is '+fmt(v.fixedPitch/d,2)+"× the hole, under your "+v.ligament+"× minimum.");
-  if(Gd.boltsL.length&&v.hubWidth<v.boltDia+0.5) warn("The hub ring is narrow for the bolt holes (under 1/4 in of steel each side).");
-  if(lig<v.thick-1e-6) warn("The ligament between holes ("+frac(Math.round(lig*32)/32)+'") is thinner than the plate. Plasma and punch cutting need ligament at least the plate thickness.');
-  if(d<v.thick-1e-6) warn("Hole diameter is smaller than the plate thickness, which is hard to punch or plasma cut cleanly.");
+  if(Gd.boltsL.length&&v.hubWidth<v.boltDia+0.5) warn("The hub ring is narrow for the bolt holes (under 1/4 in of steel ring each side).");
+  if(lig<v.thick-1e-6) warn("The ligament between holes ("+frac(Math.round(lig*32)/32)+'") is thinner than the rubber. Thin rubber ligaments flex and tear in service; keep the ligament at least the rubber thickness.');
+  if(d<v.thick-1e-6) warn("Hole diameter is smaller than the rubber thickness. Small holes in thick rubber cut with a tapered wall and foul sooner; keep the hole at least the rubber thickness.");
 
   const noSource=mode==="cascade"&&hc===0;
   if(riseCapped&&!noSource) info("Merged-gas rise is capped at "+fmt(v.capRise,2)+" ft/s. The slug-rise formula gives "+fmt(UtSF,2)+" ft/s here, but it was fitted on small annuli; in a "+fmt(v.casingID,0)+" in casing large bubbles break into cap bubbles that rise slower.");
@@ -852,7 +856,7 @@ function compute(v){
   const level=(regime==="C"&&!noSource)||flags.some(f=>f[0]==="bad")?"bad":(flags.some(f=>f[0]==="warn")?"warn":"ok");
   return {blockCAD,Vc,UtSF,riseCapped,Abore,mode,cascOn,aqOn,scr,wetTop,treatedShare,airCfm,airTreatedPct,v,err:[],flags,level,regime,Q,Qa,Qb,Aann,Aann_in,Va,Ut,UtA,hc,hcNow,Vj,pwlD,Qclean,Qmax,
     Agap,portFree,Ajoint,phiLoss,phiReq,d,N,lay,pitch,lig,Aholes,Aopen,phi,Vhole,z,hDisc,hTot,dQ,dQpct,Hv,Hatm,npsha,margin,Vmotor,
-    nRec,nFit,nUse,depths,zoneTop,zoneBot,fits,Gd,segOut,hubs,fixedCut,cutDisc,wDisc,ctx};
+    nRec,nFit,nUse,depths,zoneTop,zoneBot,fits,Gd,segOut,hubs,fixedCut,cutDisc,wDisc,wRubber,wHub,ctx};
 }
 
 /* ---------------- optimizer ---------------- */
@@ -882,7 +886,7 @@ function optimize(r,pr){
     const Aopen=lay.N*Math.PI/4*d*d+r.Agap+r.portFree+r.Ajoint+r.Abore, phi=Aopen/r.Aann_in, h=zeta(phi)*r.Va*r.Va/(2*G);
     const dQpct=nUse*h/v.slope*100/v.q*100, lig=p-d, cut=r.fixedCut+lay.N*Math.PI*d, why=[];
     if(h>v.hMax) why.push("head loss over max"); if(h<v.hMin) why.push("head loss under min");
-    if(dQpct>v.maxFlowLoss) why.push("flow loss over limit"); if(lig<v.thick-1e-6) why.push("ligament thinner than plate");
+    if(dQpct>v.maxFlowLoss) why.push("flow loss over limit"); if(lig<v.thick-1e-6) why.push("ligament thinner than rubber");
     out.push({d,p,N:lay.N,phi,h,dQpct,lig,cut,ok:!why.length,why,current:out.length===0});
   }
   const feas=out.filter(c=>c.ok);
@@ -951,7 +955,7 @@ function renderVerdict(r){
   const pm=projMeta(); $("projLine").textContent=pm.well+(pm.util?" · "+pm.util:"")+" · rev "+pm.rev;
   $("sum_well").textContent=fmt(r.v.casingID,2)+'" × '+fmt(r.v.columnOD,3)+'"';
   $("sum_flow").textContent=fmt(r.v.q,0)+" gpm";
-  $("sum_build").textContent=r.Gd.nseg+" seg · "+frac(r.v.thick)+'" plate';
+  $("sum_build").textContent=r.Gd.nseg+" seg · "+frac(r.v.thick)+'" rubber';
   $("sum_place").textContent=r.nUse+" disc"+(r.nUse!==1?"s":"");
   return true;
 }
@@ -976,7 +980,8 @@ function renderTables(r){
     ["Disc OD",fmt(2*G_.Ro,3)+' in ('+frac(v.gap)+'" radial clearance)'],
     ["Bore",fmt(2*G_.Rs,3)+" in on "+fmt(v.columnOD,3)+" in column"],
     ["Hub ring",fmt(2*G_.Rh,3)+" in OD, split at two segment joints"],
-    ["Plate",frac(v.thick)+'" thick, '+G_.nseg+" segments, "+frac(v.jointGap)+'" joints'],
+    ["Rubber disc",frac(v.thick)+'" potable-water-grade rubber, '+G_.nseg+" segments, "+frac(v.jointGap)+'" joints'],
+    ["Steel hub ring",frac(v.hubThick)+'" thick × '+frac(v.hubWidth)+'" wide, two halves, bolted and tack-welded to the column'],
     ["Holes",frac(r.d)+'" on a '+frac(r.pitch)+'" 60° triangular pitch, ligament '+frac(Math.round(r.lig*32)/32)+'"'],
     ["Holes per segment",r.lay.std.length+(G_.nP?" (port segment "+r.lay.port.length+")":"")],
     ["Holes per disc",String(r.N)],
@@ -984,7 +989,7 @@ function renderTables(r){
     ["Open area",fmt(r.phi*100,1)+"% of annulus ("+fmt(r.Aopen,1)+" in²)"],
     ["Open area breakdown","holes "+fmt(r.Aholes,1)+", casing gap "+fmt(r.Agap,1)+", bore gap "+fmt(r.Abore,1)+", ports "+fmt(r.portFree,1)+", joints "+fmt(r.Ajoint,1)+" in²"],
     ["Cut length per disc",fmt(r.cutDisc/12,1)+" ft"],
-    ["Steel per disc, approx.",fmt(r.wDisc,0)+" lb"],
+    ["Weight per disc, approx.",fmt(r.wRubber,1)+" lb rubber + "+fmt(r.wHub,1)+" lb steel ring"],
   ]);
   $("partsTable").innerHTML='<thead><tr><th>Part</th><th class="r">Qty</th><th>Notes</th></tr></thead><tbody>'+parts(r).map(p=>'<tr><td>'+esc(p[0])+'</td><td class="r">'+p[1]+'</td><td>'+esc(p[2])+'</td></tr>').join("")+'</tbody>';
   $("hydTable").innerHTML=kv([
@@ -1027,7 +1032,7 @@ function wellSVG(r){
    '<linearGradient id="ws-water" gradientUnits="userSpaceOnUse" x1="0" y1="'+yP+'" x2="0" y2="'+bot+'"><stop offset="0" stop-color="#2A8AD8" stop-opacity=".95"/><stop offset=".18" stop-color="#14558F"/><stop offset="1" stop-color="#051A31"/></linearGradient>'+
    '<linearGradient id="ws-air" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0B1828"/><stop offset="1" stop-color="#0F2236"/></linearGradient>'+
    '<linearGradient id="ws-ray" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9AD8FF" stop-opacity=".22"/><stop offset="1" stop-color="#9AD8FF" stop-opacity="0"/></linearGradient>'+
-   '<linearGradient id="ws-disc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E4F6FF"/><stop offset=".4" stop-color="#6FC2F5"/><stop offset="1" stop-color="#1D5E99"/></linearGradient>'+
+   '<linearGradient id="ws-disc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5A6067"/><stop offset=".3" stop-color="#26292D"/><stop offset="1" stop-color="#0B0C0E"/></linearGradient>'+
    '<linearGradient id="ws-pad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9AA4AE"/><stop offset="1" stop-color="#4E5863"/></linearGradient>'+
    '<linearGradient id="ws-motor" x1="0" x2="1"><stop offset="0" stop-color="#121922"/><stop offset=".4" stop-color="#4A5868"/><stop offset="1" stop-color="#0E141B"/></linearGradient>'+
    '<filter id="ws-glow" x="-50%" y="-300%" width="200%" height="700%"><feGaussianBlur stdDeviation="2.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>'+
@@ -1112,10 +1117,10 @@ function wellSVG(r){
   s+='<line x1="'+(cl-4.5)+'" x2="'+(cl-4.5)+'" y1="'+(gy-12)+'" y2="'+y(v.intake+4)+'" stroke="#070C12" stroke-width="2.2"/>';
   // discs
   r.depths.forEach(d=>{const yy=y(d);
-    s+='<g filter="url(#ws-glow)"><rect x="'+xl+'" y="'+(yy-3)+'" width="'+(cl-xl)+'" height="6" rx="1" fill="url(#ws-disc)"/><rect x="'+cr+'" y="'+(yy-3)+'" width="'+(xr-cr)+'" height="6" rx="1" fill="url(#ws-disc)"/></g>';
-    for(let x=xl+4;x<cl-3;x+=6) s+='<rect x="'+x+'" y="'+(yy-3)+'" width="2" height="6" fill="#06223D" opacity=".75"/>';
-    for(let x=cr+4;x<xr-3;x+=6) s+='<rect x="'+x+'" y="'+(yy-3)+'" width="2" height="6" fill="#06223D" opacity=".75"/>';
-    s+='<rect x="'+(cl-5)+'" y="'+(yy-5.5)+'" width="5" height="11" rx="1" fill="url(#ws-steel)"/><rect x="'+cr+'" y="'+(yy-5.5)+'" width="5" height="11" rx="1" fill="url(#ws-steel)"/>';
+    s+='<g><rect x="'+xl+'" y="'+(yy-3.5)+'" width="'+(cl-xl)+'" height="7" rx="1.5" fill="url(#ws-disc)" stroke="#5CC8FF" stroke-opacity=".55" stroke-width=".8"/><rect x="'+cr+'" y="'+(yy-3.5)+'" width="'+(xr-cr)+'" height="7" rx="1.5" fill="url(#ws-disc)" stroke="#5CC8FF" stroke-opacity=".55" stroke-width=".8"/></g>';
+    for(let x=xl+4;x<cl-3;x+=6) s+='<rect x="'+x+'" y="'+(yy-3)+'" width="2" height="6" fill="#000000" opacity=".8"/>';
+    for(let x=cr+4;x<xr-3;x+=6) s+='<rect x="'+x+'" y="'+(yy-3)+'" width="2" height="6" fill="#000000" opacity=".8"/>';
+    s+='<rect x="'+(cl-7)+'" y="'+(yy-6)+'" width="7" height="12" rx="1" fill="url(#ws-steel)" stroke="#E8EEF3" stroke-opacity=".5" stroke-width=".6"/><rect x="'+cr+'" y="'+(yy-6)+'" width="7" height="12" rx="1" fill="url(#ws-steel)" stroke="#E8EEF3" stroke-opacity=".5" stroke-width=".6"/><circle cx="'+(cl-0.5)+'" cy="'+(yy-6)+'" r="1.3" fill="#D9E0E6"/><circle cx="'+(cr+0.5)+'" cy="'+(yy-6)+'" r="1.3" fill="#D9E0E6"/>';
   });
   // pump bowls, intake screen, motor
   const yI=y(v.intake), bw=Math.min(cw-10,colW*1.55), st=4, sh=(yI-bowlTop)/st;
@@ -1165,7 +1170,7 @@ function assembly(r){
 }
 function discSVG(r,o){
   o=o||{}; const v=r.v,G_=r.Gd,A=assembly(r),Rc=v.casingID/2,pad=o.dims?Rc*0.22:0.9,S=2*(Rc+pad),sw=S/450;
-  const C=o.print?{plate:"#2B3846",hub:"#AEB9C4",hubS:"#56677A",hole:"#FFFFFF",ref:"#7A8A9A",ink:"#0E2236",acc:"#1270D6",bg:"#FFFFFF"}:{plate:"var(--plate)",hub:"var(--steel)",hubS:"var(--steel-dark)",hole:"var(--hole)",ref:"var(--muted)",ink:"var(--ink)",acc:"var(--accent)"};
+  const C=o.print?{plate:"#1F2124",hub:"#AEB9C4",hubS:"#56677A",hole:"#FFFFFF",ref:"#7A8A9A",ink:"#0E2236",acc:"#1270D6",bg:"#FFFFFF"}:{plate:"var(--plate)",hub:"var(--steel)",hubS:"var(--steel-dark)",hole:"var(--hole)",ref:"var(--muted)",ink:"var(--ink)",acc:"var(--accent)"};
   let s='<svg xmlns="http://www.w3.org/2000/svg" viewBox="'+(-Rc-pad)+' '+(-Rc-pad)+' '+S+' '+S+'" role="img" aria-label="Disc face, '+r.N+' holes" font-family="Barlow, Helvetica, Arial, sans-serif">';
   if(o.print) s+='<rect x="'+(-Rc-pad)+'" y="'+(-Rc-pad)+'" width="'+S+'" height="'+S+'" fill="#FFFFFF"/>';
   s+='<circle r="'+Rc+'" fill="none" stroke="'+C.ref+'" stroke-width="'+sw+'" stroke-dasharray="'+(S/110)+' '+(S/170)+'"/>';
@@ -1191,23 +1196,27 @@ function discSteel(r,o){
   if(o.sil){ s+='<g fill="'+o.fill+'">'; A.segs.forEach(p=>s+='<path d="'+polyPathSVG(p)+'"/>'); r.hubs.forEach(h=>s+='<path d="'+polyPathSVG(h.pts)+'" fill="'+(o.hubFill||o.fill)+'"/>'); return s+'</g></svg>'; }
   const id=n=>k+n;
   s+='<defs>'+
-   '<linearGradient id="'+id("pl")+'" gradientUnits="userSpaceOnUse" x1="'+(-R)+'" y1="'+(-R)+'" x2="'+R+'" y2="'+R+'"><stop offset="0" stop-color="#4A5664"/><stop offset=".45" stop-color="#222B35"/><stop offset=".7" stop-color="#323D4A"/><stop offset="1" stop-color="#171E26"/></linearGradient>'+
+   '<linearGradient id="'+id("pl")+'" gradientUnits="userSpaceOnUse" x1="'+(-R)+'" y1="'+(-R)+'" x2="'+R+'" y2="'+R+'"><stop offset="0" stop-color="#3A3D41"/><stop offset=".45" stop-color="#1A1C1F"/><stop offset=".7" stop-color="#25282B"/><stop offset="1" stop-color="#0F1012"/></linearGradient>'+
+   '<filter id="'+id("rb")+'" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="14" numOctaves="1" seed="3" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0.10 0 0 0 -0.04" result="w"/><feComposite in="w" in2="SourceAlpha" operator="in" result="m"/><feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="m"/></feMerge></filter>'+
    '<linearGradient id="'+id("hb")+'" gradientUnits="userSpaceOnUse" x1="'+(-G_.Rh)+'" y1="'+(-G_.Rh)+'" x2="'+G_.Rh+'" y2="'+G_.Rh+'"><stop offset="0" stop-color="#F4F7FA"/><stop offset=".3" stop-color="#AAB6C2"/><stop offset=".52" stop-color="#E9EEF2"/><stop offset=".78" stop-color="#8996A3"/><stop offset="1" stop-color="#CDD5DD"/></linearGradient>'+
    '<radialGradient id="'+id("ho")+'" cx=".5" cy=".38" r=".62"><stop offset="0" stop-color="#121D29"/><stop offset="1" stop-color="#020509"/></radialGradient>'+
    '<radialGradient id="'+id("bt")+'" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".5" stop-color="#A9B4BF"/><stop offset="1" stop-color="#55616D"/></radialGradient>'+
-   '<radialGradient id="'+id("sp")+'" cx=".3" cy=".22" r=".75"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".22"/><stop offset=".5" stop-color="#FFFFFF" stop-opacity=".04"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>'+
+   '<radialGradient id="'+id("sp")+'" cx=".3" cy=".22" r=".75"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".12"/><stop offset=".5" stop-color="#FFFFFF" stop-opacity=".02"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>'+
    '<filter id="'+id("br")+'" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.06 5" numOctaves="2" seed="7" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0.3 0 0 0 -0.13" result="w"/><feComposite in="w" in2="SourceAlpha" operator="in" result="m"/><feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="m"/></feMerge></filter>'+
    '<filter id="'+id("sh")+'" x="-15%" y="-15%" width="130%" height="135%"><feDropShadow dx="0" dy="'+(S*0.012)+'" stdDeviation="'+(S*0.016)+'" flood-color="#000" flood-opacity=".65"/></filter>'+
    '<clipPath id="'+id("cp")+'">'+A.segs.map(p=>'<path d="'+polyPathSVG(p)+'"/>').join("")+r.hubs.map(h=>'<path d="'+polyPathSVG(h.pts)+'"/>').join("")+'</clipPath>'+
   '</defs>';
   if(!o.noShadow) s+='<g filter="url(#'+id("sh")+')">'+A.segs.map(p=>'<path d="'+polyPathSVG(p)+'" fill="#0A1119"/>').join("")+'</g>';
-  s+='<g filter="url(#'+id("br")+')">'+A.segs.map(p=>'<path d="'+polyPathSVG(p)+'" fill="url(#'+id("pl")+')" stroke="#FFFFFF" stroke-opacity=".12" stroke-width="'+(S/700)+'"/>').join("")+'</g>';
+  s+='<g filter="url(#'+id("rb")+')">'+A.segs.map(p=>'<path d="'+polyPathSVG(p)+'" fill="url(#'+id("pl")+')" stroke="#000000" stroke-opacity=".55" stroke-width="'+(S/500)+'" stroke-linejoin="round"/>').join("")+'</g>';
+  s+=A.segs.map(p=>'<path d="'+polyPathSVG(p)+'" fill="none" stroke="#FFFFFF" stroke-opacity=".07" stroke-width="'+(S/900)+'" transform="translate(0,'+(-S/1600)+')"/>').join("");
   const hr=r.d/2, off=hr*0.16;
-  s+='<g fill="#FFFFFF" fill-opacity=".2">'+A.holes.map(h=>'<circle cx="'+h[0].toFixed(3)+'" cy="'+(-h[1]+off).toFixed(3)+'" r="'+hr+'"/>').join("")+'</g>';
+  s+='<g fill="#FFFFFF" fill-opacity=".09">'+A.holes.map(h=>'<circle cx="'+h[0].toFixed(3)+'" cy="'+(-h[1]+off).toFixed(3)+'" r="'+hr+'"/>').join("")+'</g>';
   s+='<g fill="url(#'+id("ho")+')">'+A.holes.map(h=>'<circle cx="'+h[0].toFixed(3)+'" cy="'+(-h[1]).toFixed(3)+'" r="'+hr+'"/>').join("")+'</g>';
   A.ports.forEach(p=>{s+='<circle cx="'+p[0].toFixed(3)+'" cy="'+(-p[1]+G_.rp*0.08).toFixed(3)+'" r="'+G_.rp+'" fill="#FFFFFF" fill-opacity=".22"/><circle cx="'+p[0].toFixed(3)+'" cy="'+(-p[1]).toFixed(3)+'" r="'+G_.rp+'" fill="url(#'+id("ho")+')"/>';});
   s+='<g filter="url(#'+id("br")+')">'+r.hubs.map(h=>'<path d="'+polyPathSVG(h.pts)+'" fill="url(#'+id("hb")+')" stroke="#5E6B78" stroke-width="'+(S/500)+'"/>').join("")+'</g>';
   r.hubs.forEach(h=>s+='<path d="'+polyPathSVG(h.pts)+'" fill="none" stroke="#FFFFFF" stroke-opacity=".55" stroke-width="'+(S/900)+'" transform="translate(0,'+(S/1400)+')"/>');
+  {const tw=Math.max(G_.Rs*0.05,0.18), rr=G_.Rs+tw*0.15; for(let k=0;k<8;k++){const a0=(k*45+12)*Math.PI/180, a1=a0+16*Math.PI/180, P=a=>[(rr*Math.cos(a)).toFixed(3),(rr*Math.sin(a)).toFixed(3)];
+    s+='<path d="M'+P(a0)+' A'+rr+' '+rr+' 0 0 1 '+P(a1)+'" fill="none" stroke="#5B636B" stroke-width="'+(tw*1.6)+'" stroke-linecap="round"/><path d="M'+P(a0)+' A'+rr+' '+rr+' 0 0 1 '+P(a1)+'" fill="none" stroke="#E3E8EC" stroke-width="'+(tw*0.9)+'" stroke-linecap="round" stroke-dasharray="0.001 '+(tw*0.75)+'"/>';}}
   A.bolts.forEach(b=>{const R2=v.boltDia*0.95;s+='<circle cx="'+b[0].toFixed(3)+'" cy="'+(-b[1]).toFixed(3)+'" r="'+(R2*1.25)+'" fill="#C9D2DA" stroke="#6C7884" stroke-width="'+(S/1200)+'"/><polygon points="'+hexPts(b[0],b[1],R2)+'" fill="url(#'+id("bt")+')" stroke="#4D5965" stroke-width="'+(S/1200)+'"/>';});
   if(v.portOcc>0) A.ports.forEach(p=>{s+='<circle cx="'+p[0].toFixed(3)+'" cy="'+(-p[1]).toFixed(3)+'" r="'+v.portOcc/2+'" fill="url(#'+id("bt")+')" stroke="#2C3743" stroke-width="'+(S/700)+'"/><circle cx="'+p[0].toFixed(3)+'" cy="'+(-p[1]).toFixed(3)+'" r="'+v.portOcc/2*0.62+'" fill="#05090E"/>';});
   s+='<g clip-path="url(#'+id("cp")+')"><rect x="'+(-R)+'" y="'+(-R)+'" width="'+S+'" height="'+S+'" fill="url(#'+id("sp")+')"/></g>';
@@ -1236,7 +1245,7 @@ function discBlueprint(r){
     s+='<path d="M'+px.toFixed(3)+' '+py.toFixed(3)+' L'+tx+' '+ty+' L'+(tx+fs*0.6)+' '+ty+'" stroke="'+Cy+'"/>'+T(tx+fs*0.8,ty+fs*0.35,A.ports.length+"× Ø"+frac(v.portD)+" PORT","start",fs*0.85);}
   s+=T(0,fs*0.1,"BORE Ø"+(2*G_.Rs).toFixed(3),"middle",fs*0.8)+T(0,fs*1.25,"HUB Ø"+(2*G_.Rh).toFixed(3),"middle",fs*0.8);
   const bx=-Rc-pad*0.92, by=-Rc-pad*0.92;
-  s+=T(bx,by+fs,"EAD DISC · "+projMeta().well.toUpperCase(),"start",fs*0.85)+T(bx,by+fs*2.05,G_.nseg+" SEG · "+frac(v.thick)+'" PL · REV '+projMeta().rev,"start",fs*0.7);
+  s+=T(bx,by+fs,"EAD DISC · "+projMeta().well.toUpperCase(),"start",fs*0.85)+T(bx,by+fs*2.05,G_.nseg+" SEG · "+frac(v.thick)+'" RUBBER · REV '+projMeta().rev,"start",fs*0.7);
   return s+'</svg>';
 }
 let orbit={rx:58,rz:-18,auto:true,raf:0,drag:null};
@@ -1247,7 +1256,7 @@ function renderDiscView(r){
   if(discMode==="blueprint"){st.innerHTML=discBlueprint(r);return;}
   if(discMode==="render"){st.innerHTML=discSteel(r,{k:"dr"});return;}
   let h='<div class="disc3d" id="orbit"><div class="rig" id="rig"><div class="floor"></div>';
-  const n=6; for(let i=n;i>=1;i--){const c=Math.round(18+ (n-i)*4); h+='<div class="layer" style="transform:translateZ('+(-i*1.5)+'px)">'+discSteel(r,{sil:true,fill:"rgb("+c+","+(c+8)+","+(c+18)+")",hubFill:"rgb("+(c+60)+","+(c+68)+","+(c+78)+")"})+'</div>';}
+  const n=6; for(let i=n;i>=1;i--){const c=Math.round(10+ (n-i)*3); h+='<div class="layer" style="transform:translateZ('+(-i*1.5)+'px)">'+discSteel(r,{sil:true,fill:"rgb("+c+","+(c+1)+","+(c+3)+")",hubFill:"rgb("+(c+95)+","+(c+105)+","+(c+115)+")"})+'</div>';}
   h+='<div class="layer">'+discSteel(r,{k:"do",noShadow:true})+'</div></div></div><div class="orbit-hint">Drag to orbit</div>';
   st.innerHTML=h; const rig=$("rig"), ob=$("orbit");
   const apply=()=>{rig.style.setProperty("--rx",orbit.rx+"deg");rig.style.setProperty("--rz",orbit.rz+"deg");};
@@ -1430,13 +1439,14 @@ function drawStatic(){
   // discs (sectioned perforated plate)
   r.depths.forEach(d=>{const yy=y(d), th=7;
     for(const [a0,a1] of [[xl,cl],[cr,xr]]){
-      c.save(); c.shadowColor="rgba(92,200,255,.85)"; c.shadowBlur=14;
-      const pg=c.createLinearGradient(0,yy-th/2,0,yy+th/2); pg.addColorStop(0,"#E8F7FF"); pg.addColorStop(.35,"#7CC7F2"); pg.addColorStop(1,"#1A5A92");
+      c.save(); c.shadowColor="rgba(92,200,255,.55)"; c.shadowBlur=8;
+      const pg=c.createLinearGradient(0,yy-th/2,0,yy+th/2); pg.addColorStop(0,"#5C6269"); pg.addColorStop(.3,"#25282C"); pg.addColorStop(1,"#0A0B0D");
       c.fillStyle=pg; c.fillRect(a0,yy-th/2,a1-a0,th); c.restore();
-      c.fillStyle="#04182B"; for(let x=a0+5;x<a1-4;x+=8) c.fillRect(x,yy-th/2,3,th);
-      c.fillStyle="rgba(255,255,255,.7)"; c.fillRect(a0,yy-th/2,a1-a0,1);
+      c.fillStyle="#000000"; for(let x=a0+5;x<a1-4;x+=8) c.fillRect(x,yy-th/2,3,th);
+      c.fillStyle="rgba(92,200,255,.55)"; c.fillRect(a0,yy-th/2,a1-a0,1);
     }
-    c.fillStyle=metalH(c,cl-7,cl,STEEL); c.fillRect(cl-7,yy-7,7,14); c.fillStyle=metalH(c,cr,cr+7,STEEL); c.fillRect(cr,yy-7,7,14);
+    c.fillStyle=metalH(c,cl-9,cl,STEEL); c.fillRect(cl-9,yy-8,9,16); c.fillStyle=metalH(c,cr,cr+9,STEEL); c.fillRect(cr,yy-8,9,16);
+    c.fillStyle="#DCE3E9"; c.beginPath(); c.arc(cl-0.5,yy-8,1.6,0,7); c.arc(cr+0.5,yy-8,1.6,0,7); c.fill();
   });
   // pump bowls, screen, motor
   const yI=y(v.intake), bw=Math.min(xr-xl-14,(cr-cl)*1.55), st=4, sh=(yI-yB)/st;
@@ -1543,7 +1553,7 @@ function run(){
   renderVelo(r); renderTables(r);
   $("wellSvg").innerHTML=wellSVG(r);
   renderDiscView(r);
-  $("discCaption").textContent=r.N+" holes at "+frac(r.d)+'" on a '+frac(r.pitch)+'" triangular pitch. '+r.Gd.nseg+" segments under a split hub ring"+(r.Gd.nP?", "+r.Gd.nP+" pass-through port"+(r.Gd.nP>1?"s":""):"")+". Disc OD "+fmt(2*r.Gd.Ro,3)+" in in a "+fmt(r.v.casingID,2)+" in casing.";
+  $("discCaption").textContent=r.N+" holes at "+frac(r.d)+'" on a '+frac(r.pitch)+'" triangular pitch. '+r.Gd.nseg+" rubber segments under a split steel hub ring, tack-welded to the column"+(r.Gd.nP?", "+r.Gd.nP+" pass-through port"+(r.Gd.nP>1?"s":""):"")+". Disc OD "+fmt(2*r.Gd.Ro,3)+" in in a "+fmt(r.v.casingID,2)+" in casing.";
   $("envSvg").innerHTML=envSVG(r);
   $("envLede").textContent="How the core downward velocity grows with flow in this casing. Up to "+fmt(r.Qclean,0)+" gpm, small bubbles escape on their own. Up to about "+fmt(r.Qmax,0)+" gpm, discs can still separate air by merging bubbles. Above that, water outruns even merged gas.";
   simConfig(r);
@@ -1630,7 +1640,7 @@ function dxfAssembly(r){
   dx.text("DIMS",0,0.25,0.22,"BORE "+(2*G_.Rs).toFixed(3)+" IN",true); dx.text("DIMS",0,-0.4,0.22,"HUB OD "+(2*G_.Rh).toFixed(3)+" IN",true);
   const lines=["EAD DISC ASSEMBLY - "+pm.well,(pm.util?pm.util:"")+(pm.loc?(pm.util?" - ":"")+pm.loc:""),
     "Disc OD "+(2*G_.Ro).toFixed(3)+" in, bore "+(2*G_.Rs).toFixed(3)+" in, hub OD "+(2*G_.Rh).toFixed(3)+" in",
-    G_.nseg+" segments, plate "+v.thick+" in, joints "+v.jointGap+" in",
+    G_.nseg+" rubber segments "+v.thick+" in, steel hub ring "+v.hubThick+" in, joints "+v.jointGap+" in",
     r.N+" holes "+r.d.toFixed(4)+" in dia on "+r.pitch.toFixed(4)+" in 60 deg pitch",
     (G_.nP?G_.nP+" ports "+v.portD+" in dia; ":"")+(G_.boltsL.length?G_.nseg*G_.boltsL.length+" bolt holes "+v.boltDia+" in dia":"no hub bolts"),
     "Open area "+(r.phi*100).toFixed(1)+"% of annulus; "+r.nUse+" discs at "+(r.depths.map(d=>Math.round(d)).join(", ")||"-")+" ft",
@@ -1670,16 +1680,16 @@ function cadPackage(r){
   files.push(["EAD_assembly.dxf",dxfAssembly(r)]);
   const rotV=p=>rot(p,Math.PI/2), seg=transformPoly(r.segOut,rotV);
   const circ=(holes,ports,bolts)=>holes.map(h=>{const q=rotV(h);return [q[0],q[1],r.d/2,"CUT_HOLES"];}).concat(ports.map(p=>{const q=rotV(p);return [q[0],q[1],G_.rp,"CUT_PORTS"];}),bolts.map(b=>{const q=rotV(b);return [q[0],q[1],v.boltDia/2,"CUT_BOLTS"];}));
-  files.push(["EAD_segment_standard_qty"+((G_.nseg-1)*n)+".dxf",dxfPart("EAD STANDARD SEGMENT - "+pm.well,seg,circ(r.lay.std,[],G_.boltsL),r.lay.std.length+" holes "+r.d+" in, plate "+v.thick+" in",(G_.nseg-1)*n)]);
+  files.push(["EAD_segment_standard_qty"+((G_.nseg-1)*n)+".dxf",dxfPart("EAD STANDARD SEGMENT - "+pm.well,seg,circ(r.lay.std,[],G_.boltsL),r.lay.std.length+" holes "+r.d+" in, rubber "+v.thick+" in",(G_.nseg-1)*n)]);
   files.push([(G_.nP?"EAD_segment_ports_qty":"EAD_segment_standard_extra_qty")+n+".dxf",dxfPart((G_.nP?"EAD PORT SEGMENT - ":"EAD STANDARD SEGMENT - ")+pm.well,seg,circ(r.lay.port,G_.portsL,G_.boltsL),r.lay.port.length+" holes "+r.d+" in"+(G_.nP?" + "+G_.nP+" ports "+v.portD+" in":""),n)]);
   r.hubs.forEach((h,i)=>{const mid=(h.a0+h.a1)/2,f=p=>rot(p,Math.PI/2-mid);
-    files.push(["EAD_hub_half_"+"AB"[i]+"_qty"+n+".dxf",dxfPart("EAD HUB RING HALF "+"AB"[i]+" - "+pm.well,transformPoly(h.pts,f),h.bolts.map(b=>{const q=f(b);return [q[0],q[1],v.boltDia/2,"CUT_BOLTS"];}),h.bolts.length+" bolt holes "+v.boltDia+" in, plate "+v.thick+" in",n)]);});
+    files.push(["EAD_hub_half_"+"AB"[i]+"_qty"+n+".dxf",dxfPart("EAD HUB RING HALF "+"AB"[i]+" - "+pm.well,transformPoly(h.pts,f),h.bolts.map(b=>{const q=f(b);return [q[0],q[1],v.boltDia/2,"CUT_BOLTS"];}),h.bolts.length+" bolt holes "+v.boltDia+" in, steel "+v.hubThick+" in",n)]);});
   files.push(["EAD_well_elevation.dxf",dxfElevation(r)]);
   files.push(["EAD_disc_drawing.svg",discSVG(r,{print:true,dims:true})]);
   files.push(["README.txt",["EAD CAD PACKAGE - "+pm.well+" - rev "+pm.rev+" - "+pm.date,"",
     "Files",
     "  EAD_assembly.dxf        Full disc, inches 1:1, layered (cut, hub, reference, dims, title block)",
-    "  EAD_segment_*.dxf       Flat cut files for plasma, laser or waterjet, one part each, inches 1:1",
+    "  EAD_segment_*.dxf       Flat cut files for water-jet cutting, one part each, inches 1:1 (rubber segments; steel hub ring halves)",
     "  EAD_hub_half_*.dxf      Split hub ring halves, inches 1:1",
     "  EAD_well_elevation.dxf  Well schematic, feet, horizontal exaggerated x10",
     "  EAD_disc_drawing.svg    Dimensioned picture of the disc","",
@@ -1687,7 +1697,7 @@ function cadPackage(r){
     "Cut layers: CUT_OUTLINE, CUT_HOLES, CUT_PORTS, CUT_BOLTS. Do not cut NOTES_DO_NOT_CUT, REF_*, DIMS, TITLE or HUB in the assembly.","",
     "Design",
     "  Casing ID "+v.casingID+" in, column OD "+v.columnOD+" in, flow "+v.q+" gpm",
-    "  Disc OD "+(2*G_.Ro).toFixed(3)+" in, bore "+(2*G_.Rs).toFixed(3)+" in, hub OD "+(2*G_.Rh).toFixed(3)+" in, plate "+v.thick+" in",
+    "  Disc OD "+(2*G_.Ro).toFixed(3)+" in, bore "+(2*G_.Rs).toFixed(3)+" in, hub OD "+(2*G_.Rh).toFixed(3)+" in, rubber "+v.thick+" in, steel ring "+v.hubThick+" in",
     "  Holes "+r.d+" in on "+r.pitch.toFixed(4)+" in 60 deg pitch, "+r.N+" per disc, open area "+(r.phi*100).toFixed(1)+"%","",
     "Before cutting",
     "  - Run a casing drift check and confirm the usable ID at each disc depth.",
@@ -1780,7 +1790,7 @@ async function buildPDF(r){
   doc.setTextColor(...mut);doc.setFontSize(8.5);doc.text(T("Dashed: casing ID "+v.casingID+" in (reference). Not to scale on paper; cut from the DXF files."),cx,cy+Rc*sc+14,{align:"center"});
   y=cy+Rc*sc+34;
   h2("Fabrication");
-  kvTable([["Plate",frac(v.thick)+" in thick, "+G_.nseg+" segments, "+frac(v.jointGap)+" in joints"],["Disc OD / bore / hub OD",(2*G_.Ro).toFixed(3)+" / "+(2*G_.Rs).toFixed(3)+" / "+(2*G_.Rh).toFixed(3)+" in"],["Holes",frac(r.d)+" in on "+frac(r.pitch)+" in 60 deg pitch, ligament "+frac(Math.round(r.lig*32)/32)+" in"],["Holes per segment / disc",r.lay.std.length+(G_.nP?" (port segment "+r.lay.port.length+")":"")+" / "+r.N],["Ports",G_.nP?G_.nP+" x "+frac(v.portD)+" in around "+frac(v.portOcc)+" in tube":"none"],["Open area",fmt(r.phi*100,1)+"% of annulus ("+fmt(r.Aopen,1)+" in2): holes "+fmt(r.Aholes,1)+", gap "+fmt(r.Agap,1)+", ports "+fmt(r.portFree,1)+", joints "+fmt(r.Ajoint,1)],["Cut length / steel per disc",fmt(r.cutDisc/12,1)+" ft / about "+fmt(r.wDisc,0)+" lb"]],M,W-2*M,150);
+  kvTable([["Rubber disc",frac(v.thick)+" in potable-water-grade rubber, "+G_.nseg+" segments, "+frac(v.jointGap)+" in joints"],["Steel hub ring",frac(v.hubThick)+" in thick x "+frac(v.hubWidth)+" in wide, two halves, bolted and tack-welded"],["Disc OD / bore / hub OD",(2*G_.Ro).toFixed(3)+" / "+(2*G_.Rs).toFixed(3)+" / "+(2*G_.Rh).toFixed(3)+" in"],["Holes",frac(r.d)+" in on "+frac(r.pitch)+" in 60 deg pitch, ligament "+frac(Math.round(r.lig*32)/32)+" in"],["Holes per segment / disc",r.lay.std.length+(G_.nP?" (port segment "+r.lay.port.length+")":"")+" / "+r.N],["Ports",G_.nP?G_.nP+" x "+frac(v.portD)+" in around "+frac(v.portOcc)+" in tube":"none"],["Open area",fmt(r.phi*100,1)+"% of annulus ("+fmt(r.Aopen,1)+" in2): holes "+fmt(r.Aholes,1)+", gap "+fmt(r.Agap,1)+", ports "+fmt(r.portFree,1)+", joints "+fmt(r.Ajoint,1)],["Cut length / weight per disc",fmt(r.cutDisc/12,1)+" ft / about "+fmt(r.wRubber,1)+" lb rubber + "+fmt(r.wHub,1)+" lb steel"]],M,W-2*M,150);
   h2("Parts for this well");
   gridTable(["Part","Qty","Notes"],parts(r),[230,50,240]);
 
@@ -1873,9 +1883,9 @@ function contextBlock(){
     cutLengthPerDiscFt:+(r.cutDisc/12).toFixed(1),flags:r.flags.map(f=>f[0]+": "+f[1]),
     monteCarlo:{runs:m.N,holdsPct:+(100*m.c.holds/m.N).toFixed(1),outrunPct:+(100*m.c.C/m.N).toFixed(1),flowLossOverPct:+(100*m.c.loss/m.N).toFixed(1),topDiscDryPct:+(100*m.c.dry/m.N).toFixed(1),shortDiscsPct:+(100*m.c.short/m.N).toFixed(1),npshPct:+(100*m.c.npsh/m.N).toFixed(1)},
     optimizerTop3:o.feas.slice(0,3).map(c=>({holeIn:c.d,pitchIn:c.p,holes:c.N,openPct:+(c.phi*100).toFixed(1),flowLossPct:+c.dQpct.toFixed(2),cutFt:Math.round(c.cut/12)}))};
-  return "You are an elite downhole hydraulics engineer reviewing an Entrained Air Diffuser (EAD) design for a municipal water well. An EAD is a stack of segmented perforated steel discs clamped around the pump column with a split hub ring, extending to the casing wall above the pump intake. Where water cascades into the well from perforations above the pumping level (common in wells fed by recharge or percolation ponds), the discs break the cascade, spread the downflow over the annulus and make entrained bubbles merge so air separates and rises instead of reaching the pump, with as little loss of pump flow as possible.\n\n"+
+  return "You are an elite downhole hydraulics engineer reviewing an Entrained Air Diffuser (EAD) design for a municipal water well. An EAD is a stack of segmented perforated potable-water-grade rubber discs, clamped to the pump column by a split steel hub ring that is bolted and tack-welded in place, extending to the casing wall above the pump intake. Where water cascades into the well from perforations above the pumping level (common in wells fed by recharge or percolation ponds), the discs break the cascade, spread the downflow over the annulus and make entrained bubbles merge so air separates and rises instead of reaching the pump, with as little loss of pump flow as possible.\n\n"+
   "Physics to respect: discs cannot reduce the mean downward annular velocity (continuity sets it as flow above intake / annulus area). Be honest when the numbers say discs alone will not work. Separate physics from the tool's editable field rules. Do not invent data; say what should be measured in the field.\n\n"+
-  "Tool method: annular velocity vs small-bubble rise (user value) and Kelessidis-Dukler annular Taylor-bubble rise x safety factor; thin perforated plate loss (Idelchik) on annular velocity with open area = holes+ports+casing gap+joint slots; core velocity Vc = C0 x average annular velocity is compared with rise speeds; merged-gas rise is capped (cap-bubble limit) for large casings; disc count = one stage per 'fall or wetted screen per disc' of exposed perforation above design PWL (falling water) or of wetted screen above the intake (aquifer air), plus one coalescing stage (min 2) if Vc exceeds bubble rise; Monte Carlo with triangular distributions; optimizer over standard holes and pitches with head-loss window, flow-loss limit and ligament >= plate thickness.\n\n"+
+  "Tool method: annular velocity vs small-bubble rise (user value) and Kelessidis-Dukler annular Taylor-bubble rise x safety factor; thin perforated plate loss (Idelchik) on annular velocity with open area = holes+ports+casing gap+joint slots; core velocity Vc = C0 x average annular velocity is compared with rise speeds; merged-gas rise is capped (cap-bubble limit) for large casings; disc count = one stage per 'fall or wetted screen per disc' of exposed perforation above design PWL (falling water) or of wetted screen above the intake (aquifer air), plus one coalescing stage (min 2) if Vc exceeds bubble rise; Monte Carlo with triangular distributions; optimizer over standard holes and pitches with head-loss window, flow-loss limit and ligament >= rubber thickness.\n\n"+
   "INPUTS (US units, depths ft below ground): "+JSON.stringify(v)+"\n\nRESULTS: "+JSON.stringify(res)+"\n\n"+
   "Write for a water-utility pump professional: plain language, short paragraphs and '-' bullets, **bold** for key numbers, no tables, about 350 words unless asked for more.";
 }
