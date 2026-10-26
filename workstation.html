@@ -10,7 +10,7 @@
 <meta name="theme-color" content="#06111D">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;1,800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;1,800&family=IBM+Plex+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#EEF2F6; --panel:#FFFFFF; --panel2:#F4F7FA; --sunk:#E6ECF2; --line:#CDD8E3; --line2:#B5C4D3;
@@ -83,7 +83,31 @@ details.group[open]>summary::after{transform:rotate(225deg) translateY(-2px)}
 .gbody .note{grid-column:1/-1;margin:0;color:var(--muted);font-size:12.5px}
 .field{display:flex;flex-direction:column;gap:3px;min-width:0}
 .field.full{grid-column:1/-1}
-.field label{font-size:12.5px;color:var(--ink2);font-weight:500;line-height:1.2}
+.field label{font-size:12.5px;color:var(--ink2);font-weight:500;line-height:1.2;display:flex;align-items:flex-start;gap:5px}
+.field label .lt{flex:1;min-width:0}
+.tipb{flex:none;width:16px;height:16px;margin-top:-1px;border-radius:50%;border:1px solid var(--line2,var(--line));background:var(--panel);color:var(--muted);font:700 10.5px/14px Barlow,sans-serif;padding:0;cursor:help;display:inline-grid;place-items:center}
+.tipb:hover,.tipb:focus-visible,.tipb[aria-expanded="true"]{border-color:var(--accent);color:var(--accent);outline:none}
+#tipPop{position:fixed;z-index:80;max-width:300px;padding:10px 12px;border-radius:8px;background:#0B1B2E;color:#E6F0FA;font-size:13px;line-height:1.45;box-shadow:0 14px 34px -12px rgba(0,0,0,.6);border:1px solid rgba(92,200,255,.3);pointer-events:none}
+#tipPop b{display:block;color:#9FDFFF;font-weight:600;margin-bottom:3px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.stage.paused .panel,.stage.paused #kpis{opacity:.28;filter:grayscale(1);pointer-events:none;user-select:none}
+.stage.paused .tabs{opacity:.5;pointer-events:none}
+.stage.paused .verdict::after{content:"Results are paused until the highlighted inputs are fixed.";display:block;margin-top:10px;font-weight:600;color:var(--bad)}
+.rec{border-left:4px solid var(--accent)}.rec.ok{border-left-color:var(--ok)}.rec.warn{border-left-color:var(--warn)}.rec.bad{border-left-color:var(--bad)}
+.rec .eyebrow{margin:0 0 2px;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.rec>h2{margin:0 0 4px}
+.rec-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:18px;margin-top:6px}
+@media (max-width:820px){.rec-grid{grid-template-columns:1fr}}
+.rec h3{font-size:15px;margin:0 0 8px}
+.rec ol{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.rec ol li{font-size:13.5px;padding:6px 9px;border-radius:6px;background:var(--panel2)}
+.rec ol li b{font-size:11px;letter-spacing:.06em;text-transform:uppercase;margin-right:6px}
+.rec ol li.bad{background:var(--bad-bg)}.rec ol li.bad b{color:var(--bad)}.rec ol li.warn{background:var(--warn-bg)}.rec ol li.warn b{color:var(--warn)}.rec ol li.ok b{color:var(--ok)}
+.rec-act{display:flex;gap:10px;align-items:flex-start;justify-content:space-between;padding:8px 10px;border:1px solid var(--line);border-radius:8px;margin-bottom:6px;font-size:13.5px}
+.rec-act p{margin:2px 0 0;color:var(--ink2)}
+.rec-check{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
+.rec-check summary{cursor:pointer;font-weight:600;font-size:14.5px}
+.rec-check ul{margin:8px 0 0;padding-left:18px;font-size:13.5px;display:flex;flex-direction:column;gap:5px}
 .inbox{display:flex;align-items:center;border:1px solid var(--line);border-radius:6px;background:var(--panel2);overflow:hidden;transition:border-color .12s}
 .inbox:focus-within{border-color:var(--accent);background:var(--panel)}
 .inbox input,.inbox select{border:0;background:transparent;padding:7px 8px;width:100%;min-width:0;font-size:15px;font-variant-numeric:tabular-nums}
@@ -122,6 +146,7 @@ details.group[open]>summary::after{transform:rotate(225deg) translateY(-2px)}
 .flags li.more{background:none;padding:0}.flags li.more::before{display:none}
 .flags-more{border:0;background:none;color:var(--accent);font-weight:600;cursor:pointer;padding:2px 0;font-size:13.5px}
 .tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+@media (max-width:620px){.tabs{flex-wrap:wrap;overflow:visible}#paretoSvg,#histSvg,#tornSvg,#envSvg{overflow-x:auto}#paretoSvg svg,#histSvg svg,#tornSvg svg,#envSvg svg{min-width:520px}}
 .tabs::-webkit-scrollbar{display:none}
 .tab{border:0;background:none;padding:10px 14px 11px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap;font-size:15px}
 .tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
@@ -142,6 +167,8 @@ details.group[open]>summary::after{transform:rotate(225deg) translateY(-2px)}
 .cell-h h3{font-size:18px}
 .cell-h small{color:var(--muted);font-size:12px}
 .svgbox svg{display:block;width:100%;height:auto}
+.elev svg{max-width:940px;margin:0 auto}
+@media (max-width:620px){.elev{overflow-x:auto}.elev svg{min-width:640px}}
 .live{position:relative;flex:1;min-height:380px;border-radius:6px;overflow:hidden;background:var(--sunk)}
 .live canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .live-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:8px;font-size:12.5px;color:var(--muted);flex-wrap:wrap}
@@ -316,6 +343,16 @@ th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertic
     </nav>
 
     <section class="panel" data-panel="design">
+      <div class="card rec" id="recCard" hidden>
+        <p class="eyebrow">Engineer's recommendation</p>
+        <h2 id="recTitle"></h2>
+        <p class="lede" id="recLede"></p>
+        <div class="rec-grid">
+          <div><h3>Concerns</h3><ol id="recConcerns"></ol></div>
+          <div><h3>Recommended changes</h3><div id="recActions"></div></div>
+        </div>
+        <details class="rec-check"><summary>Before fabrication and installation</summary><ul id="recChecklist"></ul></details>
+      </div>
       <div class="viewport" id="viewport">
         <div class="vp-cell vp-well">
           <div class="vp-h"><h3>Well cutaway</h3><small>depth to scale</small></div>
@@ -336,10 +373,15 @@ th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertic
         </div>
       </div>
       <p class="caption" style="margin:-8px 2px 0">The simulator animates this model's numbers (downflow at the annular velocity, bubbles rising at their rise speed and merging at each disc). It illustrates the model. It is not CFD. Surrounding ground is drawn generically, not from a well log.</p>
+      <div class="card">
+        <h2>Installation elevation</h2>
+        <p class="lede">The levels, the disc stack, the bowls and the intake, with depths below ground. Schematic, not to scale; the breaks skip the plain column between them.</p>
+        <div class="svgbox elev" id="elevSvg"></div>
+      </div>
 
       <div class="card">
         <h2>Velocity race</h2>
-        <p class="lede">Air separates when it can rise faster than the water carries it down. Discs cannot lower the average downward velocity, which is fixed by flow ÷ annulus area. They break the cascade, spread the flow, and make small bubbles merge into larger ones that rise faster.</p>
+        <p class="lede">Air separates when it can rise faster than the water carries it down. Downflow grows with depth as the screen adds water, so separation has to happen high, above the top disc, before the bubbles reach the fast water near the intake. Discs stop the cascade driving bubbles deep, spread the flow and make small bubbles merge.</p>
         <div class="velo" id="velo"></div>
       </div>
       <div class="card">
@@ -357,7 +399,7 @@ th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertic
     <section class="panel" data-panel="optimize" hidden>
       <div class="card">
         <h2>Design optimizer</h2>
-        <p class="lede">Searches every standard hole size and pitch for this well, keeps only designs that pass every rule (head-loss window per disc, flow-loss limit, ligament and hole at least the rubber thickness), then ranks them. Pitches are rounded up to 1/16 in so they can be cut as drawn.</p>
+        <p class="lede">Searches every standard hole size and pitch for this well, keeps only designs that pass every rule (head-loss window, flow-loss limit, holes and ligaments at least 0.6 × the rubber thickness, holes 1 in or smaller and at least 8 per segment), then ranks them. The top-ranked design is the one Design uses. Pitches are rounded up to 1/16 in so they can be cut as drawn.</p>
         <div class="toolbar"><span class="muted" style="font-size:13.5px">Rank for</span>
           <div class="seg" id="prioSeg">
             <button type="button" data-p="balanced" aria-pressed="true">Balanced</button>
@@ -383,7 +425,7 @@ th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertic
         <div class="tiles" id="mcTiles"></div>
       </div>
       <div class="row2">
-        <div class="card"><h2>Annular velocity spread</h2><p class="lede">Where the downward velocity lands across all runs, against the two rise limits.</p><div class="svgbox" id="histSvg"></div></div>
+        <div class="card"><h2>Core downflow at the top disc</h2><p class="lede">Where the downward velocity lands across all runs, against the two rise limits.</p><div class="svgbox" id="histSvg"></div></div>
         <div class="card"><h2>What drives it</h2>
           <div class="toolbar"><div class="seg" id="tornSeg">
             <button type="button" data-o="loss" aria-pressed="true">Flow loss</button>
@@ -434,39 +476,45 @@ th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertic
         <h2>How the workstation works</h2>
         <h3>Physics from standard references</h3>
         <ul>
-          <li><b>Annular velocity</b> <code>V = Q_above ÷ (π/4 × (casing ID² − column OD²))</code>. Only water entering above the intake moves down the annulus.</li>
-          <li><b>Small-bubble rise</b>, default 0.75 ft/s: terminal rise of 2–5 mm air bubbles in water (Clift, Grace &amp; Weber). Editable.</li>
-          <li><b>Merged gas rise in an annulus</b> <code>U = (0.32 + 0.016 Dc/Dt) √(g Dt)</code> (Kelessidis &amp; Dukler), times your safety factor, capped at your cap-bubble limit (default 1.0 ft/s). The formula was fitted on small annuli; in large casings big bubbles break into cap bubbles.</li>
-          <li><b>Core velocity</b> <code>Vc = C0 × V</code>. Bubbles ride the faster core of the flow (drift-flux distribution coefficient, default 1.2). Every regime check uses Vc, not the average.</li>
-          <li><b>Disc head loss</b>, thin perforated plate: <code>ζ = (0.707√(1−φ) + 1 − φ)² ÷ φ²</code> on annular velocity (Idelchik). φ counts holes, ports, the casing gap and the segment joint slots. For plates thicker than the hole it overstates the loss: conservative for flow loss, optimistic for the minimum-loss check.</li>
-          <li><b>NPSH available</b>: atmospheric head at site elevation + submergence − vapor pressure − disc losses. Intake and screen losses are not included.</li>
-          <li><b>Flow change</b>: stack head loss ÷ pump curve slope at the duty point.</li>
+          <li><b>Downflow profile</b>. Flow entering above the intake comes down the annulus, <code>V(z) = Q_above × share(z) ÷ (π/4 × (casing ID² − column OD²))</code>. With “Evenly along the perforations” the share grows from zero at the top of the perforations to all of it at the intake (or the bottom of the screen). “All above the top disc” is the conservative case. A spinner log is the way to know.</li>
+          <li><b>Where separation happens</b>. Gas can still escape to the surface only from the water above the top disc, so the regime is judged at the top disc. At the intake the downflow is fastest; air carried that deep goes to the pump.</li>
+          <li><b>Small-bubble rise</b>, default 0.6 ft/s: about 2–3 mm bubbles in real (contaminated) well water (Clift, Grace &amp; Weber, Fig. 7.3). Plunging-jet bubbles are mostly 0.5–3 mm (Chanson), and they shrink with depth.</li>
+          <li><b>Merged-gas rise</b>. The smaller of the annular slug formula <code>U = (0.32 + 0.016 D_col/D_cas) √(g D_cas)</code> (Kelessidis &amp; Dukler 1989; D_col column OD, D_cas casing ID) and the large-bubble drift limit for large channels (Kataoka &amp; Ishii 1987, at the top-disc pressure), times your safety factor.</li>
+          <li><b>Core velocity</b> <code>Vc = C0 × V</code>. Bubbles ride the faster core of the flow (drift-flux distribution coefficient, default 1.2). Every regime check uses Vc.</li>
+          <li><b>Gas back through a disc</b>. Counter-current flooding through the holes (Wallis 1969): with <code>H = j ÷ √(g d)</code> for the water velocity j through the holes and hole size d, gas cannot rise against the water once √H passes about 0.7–1.0. In practice that is always true through a perforated disc, so gas under a disc collects there unless a vent tube lets it out.</li>
+          <li><b>Disc head loss</b>, perforated plate of thickness l (Idelchik, Diagram 8-3): <code>ζ = [0.5(1−φ)^0.75 + τ(l/d)(1−φ)^1.375 + (1−φ)² + λ l/d] ÷ φ²</code> on the local downflow velocity. φ counts holes, ports, the casing gap, the bore gap and the joint slots. Each disc is evaluated at its own depth.</li>
+          <li><b>Rubber sag</b>. Annular plate clamped at the hub ring and free at the rim under the pressure across the deepest disc (Timoshenko &amp; Woinowsky-Krieger), modulus from Shore A hardness (Gent) unless you enter one, stiffness reduced by the ligament efficiency of the hole pattern. It is linear theory: past about one thickness of droop the real sag is smaller, but the disc is coning. Confirm with a load test on one segment.</li>
+          <li><b>NPSH available</b>: atmospheric head at site elevation + submergence − vapor pressure − disc losses. Intake and screen losses are not included, and entrained or dissolved gas raises the NPSH a pump really needs.</li>
+          <li><b>Flow change</b>: stack head loss ÷ (pump curve slope + system curve slope). The system slope defaults to the drawdown per 100 gpm, because less flow also means less drawdown.</li>
         </ul>
         <h3>Disc construction modeled</h3>
         <ul>
-          <li>Perforated segments run from the column bore to the casing. A split hub ring clamps over them and bolts through to each segment, as in the fabricated discs.</li>
+          <li>Water-jet-cut, potable-water-grade rubber segments run from the column bore to the casing. A split steel hub ring clamps over them, bolts through each segment and is tack-welded to the column.</li>
           <li>Pass-through ports straddle the hub edge and the hub is notched around them. Holes keep clear of the hub, ports, joints and the outer edge by the edge margin.</li>
           <li>The hub splits at two segment joints, so no bolt sits on a split.</li>
-          <li>Not modeled: fastener sizes beyond the bolt hole, coupling clearance, centralizers, and how the stack is supported on the column. Detail those with the fabricator.</li>
+          <li>Fabrication rules of thumb for rubber: holes and the rubber between them at least 0.6 × the rubber thickness.</li>
+          <li>Not modeled: fastener sizes beyond the bolt hole, coupling clearance, centralizers, vent tube routing, and the reverse load at shutdown without a check valve. Detail those with the fabricator.</li>
         </ul>
-        <h3>Analysis tools</h3>
+<h3>Analysis tools</h3>
         <ul>
           <li><b>Optimizer</b>: exhaustive search over standard hole sizes and pitches under hard engineering constraints, a weighted ranking, and the trade-off (Pareto) frontier between flow loss and cutting length.</li>
-          <li><b>Monte Carlo risk</b>: thousands of runs centred on the design pumping level (pumping level + seasonal allowance), with pumping level, flow, share of flow from above, bubble rise and pump curve slope drawn from triangular distributions over your ranges. Seeded, so the same inputs always give the same answer.</li>
+          <li><b>Monte Carlo risk</b>: thousands of runs centred on the design pumping level. Flow, share of flow from above, bubble rise, pump curve slope, C0 (±0.1) and the disc loss coefficient (±20%) are drawn from triangular distributions; each run's pumping level follows its flow (drawdown scales with flow) plus your spread. Seeded, so the same inputs always give the same answer.</li>
           <li><b>Sensitivity</b>: one input at a time across the same ranges.</li>
         </ul>
         <h3>Field rules to calibrate</h3>
         <ul>
-          <li>Disc count, falling water: one disc per “fall or wetted screen per disc” of exposed perforation above the design pumping level, plus one coalescing disc when the core velocity beats small-bubble rise (minimum two).</li>
+          <li>Disc count, falling water: one disc per “fall or wetted screen per disc” of exposed perforation between the static level (or the top of the perforations, if deeper) and the design pumping level, plus one coalescing disc when the core velocity at the top disc beats small-bubble rise (minimum two).</li>
           <li>Disc count, aquifer air: one disc per the same length of wetted screen above the intake; minimum one, or two when the core velocity beats small-bubble rise. Both sources: the larger count.</li>
-          <li>Placement: falling water starts below the design pumping level at your spacing; aquifer air builds up from the intake clearance at your spacing; both spreads the discs evenly over the zone, never closer than your spacing.</li>
+          <li>Placement: falling water starts below the design pumping level at your spacing; aquifer air builds up from the intake clearance at your spacing; both spreads the discs evenly over the zone, never closer than your spacing and never more than twice it.</li>
           <li>Head-loss window per disc: enough to break the cascade's momentum, not so much it costs flow.</li>
         </ul>
         <h3>What it does not know</h3>
         <ul>
-          <li>Real bubble sizes, the air fraction, and how much of the casing wall the cascade covers.</li>
-          <li>Whether gas collects under a disc and releases in slugs. Watch motor amps and discharge for air after install.</li>
+          <li>Real bubble sizes, the gas fraction, how much of the casing wall the cascade covers, and the real inflow profile (a spinner log settles it).</li>
+          <li>Whether aquifer air arrives as free gas or as dissolved gas. Dissolved gas comes out as microbubbles that no disc can separate; measure total dissolved gas.</li>
+          <li>How gas pockets under discs behave without vent tubes. Watch motor amps and the discharge for air after install.</li>
           <li>Casing condition: out-of-round, weld beads, scale or a liner change the usable disc OD. Run a drift check first.</li>
+          <li>The field rules (feet per disc, head-loss window) are judgment values. Calibrate them against wells with before-and-after results.</li>
         </ul>
         <p class="muted">Results are a design aid generated from the inputs shown. They are not a stamped engineering document.</p>
       </div>
@@ -508,80 +556,160 @@ const GROUPS=[
     {id:"projBy",label:"Prepared by",type:"text",def:"",ph:"Name"},
     {id:"projRev",label:"Revision",type:"text",def:"A",ph:"A"},
   ]},
-  {key:"air",title:"Air source",open:true,note:"Falling water: perforations above the pumping level spill water that falls into the casing and drags air down. Aquifer air: water dumped into percolation ponds carries air down through the formation; it enters with the water through the wetted screen and travels to the pump.",fields:[
+  {key:"air",title:"Air source",open:true,note:"Falling water: perforations above the pumping level spill water that falls into the casing and drags air down. Aquifer air: recharge or spreading ponds push air down through the vadose zone; some may reach the wetted screen as free gas, but much of it arrives dissolved. Treat it as a hypothesis until a dissolved-gas test confirms it.",fields:[
     {id:"airMode",label:"Where the air comes from",type:"select",opts:[["cascade","Falling water into the casing"],["aquifer","Aquifer air from percolation ponds"],["both","Both sources"]],def:"cascade"},
-    {id:"airFrac",label:"Air carried in the inflow (estimate)",u:"% by vol.",def:1,step:0.1,min:0,max:30},
+    {id:"airFrac",label:"Gas in the inflow, at intake pressure (estimate)",u:"% by vol.",def:1,step:0.1,min:0,max:30},
   ]},
   {key:"well",title:"Well and column",open:true,fields:[
     {id:"casingID",label:"Casing inside diameter",u:"in",def:24,step:0.125,min:4,max:60},
     {id:"columnNom",label:"Column size",type:"select",opts:COLUMN.map(c=>[c[0],c[0]==="custom"?"Custom OD":c[0]+'" nominal ('+c[1]+' OD)']),def:"10"},
     {id:"columnOD",label:"Column outside diameter",u:"in",def:10.75,step:0.001,min:1,max:40},
-    {id:"motorOD",label:"Motor OD (0 = skip)",u:"in",def:7.5,step:0.125,min:0,max:40},
+    {id:"pumpType",label:"Pump type",type:"select",opts:[["turbine","Lineshaft turbine"],["sub","Submersible"]],def:"turbine"},
+    {id:"motorOD",label:"Motor OD (submersible)",u:"in",def:0,step:0.125,min:0,max:40},
+    {id:"bowlStages",label:"Bowl stages",u:"stages",def:6,step:1,min:1,max:30},
+    {id:"bowlOD",label:"Bowl OD (0 = estimate)",u:"in",def:0,step:0.125,min:0,max:60},
   ]},
   {key:"lev",title:"Levels and depths",open:true,sum:"ft below ground",fields:[
-    {id:"swl",label:"Static water level",u:"ft",def:120,step:1,min:0},
-    {id:"pwl",label:"Pumping water level",u:"ft",def:210,step:1,min:0},
-    {id:"drawAllow",label:"Seasonal drawdown allowance",u:"ft",def:15,step:1,min:0},
-    {id:"perfTop",label:"Top of perforations",u:"ft",def:150,step:1,min:0},
-    {id:"perfBot",label:"Bottom of perforations",u:"ft",def:420,step:1,min:0},
-    {id:"intake",label:"Pump intake setting",u:"ft",def:320,step:1,min:1},
+    {id:"swl",label:"Static water level",u:"ft",def:120,step:1,min:0,max:3000},
+    {id:"pwl",label:"Pumping water level",u:"ft",def:210,step:1,min:0,max:3000},
+    {id:"drawAllow",label:"Seasonal drawdown allowance",u:"ft",def:15,step:1,min:0,max:500},
+    {id:"perfTop",label:"Top of perforations",u:"ft",def:150,step:1,min:0,max:3000},
+    {id:"perfBot",label:"Bottom of perforations",u:"ft",def:420,step:1,min:0,max:3000},
+    {id:"intake",label:"Pump intake setting",u:"ft",def:320,step:1,min:1,max:3000},
   ]},
   {key:"flow",title:"Flow and pump",open:true,fields:[
-    {id:"q",label:"Pump design flow",u:"gpm",def:1200,step:10,min:1},
+    {id:"q",label:"Pump design flow",u:"gpm",def:1200,step:10,min:1,max:20000},
     {id:"fracAbove",label:"Flow entering above intake",u:"%",def:70,step:1,min:1,max:100},
-    {id:"slope",label:"Pump curve slope at duty",u:"ft/100gpm",def:10,step:0.5,min:0.1},
-    {id:"npshr",label:"NPSH required",u:"ft",def:22,step:1,min:0},
+    {id:"inflow",label:"How that flow enters",type:"select",opts:[["uniform","Evenly along the perforations"],["top","All above the top disc (conservative)"]],def:"uniform"},
+    {id:"slope",label:"Pump curve slope at duty",u:"ft/100gpm",def:10,step:0.5,min:0.1,max:200},
+    {id:"sysSlope",label:"System curve slope (0 = from drawdown)",u:"ft/100gpm",def:0,step:0.5,min:0,max:200},
+    {id:"checkValve",label:"Check valve in the column",type:"select",opts:[["yes","Yes"],["no","No or unknown"]],def:"yes"},
+    {id:"npshr",label:"NPSH required",u:"ft",def:22,step:1,min:0,max:500},
     {id:"elev",label:"Site elevation",u:"ft",def:300,step:10,min:-500,max:14000},
     {id:"tempF",label:"Water temperature",u:"°F",def:65,step:1,min:33,max:150},
-    {id:"motorMinV",label:"Min. motor cooling velocity",u:"ft/s",def:0.5,step:0.05,min:0},
+    {id:"motorMinV",label:"Min. motor cooling velocity",u:"ft/s",def:0.5,step:0.05,min:0,max:10},
   ]},
   {key:"build",title:"Disc build",open:false,fields:[
     {id:"segments",label:"Segments per disc (even)",u:"pcs",def:8,step:2,min:2,max:16},
-    {id:"thick",label:"Rubber disc thickness",u:"in",def:0.375,step:0.0625,min:0.0625},
-    {id:"gap",label:"Clearance to casing (radial)",u:"in",def:0.25,step:0.0625,min:0},
-    {id:"jointGap",label:"Gap between segments",u:"in",def:0.125,step:0.0625,min:0},
-    {id:"boreClear",label:"Bore clearance on column",u:"in",def:0.0625,step:0.03125,min:0},
-    {id:"hubWidth",label:"Steel hub ring width (radial)",u:"in",def:1.5,step:0.125,min:0.5,max:8},
+    {id:"thick",label:"Rubber disc thickness",u:"in",def:0.75,step:0.0625,min:0.0625,max:2},
+    {id:"gap",label:"Clearance to casing (radial)",u:"in",def:0.25,step:0.0625,min:0,max:2},
+    {id:"jointGap",label:"Gap between segments",u:"in",def:0.125,step:0.0625,min:0,max:1},
+    {id:"boreClear",label:"Bore clearance on column",u:"in",def:0.0625,step:0.03125,min:0,max:1},
+    {id:"hubWidth",label:"Steel hub ring width (radial)",u:"in",def:2,step:0.125,min:0.5,max:8},
     {id:"hubThick",label:"Steel hub ring thickness",u:"in",def:0.25,step:0.0625,min:0.0625,max:2},
+    {id:"shore",label:"Rubber hardness",u:"Shore A",def:70,step:5,min:40,max:95},
+    {id:"eRub",label:"Rubber bending modulus (0 = from hardness)",u:"psi",def:0,step:50,min:0,max:100000},
+    {id:"maxSag",label:"Max. rim sag",u:"in",def:0.25,step:0.0625,min:0.0625,max:6},
+    {id:"vent",label:"Gas vent under discs",type:"select",opts:[["none","None"],["tubes","Vent tube from under each disc"]],def:"tubes"},
     {id:"boltsPerSeg",label:"Hub bolts per segment",u:"pcs",def:1,step:1,min:0,max:2},
-    {id:"boltDia",label:"Bolt hole diameter",u:"in",def:0.4375,step:0.0625,min:0.125},
+    {id:"boltDia",label:"Bolt hole diameter",u:"in",def:0.4375,step:0.0625,min:0.125,max:2},
     {id:"nPorts",label:"Pass-through ports",u:"pcs",def:2,step:1,min:0,max:4},
-    {id:"portD",label:"Port diameter",u:"in",def:2,step:0.125,min:0.5},
-    {id:"portOcc",label:"Tube or cable in each port",u:"in OD",def:1.25,step:0.125,min:0},
-    {id:"portTab",label:"Web between ports",u:"in",def:0.5,step:0.125,min:0.125},
+    {id:"portD",label:"Port diameter",u:"in",def:2,step:0.125,min:0.5,max:12},
+    {id:"portOcc",label:"Tube or cable in each port",u:"in OD",def:1.25,step:0.125,min:0,max:12},
+    {id:"portTab",label:"Web between ports",u:"in",def:1,step:0.125,min:0.125,max:6},
     {id:"holeMode",label:"Hole size",type:"select",opts:[["auto","Auto-select"]].concat(STD_HOLES.map(h=>[String(h),frac(h)+'"'])),def:"auto"},
-    {id:"fixedPitch",label:"Pitch (0 = auto)",u:"in",def:0,step:0.0625,min:0},
-    {id:"minHole",label:"Min. hole (anti-fouling)",u:"in",def:0.625,step:0.0625,min:0.25},
+    {id:"fixedPitch",label:"Pitch (0 = auto)",u:"in",def:0,step:0.0625,min:0,max:12},
+    {id:"minHole",label:"Min. hole (anti-fouling)",u:"in",def:0.625,step:0.0625,min:0.25,max:2},
     {id:"targetOpen",label:"Target open area",u:"%",def:20,step:1,min:5,max:60},
     {id:"ligament",label:"Min. pitch ÷ hole",u:"×",def:1.6,step:0.05,min:1.15,max:4},
     {id:"edgeMargin",label:"Edge margin",u:"× hole",def:0.5,step:0.25,min:0.25,max:4},
   ]},
   {key:"place",title:"Placement",open:false,note:"Falling water: the stack starts below the design pumping level at your spacing. Aquifer air: it is built up from the intake clearance at your spacing. Both: the discs are spread evenly across the whole zone, never closer than your spacing.",fields:[
-    {id:"submerge",label:"Top disc below design PWL",u:"ft",def:10,step:1,min:0},
-    {id:"intakeClear",label:"Bottom disc above intake",u:"ft",def:15,step:1,min:0},
-    {id:"spacing",label:"Disc spacing",u:"ft",def:10,step:1,min:1},
+    {id:"submerge",label:"Top disc below design PWL",u:"ft",def:10,step:1,min:0,max:300},
+    {id:"intakeClear",label:"Bottom disc above intake",u:"ft",def:15,step:1,min:0,max:300},
+    {id:"spacing",label:"Disc spacing",u:"ft",def:10,step:1,min:1,max:100},
     {id:"discMode",label:"Number of discs",type:"select",opts:[["auto","Auto (design rule)"]].concat([1,2,3,4,5,6,7,8].map(n=>[String(n),n+" disc"+(n>1?"s":"")])),def:"auto"},
   ]},
   {key:"model",title:"Model assumptions",open:false,note:"Field-judgment values. Calibrate them against wells with before-and-after results. C0: bubbles ride the faster core of the flow, about 1.2 × the average (drift-flux). The merged-gas cap stops the slug-rise formula being stretched to large casings, where big bubbles break into cap bubbles.",fields:[
-    {id:"vb",label:"Small-bubble rise",u:"ft/s",def:0.75,step:0.05,min:0.1},
+    {id:"vb",label:"Small-bubble rise",u:"ft/s",def:0.6,step:0.05,min:0.1,max:3},
     {id:"slugSF",label:"Safety factor, merged gas",u:"×",def:0.6,step:0.05,min:0.1,max:1},
-    {id:"hMin",label:"Min. head loss per disc",u:"ft",def:0.05,step:0.01,min:0},
-    {id:"hMax",label:"Max. head loss per disc",u:"ft",def:0.5,step:0.05,min:0.01},
-    {id:"maxFlowLoss",label:"Max. flow loss",u:"%",def:1,step:0.1,min:0},
-    {id:"ftPerStage",label:"Fall or wetted screen per disc",u:"ft",def:30,step:1,min:5},
+    {id:"hMin",label:"Min. head loss per disc",u:"ft",def:0.05,step:0.01,min:0,max:5},
+    {id:"hMax",label:"Max. head loss per disc",u:"ft",def:0.5,step:0.05,min:0.01,max:10},
+    {id:"maxFlowLoss",label:"Max. flow loss",u:"%",def:1,step:0.1,min:0,max:20},
+    {id:"ftPerStage",label:"Fall or wetted screen per disc",u:"ft",def:30,step:1,min:5,max:500},
     {id:"c0",label:"Velocity profile factor (C0)",u:"×",def:1.2,step:0.05,min:1,max:1.5},
-    {id:"capRise",label:"Max merged-gas rise (cap bubbles)",u:"ft/s",def:1.0,step:0.05,min:0.3,max:3},
-    {id:"npshMargin",label:"Min. NPSH margin",u:"ft",def:3,step:0.5,min:0},
+    {id:"capRise",label:"Max merged-gas rise (0 = Kataoka–Ishii)",u:"ft/s",def:0,step:0.05,min:0,max:3},
+    {id:"npshMargin",label:"Min. NPSH margin",u:"ft",def:3,step:0.5,min:0,max:100},
   ]},
   {key:"unc",title:"Uncertainty",open:false,note:"Ranges for the risk analysis: the spread either side of each design value.",fields:[
-    {id:"uPwl",label:"Pumping level ±",u:"ft",def:20,step:1,min:0},
+    {id:"uPwl",label:"Pumping level ±",u:"ft",def:20,step:1,min:0,max:500},
     {id:"uQ",label:"Flow ±",u:"%",def:10,step:1,min:0,max:60},
     {id:"uFrac",label:"Flow from above ±",u:"pts",def:15,step:1,min:0,max:60},
-    {id:"uVb",label:"Bubble rise ±",u:"ft/s",def:0.15,step:0.05,min:0},
+    {id:"uVb",label:"Bubble rise ±",u:"ft/s",def:0.2,step:0.05,min:0,max:2},
     {id:"uSlope",label:"Pump curve slope ±",u:"%",def:25,step:5,min:0,max:80},
     {id:"mcRuns",label:"Runs",u:"runs",def:4000,step:500,min:500,max:20000},
   ]},
 ];
+const TIPS={
+projWell:"The well name or number as the utility records it. Printed on the report, drawings and cut files.",
+projUtility:"The owner or utility. Printed on the report cover.",
+projLoc:"Site, address or wellfield. Printed on the report cover.",
+projBy:"Who prepared the design. Printed on the report and drawings.",
+projRev:"Drawing revision letter. Change it every time you send a new version to the shop.",
+airMode:"Where the air comes from. Falling water: perforations above the pumping level spill water that falls into the casing and drags air down. Aquifer air: recharge or spreading ponds push air down through the vadose zone, and it enters through the wetted screen. Pick Both if you see signs of each.",
+airFrac:"Your estimate of free air carried in with the water, as a percent of flow by volume. Typical 0.5–3%. It is not measured by the tool; use a discharge air test or a sight glass if you have one.",
+casingID:"Inside diameter of the casing where the discs sit, in inches. Use the measured or drift-checked ID, not the nominal size. Typical 12–30 in for municipal wells.",
+columnNom:"Nominal column pipe size. Picking a size fills in the outside diameter. Use Custom for odd pipe.",
+columnOD:"Outside diameter of the column pipe body, in inches (10 in pipe is 10.750 OD). The disc bore is cut to this plus the bore clearance. Couplings are larger, so discs go on the pipe body between couplings.",
+pumpType:"Lineshaft turbine: bowls hang on the column with a suction bell and strainer, driven from the surface. Submersible: a motor below the bowls, with an intake screen between them; the tool then checks motor cooling flow.",
+bowlStages:"Number of pump stages (bowls), one impeller each, from the pump data sheet. Sets the height of the bowl assembly above the intake.",
+bowlOD:"Outside diameter of the bowl assembly, in inches, from the pump data sheet. Leave 0 to estimate it from the column size. Must clear the casing.",
+motorOD:"Outside diameter of the submersible motor, used to check cooling flow past it. Enter 0 for a lineshaft turbine or to skip the check. Typical 6–10 in.",
+swl:"Depth to water with the pump off, in feet below ground. From a sounder or airline reading after full recovery.",
+pwl:"Depth to water while pumping at the design flow, in feet below ground, after the level has stabilised. Must be at or below the static level.",
+drawAllow:"Extra drawdown to design for: seasonal decline, interference from nearby wells, or screen loss over time. The design pumping level is the pumping level plus this. Typical 10–30 ft.",
+perfTop:"Depth to the top of the perforations or screen, in feet. If it is shallower than the pumping level, water cascades into the casing from the exposed part.",
+perfBot:"Depth to the bottom of the perforations or screen, in feet. Must be deeper than the top.",
+intake:"Depth of the pump intake (bowl inlet or suction screen), in feet. Must be below the design pumping level. Discs are placed between the pumping level and the intake.",
+q:"Pump flow at the duty point, in gpm. Use the flow the well actually runs at, or the design rate if it is new.",
+fracAbove:"Share of the flow that enters through perforations above the intake and so flows down the annulus past the discs. The rest enters below the intake and comes up past the motor. From a spinner log or estimated from screen lengths. Typical 50–100%.",
+slope:"How much head the pump loses per 100 gpm of extra flow at the duty point, read from the pump curve (ft per 100 gpm). Used to turn the discs' head loss into lost flow. Typical 3–20.",
+npshr:"Net positive suction head the pump needs at the duty flow, from the pump curve, in feet.",
+elev:"Ground elevation above sea level, in feet. Sets the atmospheric pressure used for NPSH available.",
+tempF:"Groundwater temperature, in °F. Sets the vapor pressure used for NPSH available. Typical 55–75 °F.",
+motorMinV:"Minimum water velocity past the motor that the motor maker requires for cooling, in ft/s. Often 0.25–0.5 ft/s; check the motor manual.",
+segments:"How many pie-shaped rubber segments make one disc. Use an even number so the steel hub ring splits into two equal halves that fit around an installed column. 8 is typical.",
+thick:"Thickness of the rubber sheet, in inches. Thicker rubber sags less under the water pressure across the disc and lasts longer. See the sag check in the Design notes.",
+gap:"Radial gap left between the disc edge and the casing wall, in inches. Keep it as tight as the casing drift allows (1/8–1/4 in) so falling water cannot slide down the wall past the disc.",
+jointGap:"Gap left between neighbouring rubber segments, in inches, for water-jet kerf and fit-up. Typical 1/16–1/8 in.",
+boreClear:"Radial clearance between the disc bore and the column pipe, in inches. Small, so the hub ring clamps tight. Typical 1/32–1/16 in.",
+hubWidth:"Radial width of the steel hub ring that clamps the segments to the column, in inches. Wider is stronger and supports more of the rubber, but leaves less room for holes. Typical 1.25–2 in.",
+hubThick:"Thickness of the steel hub ring, in inches. Typical 1/4–3/8 in.",
+boltsPerSeg:"Bolts through the hub ring into each rubber segment. One is typical; two for large discs.",
+boltDia:"Bolt hole diameter in the hub ring and rubber, in inches (7/16 in suits 3/8 in bolts).",
+nPorts:"Pass-through holes for the power cable, airline or sounding tube. Usually 2: one for cable, one for the airline or sounder.",
+portD:"Diameter of each pass-through port, in inches. Large enough to feed the cable or tube through.",
+portOcc:"Outside diameter of the cable or tube that runs through each port, in inches. Water can only flow through the space left around it.",
+portTab:"Width of the rubber left between two neighbouring ports, in inches.",
+holeMode:"Hole size for the perforations. Auto lets the optimizer pick the best balance of flow loss, cutting time and fouling. Set a size to force it.",
+fixedPitch:"Centre-to-centre spacing of the holes on a 60° staggered pattern, in inches. 0 lets the tool choose.",
+minHole:"Smallest hole the tool may use, in inches. Small holes plug with sand, scale and biofilm. 5/8 in is a sensible minimum for most wells.",
+targetOpen:"Open area you want through each disc, as a percent of the annulus. Holes, casing gap, ports and joints all count. Typical 20–35%. Less open area works the water harder but costs more flow.",
+ligament:"Minimum hole spacing as a multiple of hole diameter. Keeps enough rubber between holes so it does not tear. 1.5–2× is typical for rubber.",
+edgeMargin:"Clear rubber kept between any hole and an edge, joint or port, as a multiple of the hole diameter.",
+submerge:"How far below the design pumping level the top disc sits, in feet. Keeps the top disc under water when the level drops and below the worst of the plunging cascade. Typical 10–20 ft.",
+intakeClear:"Minimum distance between the bottom disc and the pump intake, in feet, so the discs do not disturb flow into the pump. Typical 10–20 ft.",
+spacing:"Vertical distance between discs, in feet. Typical 8–15 ft. Keep discs at least 1 ft from column couplings.",
+discMode:"Auto uses the design rule. Choose a number to force it; the tool will say if it disagrees.",
+vb:"Rise speed of small bubbles (about 1–5 mm) in still water, in ft/s. About 0.75 ft/s (0.23 m/s) is the textbook value for clean water; contaminated water slows them a little.",
+slugSF:"Safety factor applied to how fast merged gas rises. 0.6 means design for 60% of the theoretical rise speed.",
+hMin:"Least head loss each disc should create to break up the falling water, in feet. Too little and the disc barely affects the flow.",
+hMax:"Most head loss allowed per disc, in feet. Also limits the pressure that bends the rubber.",
+maxFlowLoss:"Most flow you are willing to give up to the disc stack, as a percent of pump flow. 1% is typical.",
+ftPerStage:"How many feet of falling water, or of wetted screen above the intake, one disc is expected to handle. Fewer feet per disc means more discs. Calibrate against wells with before-and-after results.",
+c0:"Bubbles ride the faster centre of the flow. C0 is how much faster than average, from drift-flux theory. 1.2 is the standard value for turbulent pipe flow.",
+capRise:"Upper limit on merged-gas rise speed, in ft/s. In large casings big bubbles break into cap bubbles that rise at about 1 ft/s, slower than the slug formula predicts for small pipes.",
+npshMargin:"Minimum NPSH available above NPSH required that you will accept, in feet. Typical 3–5 ft.",
+uPwl:"How far the pumping level could be above or below your design value, in feet, for the risk runs.",
+uQ:"How far the flow could vary either way, as a percent, for the risk runs.",
+uFrac:"How far the share of flow from above the intake could vary, in percentage points, for the risk runs.",
+uVb:"How far small-bubble rise speed could vary, in ft/s, for the risk runs.",
+uSlope:"How far the pump curve slope could vary, as a percent, for the risk runs.",
+mcRuns:"Number of random what-if runs in the risk analysis. 4,000 is plenty; more is slower and smoother.",
+shore:"Hardness of the rubber on the Shore A scale, from the rubber spec sheet. Harder rubber is stiffer and sags less. Typical 60–80 A.",
+eRub:"Bending modulus of the rubber, in psi, if the supplier gives one (fabric-reinforced sheet is much stiffer than plain rubber). Leave at 0 to estimate it from the Shore A hardness.",
+maxSag:"Most droop you will accept at the disc's outer edge under the water pressure across it, in inches. More droop cones the disc and opens a gap at the casing wall."
+};
 const ALL=GROUPS.flatMap(g=>g.fields), DEFAULTS={};
 ALL.forEach(f=>DEFAULTS[f.id]=f.def);
 const isTxt=f=>f.type==="select"||f.type==="text";
@@ -591,31 +719,62 @@ GROUPS.forEach(g=>{
   let h='<summary><h3>'+esc(g.title)+'</h3><small id="sum_'+g.key+'">'+(g.sum?esc(g.sum):"")+'</small></summary><div class="gbody">';
   if(g.note) h+='<p class="note">'+esc(g.note)+'</p>';
   g.fields.forEach(f=>{
-    h+='<div class="field'+(isTxt(f)?" full":"")+'" id="f_'+f.id+'"><label for="'+f.id+'">'+esc(f.label)+'</label><div class="inbox">';
-    if(f.type==="select") h+='<select id="'+f.id+'">'+f.opts.map(o=>'<option value="'+o[0]+'">'+esc(o[1])+'</option>').join("")+'</select>';
-    else if(f.type==="text") h+='<input id="'+f.id+'" type="text" placeholder="'+esc(f.ph||"")+'" maxlength="80">';
-    else h+='<input id="'+f.id+'" type="number" inputmode="decimal" step="'+f.step+'"'+(f.min!=null?' min="'+f.min+'"':'')+(f.max!=null?' max="'+f.max+'"':'')+'><span class="u">'+esc(f.u)+'</span>';
+    const tip=TIPS[f.id]; h+='<div class="field'+(isTxt(f)?" full":"")+'" id="f_'+f.id+'"><label for="'+f.id+'"><span class="lt">'+esc(f.label)+'</span>'+(tip?'<button type="button" class="tipb" data-tip="'+f.id+'" aria-label="What is '+esc(f.label)+'?" aria-expanded="false">i</button>':'')+'</label>'+(tip?'<span class="sr" id="tip_'+f.id+'">'+esc(tip)+'</span>':'')+'<div class="inbox">';
+    const db=tip?' aria-describedby="tip_'+f.id+'"':'';
+    if(f.type==="select") h+='<select id="'+f.id+'"'+db+'>'+f.opts.map(o=>'<option value="'+o[0]+'">'+esc(o[1])+'</option>').join("")+'</select>';
+    else if(f.type==="text") h+='<input id="'+f.id+'"'+db+' type="text" placeholder="'+esc(f.ph||"")+'" maxlength="80">';
+    else h+='<input id="'+f.id+'"'+db+' type="number" inputmode="decimal" step="'+f.step+'"'+(f.min!=null?' min="'+f.min+'"':'')+(f.max!=null?' max="'+f.max+'"':'')+'><span class="u">'+esc(f.u)+'</span>';
     h+='</div></div>';
   });
   d.innerHTML=h+'</div>'; form.appendChild(d);
   if(window.innerWidth<=1000&&!["air","well"].includes(g.key)) d.open=false;
 });
+(function(){const pop=document.createElement("div");pop.id="tipPop";pop.setAttribute("role","tooltip");pop.hidden=true;document.body.appendChild(pop);let cur=null,pin=false;
+  const show=(b,p)=>{const f=ALL.find(x=>x.id===b.dataset.tip);if(!f)return;if(cur&&cur!==b)cur.setAttribute("aria-expanded","false");cur=b;pin=!!p;b.setAttribute("aria-expanded","true");
+    pop.innerHTML="<b>"+esc(f.label)+(f.u?" ("+esc(f.u)+")":"")+"</b>"+esc(TIPS[f.id]);pop.hidden=false;const r=b.getBoundingClientRect(),w=Math.min(300,innerWidth-24);pop.style.maxWidth=w+"px";
+    const ph=pop.offsetHeight;let x=Math.min(Math.max(12,r.left-12),innerWidth-w-12),y=r.bottom+8;if(y+ph>innerHeight-8)y=Math.max(8,r.top-ph-8);pop.style.left=x+"px";pop.style.top=y+"px";};
+  const hide=()=>{if(cur)cur.setAttribute("aria-expanded","false");cur=null;pin=false;pop.hidden=true;};
+  form.addEventListener("mouseover",e=>{const b=e.target.closest(".tipb");if(b&&!pin)show(b);});
+  form.addEventListener("mouseout",e=>{const b=e.target.closest(".tipb");if(b&&!pin&&!b.contains(e.relatedTarget))hide();});
+  form.addEventListener("focusin",e=>{const b=e.target.closest(".tipb");if(b)show(b);});
+  form.addEventListener("focusout",e=>{if(e.target.closest(".tipb")&&!pin)hide();});
+  form.addEventListener("click",e=>{const b=e.target.closest(".tipb");if(!b)return;e.preventDefault();if(cur===b&&pin)hide();else show(b,true);});
+  document.addEventListener("click",e=>{if(pin&&!e.target.closest(".tipb"))hide();});
+  document.addEventListener("keydown",e=>{if(e.key==="Escape")hide();});
+  addEventListener("scroll",()=>{if(cur)hide();},true);})();
 function setValues(v){ALL.forEach(f=>{let val=v[f.id]!=null?v[f.id]:f.def; if(f.type==="select"&&!f.opts.some(o=>o[0]===String(val))) val=f.def; $(f.id).value=val;});markChanged();}
 function readValues(){const v={};ALL.forEach(f=>{const el=$(f.id);v[f.id]=isTxt(f)?el.value:parseFloat(el.value);});return v;}
 function markChanged(){ALL.forEach(f=>{if(f.type==="text")return;const el=$(f.id);const cur=f.type==="select"?el.value:parseFloat(el.value);$("f_"+f.id).classList.toggle("changed",String(cur)!==String(f.def));});}
-const LS_KEY="ead-ws-v3";
+const LS_KEY="ead-ws-v7";
 let saved=null; try{saved=JSON.parse(localStorage.getItem(LS_KEY)||"null")}catch(e){}
 setValues(Object.assign({},DEFAULTS,saved||{}));
+if(saved) setTimeout(()=>{try{toast("Restored your last inputs. Use the … menu to reset.")}catch(e){}},900);
+const syncPump=()=>{const sub=$("pumpType").value==="sub";$("f_motorOD").hidden=!sub;$("f_motorMinV").hidden=!sub;};syncPump();$("pumpType").addEventListener("change",syncPump);
+const syncAir=()=>{const on=$("airMode").value!=="cascade";$("f_airFrac").hidden=!on;};syncAir();$("airMode").addEventListener("change",syncAir);
 $("columnNom").addEventListener("change",e=>{const m=COLUMN.find(c=>c[0]===e.target.value); if(m&&m[1]!=="custom") $("columnOD").value=parseFloat(m[1]);});
 $("columnOD").addEventListener("input",e=>{const v=parseFloat(e.target.value);const m=COLUMN.find(c=>c[1]!=="custom"&&Math.abs(parseFloat(c[1])-v)<1e-3);$("columnNom").value=m?m[0]:"custom";});
 
 /* ---------------- physics ---------------- */
 function vaporFt(tF){const tC=(tF-32)*5/9;return Math.pow(10,8.07131-1730.63/(233.426+tC))*0.0446;}
 function atmFt(el){return 33.96*Math.pow(1-6.8754e-6*el,5.2559);}
-function zeta(phi){phi=clamp(phi,1e-4,0.9999);return Math.pow(0.707*Math.sqrt(1-phi)+1-phi,2)/(phi*phi);}
-function phiForLoss(V,h){const k=V*V/(2*G); if(k<=0) return 0.01; if(zeta(0.95)*k>h) return 0.95;
-  let lo=0.005,hi=0.95; for(let i=0;i<60;i++){const m=(lo+hi)/2; if(zeta(m)*k>h) lo=m; else hi=m;} return hi;}
+/* Idelchik, Handbook of Hydraulic Resistance, Diagram 8-3: perforated plate of thickness l, hole d.
+   zeta = [0.5(1-f)^0.75 + tau(l/d)(1-f)^1.375 + (1-f)^2 + lambda l/d] / f^2, on the approach (annular) velocity.
+   tau(0) = 1.41 reproduces the thin sharp-edged plate (0.707(1-f)^0.375 + 1 - f)^2 / f^2. */
+const TAU_LD=[[0,1.41],[0.2,1.22],[0.4,1.10],[0.6,0.84],[0.8,0.42],[1.0,0.24],[1.2,0.16],[1.6,0.07],[2.0,0.02],[2.4,0]];
+function tauLD(x){x=Math.max(0,x);for(let i=1;i<TAU_LD.length;i++){const [x0,y0]=TAU_LD[i-1],[x1,y1]=TAU_LD[i];if(x<=x1) return y0+(y1-y0)*(x-x0)/(x1-x0);}return 0;}
+function zeta(phi,ld){phi=clamp(phi,1e-4,0.9999);ld=Math.max(0,ld||0);const f=1-phi;return (0.5*Math.pow(f,0.75)+tauLD(ld)*Math.pow(f,1.375)+f*f+0.02*ld)/(phi*phi);}
+function phiForZeta(zt,ld){if(!(zt<Infinity)) return 0.005; if(zeta(0.95,ld)>zt) return 0.95;
+  let lo=0.005,hi=0.95; for(let i=0;i<60;i++){const m=(lo+hi)/2; if(zeta(m,ld)>zt) lo=m; else hi=m;} return hi;}
+/* Kataoka & Ishii (1987), drift velocity of large bubbles in large-diameter channels, air-water. Pressure in ft of water absolute. */
+function kiDrift(Pft,DhIn){
+  const rf=998, rg=1.204*Pft/33.9, sig=0.0728, mu=1.0e-3, g=9.81, dr=rf-rg, Lap=Math.sqrt(sig/(g*dr));
+  const Nmu=mu/Math.sqrt(rf*sig*Lap), Dstar=(DhIn*0.0254)/Lap, k=Dstar>30?0.030:0.0019*Math.pow(Dstar,0.809);
+  return k*Math.pow(rg/rf,-0.157)*Math.pow(Nmu,-0.562)*Math.pow(sig*g*dr/(rf*rf),0.25)*3.28084;
+}
 function screenAbove(v,pwl){return Math.max(0,Math.min(v.intake,v.perfBot)-Math.max(pwl,v.perfTop));}
+/* Share of the above-intake flow that has entered the annulus by depth z. */
+function shareAt(v,z){if(v.inflow==="top") return 1; const z1=Math.min(v.intake,v.perfBot), L=z1-v.perfTop; if(L<=0) return 1; return clamp((z-v.perfTop)/L,0,1);}
+function cascadeFt(v,pwl){return v.airMode==="aquifer"?0:Math.max(0,pwl-Math.max(v.perfTop,v.swl));}
 function stagesRequired(hc,regime,ftPer,mode,scr){
   mode=mode||"cascade";
   const nC=(mode!=="aquifer"&&hc>0)?Math.ceil(hc/ftPer):0;
@@ -624,6 +783,34 @@ function stagesRequired(hc,regime,ftPer,mode,scr){
   if(regime==="A") return Math.max(nC,nA);
   return Math.max(2,nC>0?nC+1:0,nA);
 }
+/* Rubber disc sag: annular Kirchhoff plate, uniform pressure, clamped at the hub ring OD, free at the rim.
+   w = q r^4/64D + C1 + C2 r^2 + C3 ln r + C4 r^2 ln r; free-edge shear gives C4 = -q a^2/(8D).
+   Checked against Timoshenko & Woinowsky-Krieger, Theory of Plates, Table 3 (a/b = 2, nu 0.3: k1 = 0.0938).
+   Holes soften the plate: stiffness x ligament efficiency (p-d)/p, an approximation to ASME perforated-plate data.
+   Linear theory: when droop exceeds the thickness, membrane action makes the real droop smaller. */
+function shoreToE(S){S=clamp(S,30,95);return 0.0981*(56+7.62336*S)/(0.137505*(254-2.54*S))*145.038;}
+function solve3(A,B){const M=A.map((r,i)=>r.concat([B[i]]));for(let c=0;c<3;c++){let p=c;for(let r=c+1;r<3;r++) if(Math.abs(M[r][c])>Math.abs(M[p][c])) p=r;[M[c],M[p]]=[M[p],M[c]];
+  for(let r=0;r<3;r++){if(r===c) continue;const f=M[r][c]/M[c][c];for(let k=c;k<4;k++) M[r][k]-=f*M[c][k];}}return [M[0][3]/M[0][0],M[1][3]/M[1][1],M[2][3]/M[2][2]];}
+function annularPlate(q,a,b,t,E,nu,eta){
+  const D=eta*E*t**3/(12*(1-nu*nu)), C4=-q*a*a/(8*D), L=Math.log;
+  const W=r=>[[1,r*r,L(r)],q*r**4/(64*D)+C4*r*r*L(r)], S=r=>[[0,2*r,1/r],q*r**3/(16*D)+C4*(2*r*L(r)+r)],
+        Mm=r=>[[0,2*(1+nu),-(1-nu)/(r*r)],q*r*r*(3+nu)/(16*D)+C4*(2*L(r)*(1+nu)+3+nu)];
+  const [wb,wb0]=W(b),[sb,sb0]=S(b),[ma,ma0]=Mm(a), C=solve3([wb,sb,ma],[-wb0,-sb0,-ma0]), dot=(x,y)=>x[0]*y[0]+x[1]*y[1]+x[2]*y[2];
+  const [wa,wa0]=W(a),[mb,mb0]=Mm(b);
+  return {w:dot(wa,C)+wa0,stress:6*Math.abs(-D*(dot(mb,C)+mb0))/(t*t)/eta};
+}
+function discSag(v,Gd,hDisc,pitch,d){
+  const E=v.eRub>0?v.eRub:shoreToE(v.shore), q=hDisc*0.4335, mu=clamp((pitch-d)/pitch,0.05,1), a=Gd.Ro, b=Gd.Rh;
+  const force=q*Math.PI*(a*a-Gd.Rs*Gd.Rs);
+  if(!(a>b)||!(hDisc>0)) return {E,q,w:0,wSolid:0,strain:0,mu,span:Math.max(0,a-b),tNeed:null,force};
+  const pf=annularPlate(q,a,b,v.thick,E,0.49,mu), so=annularPlate(q,a,b,v.thick,E,0.49,1);
+  const tNeed=[0.375,0.5,0.625,0.75,0.875,1,1.25,1.5,2].find(t=>annularPlate(q,a,b,t,E,0.49,mu).w<=v.maxSag)||null;
+  return {E,q,w:pf.w,wSolid:so.w,strain:pf.stress/E,mu,span:a-b,tNeed,force};
+}
+/* Counter-current flooding through the holes (Wallis 1969): gas can rise against the water only if
+   sqrt(Hf) + m sqrt(Hg) < C, Hf = j_f / sqrt(g d). With C about 0.7-1.0, sqrt(Hf) >= 0.8 means no upward gas flow. */
+const FLOOD_C=0.8;
+function floodIndex(Vhole,dIn){return Math.sqrt(Math.max(0,Vhole)/Math.sqrt(G*dIn/12));}
 
 /* ---------------- geometry (one source for screen, PDF, DXF) ----------------
    Local segment frame: segment centred on angle 0. Assembly: segment k centred at -90deg + k*360/n; segment 0 carries the ports. */
@@ -634,7 +821,7 @@ function geom(v){
   const portsL=[]; for(let i=0;i<nP;i++) portsL.push(pol(Rh,(i-(nP-1)/2)*dA));
   const Rb=(Rs+Rh)/2, nb=Math.round(v.boltsPerSeg);
   const boltsL=nb>=2?[pol(Rb,-half/2),pol(Rb,half/2)]:(nb===1?[pol(Rb,0)]:[]);
-  const clearOf=b=>!portsL.some(p=>Math.hypot(b[0]-p[0],b[1]-p[1])<rp+v.boltDia/2+0.125);
+  const web=Math.max(0.25,0.6*(v.thick||0)), clearOf=b=>!portsL.some(p=>Math.hypot(b[0]-p[0],b[1]-p[1])<rp+v.boltDia/2+web);
   let boltsP=boltsL.filter(clearOf);
   if(boltsL.length&&!boltsP.length) boltsP=[pol(Rb,-half/2),pol(Rb,half/2)].filter(clearOf).slice(0,Math.max(1,boltsL.length));
   return {nseg,half,th:2*half,Rs,Rh,Ro,rp,nP,portsL,boltsL,boltsP,Rb,jg:v.jointGap,columnR:v.columnOD/2,m:0};
@@ -709,16 +896,18 @@ function polyLen(pts){let L=0;for(let i=0;i<pts.length;i++){const p=pts[i],q=pts
   if(Math.abs(p[2])<1e-9) L+=c; else {const th=4*Math.atan(Math.abs(p[2])); L+=c/(2*Math.sin(th/2))*th;}} return L;}
 const transformPoly=(pts,f)=>pts.map(p=>{const q=f([p[0],p[1]]);return [q[0],q[1],p[2]];});
 
-/* ---------------- hydraulics core (design, risk, sensitivity) ---------------- */
+/* ---------------- hydraulics core (design, risk, sensitivity) ----------------
+   Downflow builds with depth as the screen yields water (inflow profile). The separation zone is the water above the
+   top disc: that is where freed gas can still escape to the surface, so the regime is judged at the top disc. */
 function hydro(v,ctx,over){
-  const s=Object.assign({q:v.q,frac:v.fracAbove,pwl:v.pwl+v.drawAllow,vb:v.vb,slope:v.slope},over||{});
-  const Va=s.q*s.frac/100/448.831/ctx.Aann, Vc=v.c0*Va;
+  const s=Object.assign({q:v.q,frac:v.fracAbove,pwl:v.pwl+v.drawAllow,vb:v.vb,slope:v.slope,c0:v.c0,zm:1},over||{});
+  const qa=s.q*s.frac/100/448.831, Va=qa*ctx.sGov/ctx.Aann, Vc=s.c0*Va, VcInt=s.c0*qa/ctx.Aann;
   const regime=Vc<=s.vb?"A":(Vc<=ctx.UtA?"B":"C");
-  const hDisc=ctx.z*Va*Va/(2*G), hTot=ctx.nUse*hDisc;
-  const dQpct=hTot/s.slope*100/s.q*100;
+  let hTot=0,hDisc=0; ctx.shareD.forEach(sh=>{const V=qa*sh/ctx.Aann, h=s.zm*ctx.z*V*V/(2*G); hTot+=h; if(h>hDisc) hDisc=h;});
+  const dQpct=hTot/(s.slope+ctx.sys)*100/s.q*100;
   const npsha=ctx.Hatm+(v.intake-s.pwl)-ctx.Hv-hTot;
-  const hc=v.airMode==="aquifer"?0:Math.max(0,s.pwl-v.perfTop);
-  return {Va,Vc,regime,hDisc,hTot,dQpct,npsha,margin:npsha-v.npshr,cover:ctx.nUse?ctx.top-s.pwl:NaN,hc,ratio:Vc/s.vb,nReq:stagesRequired(hc,regime,v.ftPerStage,v.airMode,screenAbove(v,s.pwl))};
+  const hc=cascadeFt(v,s.pwl);
+  return {Va,Vc,VcInt,regime,hDisc,hTot,dQpct,npsha,margin:npsha-v.npshr,cover:ctx.nUse?ctx.top-s.pwl:NaN,hc,ratio:Vc/s.vb,nReq:stagesRequired(hc,regime,v.ftPerStage,v.airMode,screenAbove(v,s.pwl))};
 }
 
 /* ---------------- main compute ---------------- */
@@ -731,13 +920,14 @@ function compute(v){
   ALL.forEach(f=>{
     if(f.type==="select"){ need(f.opts.some(o=>o[0]===String(v[f.id])),f.id,"Choose a value for “"+f.label+"”."); return; }
     if(f.type==="text") return;
-    const x=v[f.id]; if((f.min!=null&&x<f.min)||(f.max!=null&&x>f.max)) need(false,f.id,"“"+f.label+"” must be "+(f.max!=null?"between "+f.min+" and "+f.max:"at least "+f.min)+(f.u?" "+f.u:"")+".");
+    const x=v[f.id]; if((f.min!=null&&x<f.min)||(f.max!=null&&x>f.max)) need(false,f.id,"“"+f.label+"” must be "+(f.max!=null?"between "+f.min+" and "+f.max:"at least "+f.min)+(f.u?" "+f.u:"")+(f.u&&/\.$/.test(f.u)?"":"."));
   });
-  ["segments","nPorts","boltsPerSeg","mcRuns"].forEach(id=>need(Number.isInteger(v[id]),id,"“"+ALL.find(f=>f.id===id).label+"” must be a whole number."));
+  ["segments","nPorts","boltsPerSeg","mcRuns","bowlStages"].forEach(id=>need(Number.isInteger(v[id]),id,"“"+ALL.find(f=>f.id===id).label+"” must be a whole number."));
   if(err.length) return {err,flags};
   need(v.segments%2===0,"segments","Use an even number of segments, so the hub ring splits into two equal halves that can be fitted around an installed column.");
   need(v.perfTop<v.intake,"perfTop","All perforations are at or below the pump intake, so no water flows down past discs placed above it. Discs cannot treat this well; consider a shroud or a different pump setting.");
-  need(v.columnOD<v.casingID-1,"columnOD","Column OD must be at least 1 in smaller than the casing ID.");
+  if(!(v.columnOD<v.casingID-1)){err.push("casingID");need(false,"columnOD","Column OD must be at least 1 in smaller than the casing ID.");}
+  need(!(v.motorOD>0)||v.motorOD<v.casingID-0.25,"motorOD","Motor OD must be smaller than the casing ID (or 0 to skip the cooling check).");
   const Gm=geom(v);
   need(Gm.Rh<Gm.Ro-1,"hubWidth","The hub ring leaves less than 1 in of perforated rubber. Narrow the hub or check the casing ID.");
   need(v.pwl>=v.swl,"pwl","Pumping level should be at or below the static level.");
@@ -745,56 +935,67 @@ function compute(v){
   need(v.intake>pwlD,"intake","Pump intake must be below the design pumping level ("+fmt(pwlD,0)+" ft).");
   need(v.perfBot>v.perfTop,"perfBot","Bottom of perforations must be below the top.");
   if(Gm.nP>0) need(v.portOcc<v.portD,"portOcc","The tube or cable must be smaller than the port.");
+  need(!(v.bowlOD>0)||v.bowlOD<v.casingID-0.25,"bowlOD","Bowl OD must be smaller than the casing ID.");
   if(err.length) return {err,flags};
   if(v.perfBot<=v.intake&&v.fracAbove<100){ warn("All perforations are above the intake, so all of the flow comes down the annulus. The design uses 100% instead of your "+fmt(v.fracAbove,0)+"% for flow entering above the intake."); v=Object.assign({},v,{fracAbove:100}); }
 
   const Q=v.q, Qa=Q*v.fracAbove/100, Qb=Q-Qa, qcfs=Qa/448.831;
-  const Aann_in=Math.PI/4*(v.casingID**2-v.columnOD**2), Aann=Aann_in/144, Va=qcfs/Aann;
-  const Dt=v.casingID/12, Dc=v.columnOD/12, Vc=v.c0*Va;
-  const Ut=(0.32+0.016*Dc/Dt)*Math.sqrt(G*Dt), UtSF=Ut*v.slugSF, UtA=Math.min(UtSF,v.capRise), riseCapped=UtSF>v.capRise;
-  const regime=Vc<=v.vb?"A":(Vc<=UtA?"B":"C");
+  const Aann_in=Math.PI/4*(v.casingID**2-v.columnOD**2), Aann=Aann_in/144, VaInt=qcfs/Aann;
+  const Dt=v.casingID/12, Dc=v.columnOD/12;
   const mode=v.airMode||"cascade", cascOn=mode!=="aquifer", aqOn=mode!=="cascade";
-  const hcRaw=Math.max(0,pwlD-v.perfTop), hc=cascOn?hcRaw:0, Vj=Math.sqrt(2*G*hc), hcNow=cascOn?Math.max(0,v.pwl-v.perfTop):0;
+  const hcRaw=Math.max(0,pwlD-Math.max(v.perfTop,v.swl)), hc=cascOn?hcRaw:0, hcNow=cascOn?Math.max(0,v.pwl-Math.max(v.perfTop,v.swl)):0;
+  const Vj=Math.min(Math.sqrt(2*G*hc),30);
   const scr=screenAbove(v,pwlD), wetTop=Math.max(pwlD,v.perfTop);
-  const Qclean=v.vb/v.c0*Aann*448.831/(v.fracAbove/100), Qmax=UtA/v.c0*Aann*448.831/(v.fracAbove/100);
+  const zoneTop=(aqOn&&!cascOn)?Math.max(pwlD,v.perfTop)+v.submerge:pwlD+v.submerge, zoneBot=v.intake-v.intakeClear, zoneLen=zoneBot-zoneTop;
+  const sGov=shareAt(v,Math.min(zoneTop,v.intake)), Va=qcfs*sGov/Aann, Vc=v.c0*Va, VcInt=v.c0*VaInt;
+  /* merged-gas rise: smaller of the annular slug formula and the large-bubble drift limit, then the safety factor */
+  const Ut=(0.32+0.016*Dc/Dt)*Math.sqrt(G*Dt), Pgov=atmFt(v.elev)+Math.max(0,Math.min(zoneTop,v.intake)-pwlD);
+  const Vki=kiDrift(Pgov,v.casingID-v.columnOD), Ucap=v.capRise>0?v.capRise:Vki, riseCapped=Ucap<Ut, Urise=Math.min(Ut,Ucap), UtA=v.slugSF*Urise, UtSF=Ut*v.slugSF;
+  const regime=Vc<=v.vb?"A":(Vc<=UtA?"B":"C"), regInt=VcInt<=v.vb?"A":(VcInt<=UtA?"B":"C");
+  const Qclean=sGov>0?v.vb/v.c0*Aann*448.831/(v.fracAbove/100*sGov):Infinity, Qmax=sGov>0?UtA/v.c0*Aann*448.831/(v.fracAbove/100*sGov):Infinity;
 
   const Agap=Math.PI/4*(v.casingID**2-(2*Gm.Ro)**2);
   const portFree=Gm.nP*Math.PI/4*Math.max(0,v.portD**2-v.portOcc**2);
   const Ajoint=Gm.nseg*v.jointGap*Math.max(0,Gm.Ro-Gm.Rh), Abore=Math.PI/4*((2*Gm.Rs)**2-v.columnOD**2);
   const nRec=stagesRequired(hc,regime,v.ftPerStage,mode,scr);
-  const zoneTop=(aqOn&&!cascOn)?Math.max(pwlD,v.perfTop)+v.submerge:pwlD+v.submerge, zoneBot=v.intake-v.intakeClear, zoneLen=zoneBot-zoneTop;
   const nFit=zoneLen<0?0:Math.floor(zoneLen/v.spacing+1e-9)+1;
   const nUse=Math.min(20,v.discMode==="auto"?Math.min(nRec,nFit):parseInt(v.discMode,10));
+  if(v.discMode==="auto"&&Math.min(nRec,nFit)>20) warn("The rule calls for "+Math.min(nRec,nFit)+" discs; the stack is limited to 20. A stack this long suggests discs are not the right fix for this well.");
   const depths=[];
   if(mode==="aquifer"){for(let i=nUse-1;i>=0;i--) depths.push(zoneBot-i*v.spacing);}
-  else if(mode==="both"&&nUse>1&&zoneLen>0){const sp=zoneLen/(nUse-1); for(let i=0;i<nUse;i++) depths.push(zoneTop+i*sp);}
+  else if(mode==="both"&&nUse>1&&zoneLen>0){const sp=Math.max(v.spacing,Math.floor(Math.min(zoneLen/(nUse-1),2*v.spacing))); for(let i=0;i<nUse;i++) depths.push(zoneTop+i*sp);}
   else for(let i=0;i<nUse;i++) depths.push(zoneTop+i*v.spacing);
-  const hAllow=Math.min(v.hMax,nUse>0?(v.maxFlowLoss/100*Q)*(v.slope/100)/nUse:v.hMax);
-  const phiLoss=phiForLoss(Va,hAllow), phiReq=Math.max(v.targetOpen/100,phiLoss);
-  const holeAreaReq=Math.max(0,phiReq*Aann_in-Agap-portFree-Ajoint-Abore);
+  const shareD=depths.map(z=>shareAt(v,Math.min(z,v.intake))), VaD=shareD.map(s=>qcfs*s/Aann);
+  const sysAuto=(pwlD-v.swl)/Q*100, sys=v.sysSlope>0?v.sysSlope:sysAuto, slopeTot=v.slope+sys;
+  const Vmax=VaD.length?Math.max(...VaD):VaInt, sumV2=VaD.reduce((s,x)=>s+x*x,0);
+  const Hallow=v.maxFlowLoss/100*Q*slopeTot/100;
+  const zMax=Math.min(Vmax>0?v.hMax/(Vmax*Vmax/(2*G)):Infinity, sumV2>0?Hallow/(sumV2/(2*G)):Infinity);
 
   const sizes=v.holeMode==="auto"?STD_HOLES.filter(h=>h>=v.minHole-1e-9):[parseFloat(v.holeMode)];
   if(!sizes.length) sizes.push(STD_HOLES[STD_HOLES.length-1]);
   let choice=null; const tried=[];
   for(const d of sizes){
+    const ld=v.thick/d, phiLoss=phiForZeta(zMax,ld), phiReq=Math.max(v.targetOpen/100,phiLoss);
+    const holeAreaReq=Math.max(0,phiReq*Aann_in-Agap-portFree-Ajoint-Abore);
     const Gd=Object.assign({},Gm,{m:v.edgeMargin*d}), a=Math.PI/4*d*d, nReq=Math.max(Gd.nseg,Math.ceil(holeAreaReq/a));
     const sp=v.fixedPitch>0?{p:Math.max(v.fixedPitch,d+0.0625),fits:true,clamped:v.fixedPitch<d+0.0625}:solvePitch(Gd,d,nReq,v.ligament);
-    const t={d,Gd,a,sp}; tried.push(t);
+    const t={d,Gd,a,sp,phiLoss,phiReq}; tried.push(t);
     if(sp.fits){choice=t;break;}
   }
   let fits=true;
   if(!choice){fits=false; const area=t=>layout(t.Gd,t.d,t.sp.p).N*t.a; choice=tried.reduce((b,t)=>area(t)>area(b)?t:b,tried[0]);}
-  const d=choice.d, Gd=choice.Gd, lay=layout(Gd,d,choice.sp.p), N=lay.N;
+  const d=choice.d, Gd=choice.Gd, lay=layout(Gd,d,choice.sp.p), N=lay.N, phiLoss=choice.phiLoss, phiReq=choice.phiReq;
   const Aholes=N*choice.a, Aopen=Aholes+Agap+portFree+Ajoint+Abore, phi=Aopen/Aann_in;
-  const Vhole=qcfs/(Aopen/144), z=zeta(phi), hDisc=z*Va*Va/(2*G);
+  const z=zeta(phi,v.thick/d), hD=VaD.map(V=>z*V*V/(2*G));
+  const Vhole=Vmax/phi, VholeTop=(VaD.length?VaD[0]:Va)/phi, flood=floodIndex(VholeTop,d);
   const pitch=lay.p, lig=pitch-d;
 
-
   const Hv=vaporFt(v.tempF), Hatm=atmFt(v.elev);
-  const ctx={Aann,UtA,z,nUse,Hatm,Hv,top:depths[0]};
+  const ctx={Aann,UtA,z,nUse,Hatm,Hv,top:depths[0],sGov,shareD,sys};
   const hy=hydro(v,ctx,{pwl:pwlD});
-  const hTot=hy.hTot, dQ=hTot/v.slope*100, dQpct=dQ/Q*100, npsha=hy.npsha, margin=hy.margin;
-  let Vmotor=NaN; if(v.motorOD>0&&v.motorOD<v.casingID) Vmotor=(Qb/448.831)/(Math.PI/4*(v.casingID**2-v.motorOD**2)/144);
+  const hDisc=hy.hDisc, hTot=hy.hTot, dQ=hTot/slopeTot*100, dQpct=hy.dQpct, npsha=hy.npsha, margin=hy.margin;
+  let Vmotor=NaN; if(v.pumpType==="sub"&&v.motorOD>0&&v.motorOD<v.casingID) Vmotor=(Qb/448.831)/(Math.PI/4*(v.casingID**2-v.motorOD**2)/144);
+  const sag=discSag(v,Gd,hDisc,pitch,d);
 
   const segOut=segmentOutline(Gd), hubs=hubPieces(Gd);
   const fixedCut=Gd.nseg*polyLen(segOut)+Gd.nP*Math.PI*v.portD+hubs.reduce((s,h)=>s+polyLen(h.pts),0)+2*((Gd.nseg-1)*Gd.boltsL.length+Gd.boltsP.length)*Math.PI*v.boltDia;
@@ -804,6 +1005,7 @@ function compute(v){
   const wHub=Math.max(0,Math.PI*(Gd.Rh**2-Gd.Rs**2)-Gd.boltsL.length*Math.PI*(v.boltDia/2)**2)*v.hubThick*STEEL_LB_IN3;
   const wDisc=wRubber+wHub;
 
+  /* ---- buildability ---- */
   if(Gd.nP){const p=Gd.portsL[0], a=Math.abs(Math.atan2(p[1],p[0])), dj=Gd.Rh*Math.sin(Gd.half-a)-Gd.jg/2;
     if(dj<Gd.rp+0.125) bad("The ports run into the segment joints. Use fewer or smaller ports, a narrower web between them, fewer segments or a wider hub.");}
   if(Gd.nP&&Gd.Rh-Gd.rp<Gd.Rs+0.25) bad("The ports cut through the hub ring. Widen the hub to at least "+frac(Math.ceil((Gd.rp+0.25)*8)/8)+'" or use smaller ports.');
@@ -814,48 +1016,80 @@ function compute(v){
   if(v.fixedPitch>0&&choice.sp.clamped) warn("A "+frac(v.fixedPitch)+'" pitch would make holes touch, so the drawings use '+frac(pitch)+'".');
   else if(v.fixedPitch>0&&v.fixedPitch<v.ligament*d-1e-6) warn("Your "+frac(v.fixedPitch)+'" pitch is '+fmt(v.fixedPitch/d,2)+"× the hole, under your "+v.ligament+"× minimum.");
   if(Gd.boltsL.length&&v.hubWidth<v.boltDia+0.5) warn("The hub ring is narrow for the bolt holes (under 1/4 in of steel ring each side).");
-  if(lig<v.thick-1e-6) warn("The ligament between holes ("+frac(Math.round(lig*32)/32)+'") is thinner than the rubber. Thin rubber ligaments flex and tear in service; keep the ligament at least the rubber thickness.');
-  if(d<v.thick-1e-6) warn("Hole diameter is smaller than the rubber thickness. Small holes in thick rubber cut with a tapered wall and foul sooner; keep the hole at least the rubber thickness.");
+  if(lig<0.5*v.thick-1e-6) bad("The ligament between holes ("+frac(Math.round(lig*32)/32)+'") is under half the rubber thickness. Rubber that thin between holes tears in service. Increase the pitch.');
+  else if(lig<0.6*v.thick-1e-6) warn("The ligament between holes ("+frac(Math.round(lig*32)/32)+'") is under 0.6 × the rubber thickness. Thin rubber ligaments flex and tear in service.');
+  if(v.holeMode!=="auto"&&d<v.minHole-1e-9) warn("The chosen "+frac(d)+'" hole is under your '+frac(v.minHole)+'" anti-fouling minimum.');
+  if(d<0.6*v.thick-1e-6) warn("Hole diameter is under 0.6 × the rubber thickness. Small holes in thick rubber cut with a tapered wall and foul sooner.");
 
+  /* ---- separation ---- */
   const noSource=mode==="cascade"&&hc===0;
-  if(riseCapped&&!noSource) info("Merged-gas rise is capped at "+fmt(v.capRise,2)+" ft/s. The slug-rise formula gives "+fmt(UtSF,2)+" ft/s here, but it was fitted on small annuli; in a "+fmt(v.casingID,0)+" in casing large bubbles break into cap bubbles that rise slower.");
-  if(noSource) info("With no perforations exposed above the design pumping level there is no falling water to entrain air, so the falling-water rule calls for no discs. Core downward velocity is "+fmt(Vc,2)+" ft/s against "+fmt(v.vb,2)+" ft/s small-bubble rise, for reference. If recharge ponds feed this well, check aquifer air.");
-  else if(regime==="C") bad("Bubbles ride the core of the flow down at about "+fmt(Vc,2)+" ft/s ("+fmt(Va,2)+" ft/s average × "+fmt(v.c0,2)+"), faster than merged gas can rise here (about "+fmt(UtA,2)+" ft/s). Discs alone are unlikely to keep air off the pump. Larger casing, smaller column, a rate under "+fmt(Qmax,0)+" gpm, a shroud, or ending the cascade would change this.");
-  else if(regime==="B") warn("Small bubbles rise at about "+fmt(v.vb,2)+" ft/s, but the core of the flow carries them down at about "+fmt(Vc,2)+" ft/s ("+fmt(Va,2)+" ft/s average × "+fmt(v.c0,2)+"). Separation depends on the discs merging bubbles, so at least two discs are needed.");
-  else if(Vc>0.9*v.vb) warn("The core of the flow moves down at about "+fmt(Vc,3)+" ft/s, only just under the "+fmt(v.vb,2)+" ft/s small-bubble rise. There is little margin: up to "+fmt(Qclean,0)+" gpm keeps it, and more flow or a lower pumping level makes separation depend on bubble merging.");
-  else ok("The core of the flow moves down at about "+fmt(Vc,2)+" ft/s, slower than small bubbles rise ("+fmt(v.vb,2)+" ft/s), so freed bubbles can escape upward.");
-  if(cascOn&&hc>0) info("Perforations are exposed above the design pumping level: up to "+fmt(hc,0)+" ft of cascade (free-fall impact up to "+fmt(Vj,0)+" ft/s, ignoring wall friction). That is the air source the discs are fighting.");
+  const gz=fmt(Math.min(zoneTop,v.intake),0);
+  if(riseCapped&&!noSource) info("Merged-gas rise uses the large-bubble limit, "+fmt(Ucap,2)+" ft/s"+(v.capRise>0?" (your cap)":" (Kataoka–Ishii at the top-disc pressure)")+", × your "+fmt(v.slugSF,2)+" safety factor = "+fmt(UtA,2)+" ft/s. The annular slug formula gives "+fmt(Ut,2)+" ft/s, but it was fitted on small annuli; in a "+fmt(v.casingID,0)+" in casing big bubbles break into cap bubbles.");
+  if(noSource) info("With no perforations exposed above the design pumping level there is no falling water to entrain air, so the falling-water rule calls for no discs. If recharge ponds feed this well, check aquifer air.");
+  else if(regime==="C") bad("At the top of the stack ("+gz+" ft) the core of the flow moves down at about "+fmt(Vc,2)+" ft/s, faster than merged gas can rise (about "+fmt(UtA,2)+" ft/s with your safety factor). Discs alone are unlikely to keep air off the pump. A larger casing, smaller column, a rate under "+fmt(Qmax,0)+" gpm, a shroud, or ending the cascade would change this.");
+  else if(regime==="B") warn("At the top of the stack ("+gz+" ft) small bubbles rise at about "+fmt(v.vb,2)+" ft/s, but the core of the flow carries them down at about "+fmt(Vc,2)+" ft/s. Separation there depends on bubbles merging and the merged gas escaping, so the gas vent check below matters.");
+  else if(Vc>0.9*v.vb) warn("At the top of the stack ("+gz+" ft) the core of the flow moves down at about "+fmt(Vc,3)+" ft/s, only just under the "+fmt(v.vb,2)+" ft/s small-bubble rise. There is little margin: up to "+fmt(Qclean,0)+" gpm keeps it.");
+  else ok("At the top of the stack ("+gz+" ft) the core of the flow moves down at about "+fmt(Vc,2)+" ft/s, slower than small bubbles rise ("+fmt(v.vb,2)+" ft/s), so bubbles held up there can escape to the surface.");
+  if(!noSource&&regInt!=="A"&&nUse>0) info("At the intake the core downflow reaches "+fmt(VcInt,2)+" ft/s"+(v.inflow==="top"?"":" as the screen adds water with depth")+". Air carried that deep goes to the pump, which is why the stack has to hold bubbles up high.");
+  if(cascOn&&hc>0) info("Perforations are exposed above the design pumping level"+(v.perfTop<v.swl?" (counted from the static level, since perforations above it yield no water)":"")+": up to "+fmt(hc,0)+" ft of cascade. That is the air source the discs are fighting.");
+  if(nUse>0&&flood>=FLOOD_C){
+    const msg="Gas cannot rise back up through a disc: water runs down its holes at about "+fmt(VholeTop,1)+" ft/s, past the counter-current flooding limit (Wallis; index "+fmt(flood,2)+" against about "+fmt(FLOOD_C,1)+"). Gas that gets under a disc collects there and is carried down in slugs.";
+    if(v.vent==="tubes") info(msg+" Vent tubes are fitted, so each pocket vents up its tube to above the pumping level. Run each tube clear of the water to above the highest static level.");
+    else if(regime==="B") bad(msg+" This design relies on gas escaping, so fit a vent tube from under each disc to above the pumping level (Disc build, Gas vent).");
+    else warn(msg+" Only the zone above the top disc can vent on its own. Fit a vent tube from under each disc to above the pumping level (Disc build, Gas vent) so lower discs do not trap gas.");
+  }
 
+  /* ---- aquifer air ---- */
   const zBot=depths.length?depths[depths.length-1]:NaN, treatedShare=(aqOn&&scr>0&&nUse)?clamp((zBot-wetTop)/scr,0,1):0;
   const airCfm=v.q*v.airFrac/100/7.48052, airTreatedPct=treatedShare*v.fracAbove;
   if(aqOn){
-    info("Aquifer air: about "+fmt(airCfm,1)+" cfm of free air, at well pressure, arrives with "+fmt(v.q,0)+" gpm at your "+fmt(v.airFrac,1)+"% estimate, across "+fmt(scr,0)+" ft of wetted screen above the intake. The air fraction is your estimate, not a measurement.");
-    if(nUse>1) info(mode==="aquifer"?"The stack is set from the intake clearance upward, so air entering low on the screen still crosses a disc.":"The discs are spread evenly from below the design pumping level down to the intake clearance, to serve both air sources.");
+    info("Aquifer air is a working hypothesis, not a measured fact for this well. Air trapped under recharge ponds mostly dissolves or stays as residual gas; it reaches wells mainly as dissolved gas that comes out of solution where pressure drops, as microbubbles too small for discs to separate. Free gas reaching the screen is possible. Your "+fmt(v.airFrac,1)+"% estimate is about "+fmt(airCfm,1)+" cfm at intake pressure across "+fmt(scr,0)+" ft of wetted screen. Measure total dissolved gas before relying on discs for this source.");
+    if(nUse>1) info(mode==="aquifer"?"The stack is set from the intake clearance upward, so free gas entering low on the screen still crosses a disc.":"The discs are spread from below the design pumping level toward the intake clearance, no more than twice your spacing apart, to serve both air sources.");
     if(scr<=0) warn("There is no wetted screen above the intake, so aquifer air enters below it and goes straight to the pump. Discs above the intake cannot intercept it.");
     else if(nUse&&treatedShare<0.7) warn("Only "+fmt(treatedShare*100,0)+"% of the wetted screen above the intake sits above the bottom disc. Air entering below the bottom disc reaches the pump without crossing one. Lower the stack or space the discs closer to the intake.");
     if(v.fracAbove<100) warn(fmt(100-v.fracAbove,0)+"% of the flow enters below the intake. Air carried in it reaches the pump without crossing a disc, so discs cannot treat it. A shroud or a different pump setting would change that.");
     if(!cascOn&&v.perfTop<v.pwl) info("Perforations are also exposed above the pumping level. If water falls into the casing as well, choose Both sources.");
   }
+
+  /* ---- placement ---- */
   if(zoneLen<0) bad("No room for discs: the top disc ("+fmt(zoneTop,0)+" ft) would sit below the lowest allowed position above the intake ("+fmt(zoneBot,0)+" ft).");
   else if(v.discMode==="auto"&&nRec>nFit) warn("The design rule calls for "+nRec+" discs but only "+nFit+" fit at "+fmt(v.spacing,0)+" ft spacing. Tighten the spacing or lower the pump.");
-  if(v.discMode!=="auto"&&nUse>nFit) bad(nUse+" discs at "+fmt(v.spacing,0)+" ft spacing run past the intake clearance. Only "+nFit+" fit.");
+  if(v.discMode!=="auto"&&nUse>nFit){
+    if(mode==="aquifer") bad(nUse+" discs at "+fmt(v.spacing,0)+" ft spacing, built up from the intake clearance, rise above the top allowed position ("+fmt(zoneTop,0)+" ft). Only "+nFit+" fit.");
+    else bad(nUse+" discs at "+fmt(v.spacing,0)+" ft spacing run past the intake clearance ("+fmt(zoneBot,0)+" ft). Only "+nFit+" fit.");
+  }
   if(v.discMode!=="auto"&&nUse<nRec) warn("You chose "+nUse+" disc"+(nUse>1?"s":"")+"; the design rule calls for "+nRec+".");
-  if(!fits) warn("No standard hole size reaches "+fmt(phiReq*100,0)+"% open area at "+v.ligament+"× pitch. The plate is laid out at its maximum, "+fmt(phi*100,0)+"%. A narrower hub, tighter pitch or smaller holes add open area.");
-  if(phiLoss>v.targetOpen/100+0.005&&fits) info("Open area raised from your "+fmt(v.targetOpen,0)+"% target to "+fmt(phiLoss*100,0)+"% to keep each disc under "+fmt(hAllow,2)+" ft of head loss"+(hAllow<v.hMax?", which keeps the stack inside your "+fmt(v.maxFlowLoss,1)+"% flow-loss limit":"")+".");
-  if(hDisc>v.hMax*1.001) warn("Each disc costs "+fmt(hDisc,2)+" ft of head, over your "+fmt(v.hMax,2)+" ft limit.");
-  if(nUse>0&&hDisc<v.hMin) info("Each disc costs only "+fmt(hDisc,3)+" ft of head, under your "+fmt(v.hMin,2)+" ft minimum for breaking the cascade. Less open area would make each disc work harder.");
+  if(nUse>0&&depths[0]<v.pwl) bad("The top disc ("+fmt(depths[0],0)+" ft) would sit above today's pumping level ("+fmt(v.pwl,0)+" ft), out of the water while pumping.");
+  else if(nUse>0&&depths[0]-v.pwl<5) warn("The top disc is only "+fmt(depths[0]-v.pwl,0)+" ft under today's pumping level.");
+  {const PGc=pumpGeom(v); if(nUse>0&&depths[depths.length-1]>PGc.bowlTop-2) bad("The bottom disc ("+fmt(depths[depths.length-1],0)+" ft) would sit within 2 ft of the top of the bowls (about "+fmt(PGc.bowlTop,1)+" ft, from "+PGc.stages+" stages of "+fmt(PGc.bowlOD,1)+" in bowls). Increase the intake clearance or raise the stack.");
+   if(v.pumpType==="sub"&&!(v.motorOD>0)) info("Submersible pump: enter the motor OD to check cooling flow past the motor.");}
+  if(nUse>0&&depths.some(x=>x>v.perfTop&&x<v.perfBot)) info("Disc"+(nUse>1?"s":"")+" at "+depths.filter(x=>x>v.perfTop&&x<v.perfBot).map(x=>fmt(x,0)).join(", ")+" ft sit inside the perforated interval. Confirm the ID there (screen can be smaller than blank casing), and that the rubber edge will not catch on slots or louvers when the pump is run in. Blank casing is the better seat.");
+
+  /* ---- hydraulics and structure ---- */
+  if(!fits) warn((v.holeMode==="auto"?"No standard hole size reaches ":"The chosen hole size cannot reach ")+fmt(phiReq*100,1)+"% open area at "+v.ligament+"× pitch. The disc is laid out at its maximum, "+fmt(phi*100,1)+"%. A narrower hub, tighter pitch or smaller holes add open area.");
+  if(phiLoss>v.targetOpen/100+0.005&&fits&&!(v.fixedPitch>0)) info("Open area raised from your "+fmt(v.targetOpen,0)+"% target to "+fmt(phiLoss*100,0)+"% to keep the stack inside your head-loss and flow-loss limits.");
+  if(hDisc>v.hMax*1.001) warn("The deepest disc costs "+fmt(hDisc,2)+" ft of head, over your "+fmt(v.hMax,2)+" ft limit.");
+  if(nUse>0&&hD[0]<v.hMin) info("The top disc costs only "+fmt(hD[0],3)+" ft of head, under your "+fmt(v.hMin,2)+" ft minimum for breaking the cascade. Less open area would make it work harder.");
   if(dQpct>v.maxFlowLoss) warn("The disc stack is estimated to cost "+fmt(dQpct,2)+"% of flow ("+fmt(dQ,0)+" gpm), over your "+fmt(v.maxFlowLoss,1)+"% limit.");
   if(margin<0) bad("NPSH available ("+fmt(npsha,1)+" ft) is below NPSH required. Cavitation risk regardless of air.");
-  else if(margin<v.npshMargin) warn("NPSH margin is only "+fmt(margin,1)+" ft.");
+  else if(margin<v.npshMargin) warn("NPSH margin is only "+fmt(margin,1)+" ft. Entrained or dissolved gas raises the NPSH a pump really needs.");
+  const gapShare=Aopen>0?Agap/Aopen:0;
   if(v.gap>0.375) warn("A "+frac(v.gap)+'" gap to the casing lets the cascading sheet slide down the wall past the disc. Keep it as tight as the casing drift allows.');
+  if(cascOn&&hc>0&&nUse>0&&gapShare>0.15) info("The casing gap is "+fmt(gapShare*100,0)+"% of each disc's open area, and the cascade arrives mostly as a film on the casing wall. A soft wiper lip at the disc edge would stop the film slipping past.");
   if(isFinite(Vmotor)&&Vmotor<v.motorMinV) warn("Only "+fmt(Vmotor,2)+" ft/s of flow passes the motor from below the intake (minimum "+fmt(v.motorMinV,2)+"). Consider a flow inducer sleeve.");
-  if(nUse>0&&depths[0]-v.pwl<5) warn("The top disc is only "+fmt(depths[0]-v.pwl,0)+" ft under today's pumping level.");
+  if(nUse>0&&sag.w>0){
+    const sagMsg="Rubber sag: the pressure across the deepest disc ("+fmt(sag.q,3)+" psi) bends the rubber about "+fmt(sag.w,2)+' in down at the rim ('+frac(v.thick)+'" rubber, about '+fmt(sag.E,0)+" psi modulus, holes cut, plate theory).";
+    if(sag.w>4*v.maxSag) bad(sagMsg+" That cones the disc and opens a gap at the casing. "+(sag.tNeed?"About "+frac(sag.tNeed)+'" rubber keeps it under your '+frac(v.maxSag)+'" limit':"Thicker or fabric-reinforced rubber, or steel ribs under the segments, are needed")+". Load-test a segment before production.");
+    else if(sag.w>v.maxSag) warn(sagMsg+" Over your "+frac(v.maxSag)+'" limit. '+(sag.tNeed?"About "+frac(sag.tNeed)+'" rubber keeps it under. ':"")+"Load-test a segment before production.");
+    else ok(sagMsg+" Within your "+frac(v.maxSag)+'" limit.');
+  }
+  if(nUse>0&&v.checkValve==="no") warn("No check valve in the column: at shutdown the column drains back and part of that flow runs up the annulus, pushing the discs upward with several times the running pressure. Fit a check valve, or the hub ring bolts and tack welds must carry that reverse load and the rubber can flip up.");
 
-  const geoBad=flags.some(f=>f[0]==="bad"&&/ports|bolt|room for discs|run past the intake/i.test(f[1]));
-  const blockCAD=geoBad?"Fix the red notes first. Cut files are not produced for a disc that cannot be built or installed as drawn.":(nUse===0?"This design uses no discs, so there is nothing to cut.":"");
+  const geoBad=flags.some(f=>f[0]==="bad"&&/ports|bolt|room for discs|run past the intake|rise above the top|out of the water|Rubber sag|top of the bowls/i.test(f[1]));
+  const blockCAD=geoBad?"Fix the red notes first. Cut files are not produced for a disc that cannot be built or installed as drawn.":(nUse===0?"This design uses no discs, so there is nothing to cut.":(regime==="C"&&!noSource?"Discs alone are not expected to keep air off this pump, so cut files are not produced. See the recommendation.":""));
   const level=(regime==="C"&&!noSource)||flags.some(f=>f[0]==="bad")?"bad":(flags.some(f=>f[0]==="warn")?"warn":"ok");
-  return {blockCAD,Vc,UtSF,riseCapped,Abore,mode,cascOn,aqOn,scr,wetTop,treatedShare,airCfm,airTreatedPct,v,err:[],flags,level,regime,Q,Qa,Qb,Aann,Aann_in,Va,Ut,UtA,hc,hcNow,Vj,pwlD,Qclean,Qmax,
-    Agap,portFree,Ajoint,phiLoss,phiReq,d,N,lay,pitch,lig,Aholes,Aopen,phi,Vhole,z,hDisc,hTot,dQ,dQpct,Hv,Hatm,npsha,margin,Vmotor,
+  return {blockCAD,Vc,UtSF,Ut,Ucap,Vki,riseCapped,Abore,mode,cascOn,aqOn,scr,wetTop,treatedShare,airCfm,airTreatedPct,v,err:[],flags,level,regime,regInt,Q,Qa,Qb,Aann,Aann_in,Va,VaInt,VcInt,sGov,UtA,hc,hcNow,Vj,pwlD,Qclean,Qmax,
+    Agap,portFree,Ajoint,phiLoss,phiReq,d,N,lay,pitch,lig,Aholes,Aopen,phi,Vhole,VholeTop,flood,z,hD,VaD,hDisc,hTot,dQ,dQpct,sys,sysAuto,Hv,Hatm,npsha,margin,Vmotor,sag,gapShare,
     nRec,nFit,nUse,depths,zoneTop,zoneBot,fits,Gd,segOut,hubs,fixedCut,cutDisc,wDisc,wRubber,wHub,ctx};
 }
 
@@ -864,18 +1098,18 @@ function compute(v){
 function design(v){
   const r=compute(v);
   if(r.err.length||v.holeMode!=="auto"||v.fixedPitch>0) return r;
-  const best=optimize(r,"balanced").feas.find(c=>c.d<=Math.max(1,v.minHole)+1e-9&&c.N>=8*r.Gd.nseg);
+  const best=optimize(r,"balanced").feas[0];
   if(!best||(Math.abs(best.d-r.d)<1e-9&&Math.abs(best.p-r.pitch)<1e-9)) return r;
   const r2=compute(Object.assign({},v,{holeMode:String(best.d),fixedPitch:best.p}));
   if(r2.err.length) return r;
   r2.v=Object.assign({},r2.v,{holeMode:v.holeMode,fixedPitch:v.fixedPitch}); r2.autoPick=true;
   r2.flags=r2.flags.filter(f=>!/^No standard hole size reaches|^Open area raised from your/.test(f[1]));
-  r2.flags.push(["info","Hole size and pitch were picked by the optimizer's balanced ranking, kept to 1 in holes or smaller and at least 8 holes per segment so the flow stays evenly spread. Set a hole size or pitch in Disc build to override."]);
+  r2.flags.push(["info","Hole size and pitch are the Optimizer's top balanced pick (holes 1 in or smaller and at least 8 per segment, so the flow stays evenly spread). Set a hole size or pitch in Disc build to override."]);
   return r2;
 }
 function optimize(r,pr){
   const v=r.v, Gm=r.Gd, out=[];
-  const sizes=STD_HOLES.filter(h=>h>=v.minHole-1e-9&&h>=v.thick-1e-9);
+  const sizes=STD_HOLES.filter(h=>h>=v.minHole-1e-9&&h>=0.6*v.thick-1e-9);
   const ratios=[0,0.25,0.5,0.75,1,1.25,1.5,2].map(x=>v.ligament+x);
   const nUse=Math.max(1,r.nUse);
   const pairs=[]; for(const d of sizes) for(const k of ratios) pairs.push([d,Math.ceil(k*d*16-1e-9)/16]);
@@ -883,12 +1117,15 @@ function optimize(r,pr){
   for(const [d,p] of pairs){
     if(out.some(o=>o.d===d&&Math.abs(o.p-p)<1e-9)) continue;
     const Gd=Object.assign({},Gm,{m:v.edgeMargin*d}), lay=layout(Gd,d,p); if(!lay.N) continue;
-    const Aopen=lay.N*Math.PI/4*d*d+r.Agap+r.portFree+r.Ajoint+r.Abore, phi=Aopen/r.Aann_in, h=zeta(phi)*r.Va*r.Va/(2*G);
-    const dQpct=nUse*h/v.slope*100/v.q*100, lig=p-d, cut=r.fixedCut+lay.N*Math.PI*d, why=[];
-    if(h>v.hMax) why.push("head loss over max"); if(h<v.hMin) why.push("head loss under min");
-    if(dQpct>v.maxFlowLoss) why.push("flow loss over limit"); if(lig<v.thick-1e-6) why.push("ligament thinner than rubber");
+    const Aopen=lay.N*Math.PI/4*d*d+r.Agap+r.portFree+r.Ajoint+r.Abore, phi=Aopen/r.Aann_in, zt=zeta(phi,v.thick/d);
+    const VD=r.VaD.length?r.VaD:[r.VaInt], h=zt*Math.max(...VD)**2/(2*G), hTop=zt*VD[0]**2/(2*G), hSum=zt*VD.reduce((a,x)=>a+x*x,0)/(2*G);
+    const dQpct=hSum/(v.slope+r.sys)*100/v.q*100, lig=p-d, cut=r.fixedCut+lay.N*Math.PI*d, why=[];
+    if(h>v.hMax) why.push("head loss over max"); if(hTop<v.hMin) why.push("head loss under min");
+    if(dQpct>v.maxFlowLoss) why.push("flow loss over limit"); if(lig<0.6*v.thick-1e-6) why.push("ligament under 0.6 × rubber");
+    if(d>Math.max(1,v.minHole)+1e-9) why.push("holes over 1 in spread the flow unevenly"); if(lay.N<8*Gm.nseg) why.push("fewer than 8 holes per segment");
     out.push({d,p,N:lay.N,phi,h,dQpct,lig,cut,ok:!why.length,why,current:out.length===0});
   }
+  for(let i=out.length-1;i>0;i--){const c=out[i]; if(out.some((o,j)=>j<i&&o.d===c.d&&o.N===c.N&&!c.current)) out.splice(i,1);}
   const feas=out.filter(c=>c.ok);
   const W={balanced:[1,1,1],loss:[3,1,.5],cut:[1,3,.5],foul:[1,.6,3]}[pr]||[1,1,1];
   const nrm=(a,f)=>{const xs=a.map(f),lo=Math.min(...xs),hi=Math.max(...xs);return x=>hi>lo?(x-lo)/(hi-lo):0;};
@@ -905,12 +1142,16 @@ function ranges(v){return {
   frac:[clamp(v.fracAbove-v.uFrac,1,100),v.fracAbove,clamp(v.fracAbove+v.uFrac,1,100)],
   pwl:[Math.max(v.swl,v.pwl+v.drawAllow-v.uPwl),v.pwl+v.drawAllow,v.pwl+v.drawAllow+v.uPwl],
   vb:[Math.max(0.1,v.vb-v.uVb),v.vb,v.vb+v.uVb],
-  slope:[Math.max(0.1,v.slope*(1-v.uSlope/100)),v.slope,v.slope*(1+v.uSlope/100)]};}
+  slope:[Math.max(0.1,v.slope*(1-v.uSlope/100)),v.slope,v.slope*(1+v.uSlope/100)],
+  c0:[Math.max(1,v.c0-0.1),v.c0,v.c0+0.1],
+  zm:[0.8,1,1.2]};}
+/* Drawdown follows flow: each run's pumping level = static + design drawdown x (flow / design flow) + its own spread. */
 function monteCarlo(r,runs){
-  const v=r.v, R=ranges(v), rnd=mulberry32(20261003), N=Math.round(clamp(runs||v.mcRuns,500,20000));
+  const v=r.v, R=ranges(v), rnd=mulberry32(20261003), N=Math.round(clamp(runs||v.mcRuns,500,20000)), pwlD=v.pwl+v.drawAllow;
   const c={C:0,B:0,A:0,loss:0,npsh:0,dry:0,short:0,holds:0}, Vas=new Float64Array(N), losses=new Float64Array(N);
   for(let i=0;i<N;i++){
-    const s={q:tri(rnd(),...R.q),frac:tri(rnd(),...R.frac),pwl:tri(rnd(),...R.pwl),vb:tri(rnd(),...R.vb),slope:tri(rnd(),...R.slope)};
+    const q=tri(rnd(),...R.q), pwl=Math.max(v.swl,v.swl+(pwlD-v.swl)*q/v.q+tri(rnd(),-v.uPwl,0,v.uPwl));
+    const s={q,frac:tri(rnd(),...R.frac),pwl,vb:tri(rnd(),...R.vb),slope:tri(rnd(),...R.slope),c0:tri(rnd(),...R.c0),zm:tri(rnd(),...R.zm)};
     const h=hydro(v,r.ctx,s); c[h.regime]++;
     const L=h.dQpct>v.maxFlowLoss, P=h.margin<v.npshMargin, D=r.nUse>0&&h.cover<0, S=r.nUse<h.nReq;
     if(L)c.loss++; if(P)c.npsh++; if(D)c.dry++; if(S)c.short++;
@@ -922,28 +1163,258 @@ function monteCarlo(r,runs){
   return {N,c,Vas:sv,p:{va5:pct(sv,.05),va50:pct(sv,.5),va95:pct(sv,.95),l50:pct(sl,.5),l95:pct(sl,.95)}};
 }
 function tornado(r,out){
-  const v=r.v, R=ranges(v), names={q:"Pump flow",frac:"Share of flow from above",pwl:"Pumping level",vb:"Small-bubble rise",slope:"Pump curve slope"};
+  const v=r.v, R=ranges(v), names={q:"Pump flow",frac:"Share of flow from above",pwl:"Pumping level",vb:"Small-bubble rise",slope:"Pump curve slope",c0:"Velocity profile (C0)",zm:"Disc loss coefficient"};
   const f=h=>out==="loss"?h.dQpct:out==="ratio"?h.ratio:out==="sub"?h.cover:h.margin;
   const base=f(hydro(v,r.ctx,{}));
   const rows=Object.keys(R).map(k=>{const lo=f(hydro(v,r.ctx,{[k]:R[k][0]})), hi=f(hydro(v,r.ctx,{[k]:R[k][2]}));
-    const fl=x=>k==="q"?fmt(x,0)+" gpm":k==="frac"?fmt(x,0)+"%":k==="pwl"?fmt(x,0)+" ft":k==="vb"?fmt(x,2)+" ft/s":fmt(x,1)+" ft/100";
+    const fl=x=>k==="q"?fmt(x,0)+" gpm":k==="frac"?fmt(x,0)+"%":k==="pwl"?fmt(x,0)+" ft":k==="vb"?fmt(x,2)+" ft/s":k==="c0"?fmt(x,2)+"×":k==="zm"?fmt(x*100,0)+"%":fmt(x,1)+" ft/100";
     return {name:names[k],lo,hi,loL:fl(R[k][0]),hiL:fl(R[k][2]),sw:Math.abs(hi-lo)};}).filter(x=>isFinite(x.lo)&&isFinite(x.hi)&&x.sw>1e-9);
   rows.sort((a,b)=>b.sw-a.sw);
   return {rows,base,unit:{loss:"% flow lost",ratio:"× bubble rise",sub:"ft of water over top disc",npsh:"ft NPSH margin"}[out]};
 }
 
+/* ---------------- engineer's recommendation ----------------
+   Concerns come from the design notes. Recommended changes are found by re-running the full design with one change at a
+   time and keeping only the changes that clear a concern without creating a worse one. */
+const firstSentence=t=>{const m=String(t).match(/^.*?[.!?](\s|$)/);return (m?m[0]:String(t)).trim();};
+function sevScore(r){if(r.err&&r.err.length) return 1e6;let s=0;r.flags.forEach(f=>{if(f[0]==="bad")s+=100;else if(f[0]==="warn")s+=10;});
+  if(r.regime==="C"&&r.nRec>0) s+=100; s+=Math.max(0,r.dQpct-r.v.maxFlowLoss)*5; if(r.hold!=null) s+=r.hold<0.6?100:r.hold<0.9?10+(0.9-r.hold)*50:0; if(r.sag) s+=Math.max(0,r.sag.w-r.v.maxSag)*8; return s;}
+function adviseCandidates(r){
+  const v=r.v, c=[], add=(label,from,to,patch,why)=>{if(Object.keys(patch).every(k=>String(patch[k])!==String(v[k]))) c.push({label,from,to,patch,why});};
+  const fr=x=>frac(x)+'"';
+  if(r.sag&&r.sag.w>v.maxSag){
+    if(r.sag.tNeed) add("Rubber thickness",fr(v.thick),fr(r.sag.tNeed),{thick:r.sag.tNeed},"cuts rim sag to within your limit");
+    if(v.shore<80) add("Rubber hardness",fmt(v.shore,0)+" A","80 A",{shore:80},"stiffer rubber sags less");
+    const hw2=Math.min(v.hubWidth+0.5,Math.floor((r.Gd.Ro-r.Gd.Rs)/2*8)/8); if(hw2>v.hubWidth) add("Steel hub ring width",fr(v.hubWidth),fr(hw2),{hubWidth:hw2},"supports more of the rubber, shortening the span that bends");
+  }
+  if(r.nUse>0&&r.flood>=FLOOD_C&&v.vent!=="tubes") add("Gas vent under discs","None","Vent tubes",{vent:"tubes"},"lets gas trapped under each disc escape up a tube instead of slugging down");
+  if(!r.fits||r.dQpct>v.maxFlowLoss){
+    if(v.hubWidth>1) add("Steel hub ring width",fr(v.hubWidth),fr(v.hubWidth-0.25),{hubWidth:v.hubWidth-0.25},"frees rubber for more holes");
+    if(v.ligament>1.45) add("Min. pitch ÷ hole",fmt(v.ligament,2)+"×",fmt(Math.max(1.4,v.ligament-0.1),2)+"×",{ligament:+Math.max(1.4,v.ligament-0.1).toFixed(2)},"packs holes closer for more open area");
+  }
+  if(r.nRec>r.nFit&&v.spacing>5) add("Disc spacing",fmt(v.spacing,0)+" ft",fmt(Math.max(5,v.spacing-2),0)+" ft",{spacing:Math.max(5,v.spacing-2)},"fits the discs the rule calls for");
+  if(r.hold!=null&&r.hold<0.9&&r.nUse>0&&r.nUse<Math.min(8,r.nFit)) add("Number of discs",v.discMode==="auto"?"Auto ("+r.nUse+")":String(r.nUse),String(r.nUse+1),{discMode:String(r.nUse+1)},"covers deeper pumping levels and higher flows in the risk runs");
+  if(r.mcC&&r.mcC.dry/r.mcN>0.05) add("Top disc below design PWL",fmt(v.submerge,0)+" ft",fmt(v.submerge+10,0)+" ft",{submerge:v.submerge+10},"keeps the top disc under water when the level drops further than planned");
+  if(v.gap>0.375) add("Clearance to casing",fr(v.gap),'1/4"',{gap:0.25},"stops the wall film slipping past the disc");
+  if(v.checkValve==="no"&&r.nUse>0) add("Check valve in the column","No","Yes",{checkValve:"yes"},"removes the reverse load on the discs at shutdown");
+  if(r.nUse>0&&r.depths[0]-v.pwl<5) add("Top disc below design PWL",fmt(v.submerge,0)+" ft",fmt(v.submerge+5,0)+" ft",{submerge:v.submerge+5},"keeps the top disc under water as levels drop");
+  if((r.regime==="B"||r.regime==="C")&&r.nRec>0&&isFinite(r.Qclean)&&r.Qclean<v.q){const q=Math.floor(r.Qclean*0.97/10)*10; if(q>0) add("Pump design flow",fmt(v.q,0)+" gpm",fmt(q,0)+" gpm",{q},"slows the downflow at the top disc below small-bubble rise (an operating change)");}
+  return c;
+}
+function advise(r){
+  if(!r||r.err.length) return null;
+  const v=r.v, base=sevScore(r), out={actions:[]};
+  const concerns=r.flags.filter(f=>f[0]==="bad"||f[0]==="warn").map(f=>({lvl:f[0],t:firstSentence(f[1]),full:f[1],fin:f[2]==="fin"}));
+  out.concerns=concerns;
+  for(const c of adviseCandidates(r)){
+    const r2=finalize(design(Object.assign({},v,c.patch))); if(r2.err.length) continue;
+    const s2=sevScore(r2); if(s2>=base-1e-9) continue;
+    const cleared=concerns.filter(k=>!r2.flags.some(f=>firstSentence(f[1])===k.t)).length, added=r2.flags.filter(f=>(f[0]==="bad"||f[0]==="warn")&&!concerns.some(k=>k.t===firstSentence(f[1]))).length;
+    if(added>cleared) continue;
+    out.actions.push(Object.assign({},c,{gain:base-s2,r2,cleared,added,
+      effect:[r2.nUse!==r.nUse?r2.nUse+" discs":null,(Math.abs(r2.dQpct-r.dQpct)>0.005?"flow cost "+fmt(r.dQpct,2)+" → "+fmt(r2.dQpct,2)+"%":null),(r.sag&&r2.sag&&Math.abs(r2.sag.w-r.sag.w)>0.01?"rim sag "+fmt(r.sag.w,2)+" → "+fmt(r2.sag.w,2)+" in":null),(r2.N!==r.N||r2.d!==r.d?r2.N+" × "+frac(r2.d)+'" holes':null)].filter(Boolean).join(" · ")}));
+  }
+  out.actions.sort((a,b)=>b.gain-a.gain); out.actions=out.actions.slice(0,4);
+  const nBad=concerns.filter(k=>k.lvl==="bad").length, nWarn=concerns.length-nBad;
+  if(r.nUse===0&&r.nRec===0){out.tone="ok";out.title="No diffuser needed on these numbers";out.lede="There is no falling water or wetted screen for discs to treat. If air shows at the discharge, look for another source: a leaking column joint, a cascading sounding tube, or gas coming out of solution.";}
+  else if(r.regime==="C"&&r.nRec>0){out.tone="bad";out.title="Not recommended as drawn";out.lede="At the top of the stack the water moves down faster than even merged gas can rise, so discs alone are unlikely to keep air off this pump. The changes below, a shroud, or a lower pump rate are the real options.";}
+  else if(nBad){out.tone="bad";out.title="Not ready for fabrication";out.lede="Resolve the red concerns before cutting any rubber. The recommended changes below were each checked by re-running the full design.";}
+  else if(nWarn){out.tone="warn";out.title="Buildable, with the changes below";out.lede="The design works on these numbers. The amber concerns are worth closing before fabrication; each recommended change was checked by re-running the full design.";}
+  else {out.tone="ok";out.title="Recommended for fabrication";out.lede="Every check passes on these numbers. Complete the field checks below, then fabricate and install, and measure before and after.";}
+  const pm=projMeta(), ck=[];
+  ck.push("Run a drift check through the disc zone with a template at least "+fmt(2*r.Gd.Ro+0.125,3)+" in OD, then video-log the casing at "+(r.nUse?r.depths.map(x=>fmt(x,0)).join(", ")+" ft":"the disc depths")+" for weld beads, scale, liners and screen sections.");
+  ck.push("Mark column coupling and centralizer positions on the pipe tally and keep every hub ring at least 1 ft from them. Couplings are larger than the "+fmt(v.columnOD,3)+" in pipe body and will not pass the disc bore.");
+  ck.push("Get the rubber supplier's NSF/ANSI 61 certificate for the exact compound, chlorine and chloramine resistance (EPDM is the usual choice), and its temperature rating for "+fmt(v.tempF,0)+" °F water.");
+  if(r.nUse>0&&r.sag) ck.push("Load-test one segment before production: clamp it at the hub line and load it with about "+fmt(r.sag.force/r.Gd.nseg,1)+" lbf spread evenly (the running pressure on one segment). The predicted rim droop is "+fmt(r.sag.w,2)+" in.");
+  ck.push("Tack-weld the hub ring away from the power cable, and repair any damage to galvanizing or column lining afterwards.");
+  ck.push("Record a baseline before installing: flow, pumping level, motor amps (and how steady they are), and air at the discharge (sight glass or air test). Repeat at the same flow after installing.");
+  if(r.aqOn) ck.push("Measure total dissolved gas at the wellhead. If the water is supersaturated, gas comes out of solution as microbubbles that discs cannot separate.");
+  if(v.vent==="tubes") ck.push("Run each vent tube from under its disc to above the highest static level, through a port, and support it so it cannot chafe the cable.");
+  out.checklist=ck;
+  return out;
+}
+function renderAdvice(r){
+  const box=$("recCard"); if(!box) return;
+  const a=advise(r); if(!a){box.hidden=true;return;} box.hidden=false;
+  box.className="card rec "+a.tone;
+  $("recTitle").textContent=a.title; $("recLede").textContent=a.lede;
+  $("recConcerns").innerHTML=a.concerns.length?a.concerns.map(k=>'<li class="'+k.lvl+'"><b>'+(k.lvl==="bad"?"Must fix":"Review")+'</b> '+esc(k.t)+'</li>').join(""):'<li class="ok"><b>None</b> No open concerns on these numbers.</li>';
+  $("recActions").innerHTML=a.actions.length?a.actions.map((x,i)=>'<div class="rec-act"><div><b>'+esc(x.label)+'</b> <span class="muted">'+esc(x.from)+' → </span><b>'+esc(x.to)+'</b><p>'+esc(x.why.charAt(0).toUpperCase()+x.why.slice(1))+'.'+(x.effect?' <span class="muted">'+esc(x.effect)+'.</span>':'')+'</p></div><button type="button" class="btn sm" data-apply="'+i+'">Apply</button></div>').join(""):'<p class="muted">'+(a.concerns.length?"No single input change clears these concerns. They need a design decision: see the notes above.":"Nothing to change.")+'</p>';
+  $("recChecklist").innerHTML=a.checklist.map(t=>'<li>'+esc(t)+'</li>').join("");
+  box.querySelectorAll("[data-apply]").forEach(b=>b.onclick=()=>{const x=a.actions[+b.dataset.apply];Object.entries(x.patch).forEach(([k,val])=>{$(k).value=val;});run();toast(x.label+" set to "+x.to);});
+  last.advice=a;
+}
+
+/* ---------------- installation elevation (schematic, broken depth axis) ---------------- */
+function pumpGeom(v){
+  const bowlOD=v.bowlOD>0?v.bowlOD:Math.min(v.casingID-1,Math.max(v.columnOD+1.5,v.columnOD*1.35));
+  const stages=Math.max(1,Math.round(v.bowlStages||1)), bowlH=(stages*bowlOD+bowlOD*0.9)/12;
+  return {bowlOD,stages,bowlH,bowlTop:v.intake-bowlH,sub:v.pumpType==="sub"};
+}
+function elevSVG(r){
+  const v=r.v, P=pumpGeom(v), W=1000, cx=372, casW=150, rel=x=>casW*Math.min(x,v.casingID)/v.casingID;
+  const colW=rel(v.columnOD), bW=Math.min(casW-6,rel(P.bowlOD)), motW=v.motorOD>0?Math.min(bW,rel(v.motorOD)):bW*0.78;
+  const xl=cx-casW/2, xr=cx+casW/2, mono='font-family="IBM Plex Mono, ui-monospace, SFMono-Regular, Menlo, monospace"';
+  const ft=x=>fmt(x,Math.abs(x-Math.round(x))<0.05?0:1)+" ft";
+  let y=0, s='', L=[], C=[];  // L: left depth labels, C: right callouts
+  const brk=yy=>{s+='<path d="M'+(xl-62)+' '+(yy-5)+' l12 10 l12 -10 l12 10 l12 -10 l12 10 l12 -10 l12 10 l12 -10 l12 10 l12 -10 l12 10 l12 -10 l12 10 l12 -10 l12 10 l12 -10 l12 10 l12 -10 l12 10 l12 -10 l12 10 l12 -10" fill="none" stroke="var(--panel)" stroke-width="9"/>'+
+    '<path d="M'+(xl-62)+' '+(yy-9)+' l12 10 l12 -10 l12 10 l12 -10 l12 10 l12 -10 l12 10 l12 -10 l12 10 l12 -10 l12 10 l12 -10 l12 10 l12 -10 l12 10 l12 -10 l12 10 l12 -10 l12 10 l12 -10 l12 10 l12 -10 M'+(xl-62)+' '+(yy-1)+' l12 10 l12 -10 l12 10 l12 -10 l12 10 l12 -10 l12 10 l12 -10 l12 10 l12 -10 l12 10 l12 -10 l12 10 l12 -10 l12 10 l12 -10 l12 10 l12 -10 l12 10 l12 -10 l12 10 l12 -10" fill="none" stroke="var(--muted)" stroke-width="1.2"/>';};
+  const level=(yy,depth,cap,col,dash)=>{s+='<line x1="'+(xl-120)+'" x2="'+(xr+(dash?60:0))+'" y1="'+yy+'" y2="'+yy+'" stroke="'+col+'" stroke-width="1.4" stroke-dasharray="'+(dash||"6 4")+'"/>';L.push([yy,depth,cap,col]);};
+  const callout=(yy,xEdge,title,sub,strong)=>C.push({yy,xEdge,title,sub,strong});
+
+  /* ---- top: surface and levels ---- */
+  y=34; brk(y); y+=16;
+  const yG=y+18; s+='<rect x="'+(xl-46)+'" y="'+yG+'" width="'+(casW+92)+'" height="10" fill="url(#el-pad)"/>';
+  L.push([yG,0,"ground","var(--muted)"]);
+  const ySwl=yG+70, yPwl=ySwl+44, yDes=(v.drawAllow>0?yPwl+36:yPwl);
+  const yTopBreak=yDes+42;
+  /* water, casing and column for the top band */
+  s+='<rect x="'+xl+'" y="'+ySwl+'" width="'+casW+'" height="'+(yTopBreak-ySwl)+'" fill="url(#el-water)"/>';
+  level(ySwl,v.swl,"static","#2E7BC9"); level(yPwl,v.pwl,"pumping","#2E7BC9");
+  if(v.drawAllow>0) level(yDes,r.pwlD,"design pumping","#C27A1E");
+  [ySwl,yPwl].forEach(yy=>s+='<path d="M'+(xl+12)+' '+(yy-9)+' h10 l-5 7z" fill="#2E7BC9"/><line x1="'+(xl+13)+'" x2="'+(xl+21)+'" y1="'+(yy+3)+'" y2="'+(yy+3)+'" stroke="#2E7BC9"/>');
+  let segTop=yG+10;
+  const bandEnds=[];
+  const band=(y0,y1)=>{bandEnds.push([y0,y1]);};
+  band(segTop,yTopBreak);
+  callout(yG+44,cx+colW/2,"Column",fmt(v.columnOD,3)+" in OD"+(v.columnNom!=="custom"?" · "+v.columnNom+" in nominal":""));
+  callout(yG+92,xr,"Casing",fmt(v.casingID,3)+" in ID");
+  if(cascadeFt(v,r.pwlD)>0){const yp=yG+30; s+='<g stroke="#5C9FDB" stroke-width="1.3" fill="none" opacity=".8">'+[0,1,2].map(i=>'<path d="M'+(xr-2)+' '+(yp+i*12)+' q-16 '+(18+i*4)+' -22 '+(yDes-yp-i*12+6)+'"/><path d="M'+(xl+2)+' '+(yp+i*12)+' q16 '+(18+i*4)+' 22 '+(yDes-yp-i*12+6)+'"/>').join("")+'</g>';
+    callout(yp+10,xr,"Exposed perforations","from "+ft(Math.max(v.perfTop,v.swl))+" · up to "+ft(r.hc)+" of cascade");}
+  y=yTopBreak; brk(y); y+=26;
+
+  /* ---- disc stack ---- */
+  const dTop=y, gap=r.nUse>6?34:46, sD=s; s='';
+  if(r.nUse){
+    r.depths.forEach((d,i)=>{const yy=dTop+18+i*gap;
+      s+='<rect x="'+(xl+1)+'" y="'+(yy-4)+'" width="'+(cx-colW/2-xl-1)+'" height="8" rx="2" fill="url(#el-rub)"/><rect x="'+(cx+colW/2)+'" y="'+(yy-4)+'" width="'+(xr-cx-colW/2-1)+'" height="8" rx="2" fill="url(#el-rub)"/>';
+      for(let x=xl+6;x<cx-colW/2-5;x+=7) s+='<rect x="'+x+'" y="'+(yy-4)+'" width="2.4" height="8" fill="var(--panel)" opacity=".85"/>';
+      for(let x=cx+colW/2+5;x<xr-5;x+=7) s+='<rect x="'+x+'" y="'+(yy-4)+'" width="2.4" height="8" fill="var(--panel)" opacity=".85"/>';
+      s+='<rect x="'+(cx-colW/2-8)+'" y="'+(yy-7)+'" width="8" height="14" rx="1.5" fill="url(#el-steelH)"/><rect x="'+(cx+colW/2)+'" y="'+(yy-7)+'" width="8" height="14" rx="1.5" fill="url(#el-steelH)"/>';
+      s+='<circle cx="'+(cx-colW/2-0.5)+'" cy="'+(yy-7)+'" r="1.6" fill="#C9D2DA"/><circle cx="'+(cx+colW/2+0.5)+'" cy="'+(yy-7)+'" r="1.6" fill="#C9D2DA"/>';
+      L.push([yy,d,"disc "+(i+1),"var(--accent)"]);
+      if(v.vent==="tubes") s+='<line x1="'+(xr-10-i*3)+'" x2="'+(xr-10-i*3)+'" y1="'+(dTop-30)+'" y2="'+(yy+5)+'" stroke="#8FA3B5" stroke-width="1.6" opacity=".7"/>';
+    });
+    const yL=dTop+18+(r.nUse-1)*gap;
+    callout(dTop+18,xr,"EAD disc stack",r.nUse+" disc"+(r.nUse>1?"s":"")+" · "+frac(v.thick)+" in rubber · "+r.N+" × "+frac(r.d)+" in holes",true);
+    callout(dTop+18+Math.min(r.nUse-1,1)*gap+(r.nUse>1?0:26),cx+colW/2+8,"Steel hub ring",frac(v.hubWidth)+" in wide · bolted and tack-welded");
+    if(v.vent==="tubes") callout(yL+gap*0.45,xr-10,"Vent tubes","one per disc, open above the water");
+    callout(yL+4,cx+colW/2+8,"Clear to the bowls",fmt(P.bowlTop-r.depths[r.nUse-1],0)+" ft from the bottom disc");
+    y=yL+30;
+  } else { s+='<text x="'+(xr+20)+'" y="'+(dTop+24)+'" font-size="13" fill="var(--muted)" '+mono+'>no discs on these numbers</text>'; y=dTop+40; }
+  s=sD+'<rect x="'+xl+'" y="'+(dTop-26)+'" width="'+casW+'" height="'+(y-dTop+26)+'" fill="url(#el-water)"/>'+s;
+  band(dTop-26,y); y+=8; brk(y); y+=26;
+
+  /* ---- pump: discharge head, bowls, suction bell, strainer or motor ---- */
+  const pTop=y, sP=s; s='';
+  const yHead=pTop+10, headH=34;
+  L.push([yHead,P.bowlTop,"top of the bowls","var(--muted)","≈"]);
+  s+='<rect x="'+(cx-bW*0.36)+'" y="'+yHead+'" width="'+(bW*0.72)+'" height="'+headH+'" rx="4" fill="url(#el-steelH)" stroke="#2B3846" stroke-opacity=".5"/>';
+  for(let k=0;k<3;k++) s+='<line x1="'+(cx-bW*0.36)+'" x2="'+(cx+bW*0.36)+'" y1="'+(yHead+8+k*9)+'" y2="'+(yHead+8+k*9)+'" stroke="#000" stroke-opacity=".18"/>';
+  const nDraw=Math.min(P.stages,8), stH=nDraw>6?40:48, b0=yHead+headH;
+  for(let k=0;k<nDraw;k++){const y0=b0+k*stH, ym=y0+stH/2, hw=bW/2;
+    s+='<path d="M'+(cx-hw*0.62)+' '+y0+' C'+(cx-hw*1.02)+' '+(y0+2)+' '+(cx-hw*1.02)+' '+(y0+stH-2)+' '+(cx-hw*0.62)+' '+(y0+stH)+' L'+(cx+hw*0.62)+' '+(y0+stH)+' C'+(cx+hw*1.02)+' '+(y0+stH-2)+' '+(cx+hw*1.02)+' '+(y0+2)+' '+(cx+hw*0.62)+' '+y0+'Z" fill="url(#el-bowl)" stroke="#123A7A" stroke-width="1"/>';
+    s+='<path d="M'+(cx-hw*0.5)+' '+(y0+6)+' Q'+cx+' '+(y0+2)+' '+(cx+hw*0.5)+' '+(y0+6)+' L'+(cx+hw*0.42)+' '+(y0+stH-6)+' L'+(cx-hw*0.42)+' '+(y0+stH-6)+'Z" fill="url(#el-imp)" stroke="#8C7F66" stroke-width=".8"/>';
+    for(let j=-2;j<=2;j++) s+='<path d="M'+(cx+j*hw*0.17)+' '+(y0+stH-7)+' q'+(j*3+6)+' -'+(stH*0.35)+' '+(j*1.5)+' -'+(stH*0.66)+'" fill="none" stroke="#7B6F58" stroke-width="1" opacity=".75"/>';
+    s+='<ellipse cx="'+(cx-hw*0.86)+'" cy="'+(ym-stH*0.18)+'" rx="'+(hw*0.06)+'" ry="'+(stH*0.16)+'" fill="#FFFFFF" opacity=".28"/>';
+    if(k<nDraw-1) s+='<rect x="'+(cx-hw*0.66)+'" y="'+(y0+stH-2)+'" width="'+(hw*1.32)+'" height="4" fill="#0E2C5E"/>';
+  }
+  const bEnd=b0+nDraw*stH;
+  s+='<rect x="'+(cx-1.6)+'" y="'+(yHead-4)+'" width="3.2" height="'+(bEnd-yHead+8)+'" fill="#D5DCE3" opacity=".85"/>';
+  if(P.stages>nDraw){const ym=b0+nDraw*stH/2; s+='<rect x="'+(cx-52)+'" y="'+(ym-13)+'" width="104" height="22" rx="11" fill="#0B1B2E" stroke="#5CC8FF" stroke-opacity=".6"/><text x="'+cx+'" y="'+(ym+3)+'" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF" '+mono+'>'+P.stages+' stages</text>';}
+  /* suction bell */
+  const yBell=bEnd+12;
+  s+='<path d="M'+(cx-bW*0.4)+' '+bEnd+' C'+(cx-bW*0.42)+' '+(bEnd+6)+' '+(cx-bW*0.52)+' '+(yBell-2)+' '+(cx-bW*0.56)+' '+yBell+' L'+(cx+bW*0.56)+' '+yBell+' C'+(cx+bW*0.52)+' '+(yBell-2)+' '+(cx+bW*0.42)+' '+(bEnd+6)+' '+(cx+bW*0.4)+' '+bEnd+'Z" fill="url(#el-bowl)" stroke="#123A7A"/>';
+  s+='<line x1="'+(xl-120)+'" x2="'+(xr+60)+'" y1="'+yBell+'" y2="'+yBell+'" stroke="#C27A1E" stroke-width="1.6" stroke-dasharray="8 5"/>';
+  L.push([yBell,v.intake,P.sub?"intake":"setting · suction bell","#C27A1E","",true]);
+  let yEnd;
+  if(!P.sub){ /* cone strainer */
+    const ch=120, top=yBell+2, wTop=bW*0.5;
+    s+='<path d="M'+(cx-wTop)+' '+top+' L'+cx+' '+(top+ch)+' L'+(cx+wTop)+' '+top+'Z" fill="url(#el-strain)" stroke="#6B7A89" stroke-width="1"/>';
+    for(let k=1;k<9;k++){const t=k/9, yy=top+ch*t, hw2=wTop*(1-t); s+='<line x1="'+(cx-hw2)+'" x2="'+(cx+hw2)+'" y1="'+yy+'" y2="'+yy+'" stroke="#55636F" stroke-width=".9" opacity=".8"/>';}
+    for(let k=-4;k<=4;k++) s+='<line x1="'+(cx+k*wTop/4.5)+'" y1="'+top+'" x2="'+cx+'" y2="'+(top+ch)+'" stroke="#55636F" stroke-width=".6" opacity=".55"/>';
+    s+='<circle cx="'+cx+'" cy="'+(top+ch+3)+'" r="4" fill="#8B98A5"/>';
+    yEnd=top+ch+30;
+  } else { /* intake screen, seal section, motor */
+    const ys=yBell+2; s+='<rect x="'+(cx-bW*0.42)+'" y="'+ys+'" width="'+(bW*0.84)+'" height="16" fill="#0E151D"/>';
+    for(let x=cx-bW*0.4+3;x<cx+bW*0.42-2;x+=4) s+='<rect x="'+x+'" y="'+(ys+2)+'" width="1.6" height="12" fill="#9AA9B8"/>';
+    s+='<rect x="'+(cx-motW*0.38)+'" y="'+(ys+16)+'" width="'+(motW*0.76)+'" height="28" fill="url(#el-steelH)"/>';
+    const mt=ys+44, mh=150; s+='<rect x="'+(cx-motW/2)+'" y="'+mt+'" width="'+motW+'" height="'+mh+'" rx="6" fill="url(#el-motor)"/>';
+    for(let yy=mt+8;yy<mt+mh-6;yy+=6) s+='<line x1="'+(cx-motW/2+3)+'" x2="'+(cx+motW/2-3)+'" y1="'+yy+'" y2="'+yy+'" stroke="#000" stroke-opacity=".28"/>';
+    yEnd=mt+mh+26;
+  }
+  s=sP+'<rect x="'+xl+'" y="'+(pTop-26)+'" width="'+casW+'" height="'+(yEnd-pTop+26)+'" fill="url(#el-water)"/>'+s;
+  band(pTop-26,yEnd);
+  callout(yHead+headH/2,cx+bW*0.36,"Discharge head","column connection to the bowls");
+  callout(b0+stH*Math.min(2,nDraw-1)+stH/2,cx+bW/2,"Bowl assembly",P.stages+" stage"+(P.stages>1?"s":"")+" · "+fmt(P.bowlOD,2)+" in OD"+(v.bowlOD>0?"":" (estimated)"));
+  callout(b0+stH*(nDraw-1)+stH/2,cx+bW*0.42,"Impeller",P.stages+" · one per stage");
+  callout(yBell,cx+bW*0.56,P.sub?"Intake screen":"Suction bell","at "+ft(v.intake),true);
+  if(!P.sub) callout(yBell+60,cx+bW*0.25,"Strainer","cone");
+  else callout(yBell+120,cx+motW/2,"Submersible motor",v.motorOD>0?fmt(v.motorOD,2)+" in OD":"OD not entered");
+  y=yEnd; brk(y);
+  const H=y+44;
+  /* bowl OD dimension */
+  s+='<g stroke="var(--ink2)" stroke-width="1"><line x1="'+(cx-bW/2)+'" x2="'+(cx+bW/2)+'" y1="'+(H-18)+'" y2="'+(H-18)+'"/><line x1="'+(cx-bW/2)+'" x2="'+(cx-bW/2)+'" y1="'+(H-24)+'" y2="'+(H-12)+'"/><line x1="'+(cx+bW/2)+'" x2="'+(cx+bW/2)+'" y1="'+(H-24)+'" y2="'+(H-12)+'"/></g>';
+  s+='<text x="'+(cx+bW/2+8)+'" y="'+(H-14)+'" font-size="12.5" fill="var(--ink)" '+mono+'>'+fmt(P.bowlOD,2)+' in bowl OD</text>';
+  /* casing walls and column, drawn over the bands */
+  bandEnds.forEach(([a,b])=>{s+='<line x1="'+xl+'" x2="'+xl+'" y1="'+a+'" y2="'+b+'" stroke="var(--ink2)" stroke-width="2"/><line x1="'+xr+'" x2="'+xr+'" y1="'+a+'" y2="'+b+'" stroke="var(--ink2)" stroke-width="2"/>';});
+  const colSegs=[[bandEnds[0][0]-30,bandEnds[0][1]],[bandEnds[1][0],bandEnds[1][1]],[bandEnds[2][0],yHead]];
+  colSegs.forEach(([a,b])=>{s+='<rect x="'+(cx-colW/2)+'" y="'+a+'" width="'+colW+'" height="'+Math.max(0,b-a)+'" fill="url(#el-col)"/>';});
+  /* dimension: design pumping level to intake */
+  const dimX=xl-34; s+='<g stroke="#2E7BC9" stroke-width="1.2"><line x1="'+dimX+'" x2="'+dimX+'" y1="'+(yDes+4)+'" y2="'+(yBell-4)+'"/><path d="M'+(dimX-4)+' '+(yDes+10)+' l4 -7 l4 7 M'+(dimX-4)+' '+(yBell-10)+' l4 7 l4 -7" fill="none"/></g>';
+  s+='<text transform="translate('+(dimX-7)+','+((yDes+yBell)/2)+') rotate(-90)" text-anchor="middle" font-size="12" font-weight="600" fill="#2E7BC9">'+fmt(v.intake-r.pwlD,0)+' ft over the intake (design pumping)</text>';
+  /* left labels (depth + caption), spaced so they never collide */
+  let last=-1e9; L.sort((a,b)=>a[0]-b[0]).forEach(([yy,depth,cap,col,pre,strong])=>{const ty=Math.max(yy-2,last+34); last=ty;
+    s+='<text x="'+(xl-128)+'" y="'+ty+'" text-anchor="end" font-size="'+(strong?16:15)+'" font-weight="700" fill="'+col+'" '+mono+'>'+(pre||"")+fmt(depth,Math.abs(depth-Math.round(depth))<0.05?0:1)+' ft</text>'+
+      '<text x="'+(xl-128)+'" y="'+(ty+15)+'" text-anchor="end" font-size="12" fill="var(--muted)" '+mono+'>'+esc(cap)+'</text>';
+    if(Math.abs(ty-yy+2)>3) s+='<line x1="'+(xl-124)+'" x2="'+(xl-120)+'" y1="'+(ty-5)+'" y2="'+yy+'" stroke="'+col+'"/>';});
+  /* right callouts, numbered, spaced */
+  const cxC=600; let lc=-1e9; C.sort((a,b)=>a.yy-b.yy).forEach((c,i)=>{const ty=Math.max(c.yy,lc+46); lc=ty;
+    s+='<path d="M'+(c.xEdge+2)+' '+c.yy+' L'+(cxC-40)+' '+c.yy+' L'+(cxC-16)+' '+ty+'" fill="none" stroke="var(--ink2)" stroke-width="1"/><circle cx="'+(c.xEdge+2)+'" cy="'+c.yy+'" r="2.4" fill="var(--ink2)"/>';
+    s+='<circle cx="'+cxC+'" cy="'+ty+'" r="15" fill="'+(c.strong?"var(--ink)":"var(--panel)")+'" stroke="var(--ink)" stroke-width="1.6"/><text x="'+cxC+'" y="'+(ty+4.5)+'" text-anchor="middle" font-size="13" font-weight="700" fill="'+(c.strong?"var(--panel)":"var(--ink)")+'" '+mono+'>'+(i+1)+'</text>';
+    s+='<text x="'+(cxC+26)+'" y="'+(ty-2)+'" font-size="15.5" font-weight="700" fill="var(--ink)">'+esc(c.title)+'</text><text x="'+(cxC+26)+'" y="'+(ty+15)+'" font-size="12.5" fill="var(--ink2)" '+mono+'>'+esc(c.sub)+'</text>';});
+  const defs='<defs>'+
+    '<linearGradient id="el-water" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7FC4F0" stop-opacity=".42"/><stop offset="1" stop-color="#3E9BE0" stop-opacity=".30"/></linearGradient>'+
+    '<linearGradient id="el-col" x1="0" x2="1"><stop offset="0" stop-color="#3A4A5C"/><stop offset=".35" stop-color="#8E9DB0"/><stop offset=".55" stop-color="#C7D1DC"/><stop offset="1" stop-color="#2F3D4C"/></linearGradient>'+
+    '<linearGradient id="el-steelH" x1="0" x2="1"><stop offset="0" stop-color="#5C6B7B"/><stop offset=".45" stop-color="#D9E0E7"/><stop offset="1" stop-color="#4E5C6B"/></linearGradient>'+
+    '<linearGradient id="el-rub" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4A4F55"/><stop offset=".35" stop-color="#1E2124"/><stop offset="1" stop-color="#0C0D0F"/></linearGradient>'+
+    '<linearGradient id="el-bowl" x1="0" x2="1"><stop offset="0" stop-color="#173F8A"/><stop offset=".3" stop-color="#3F7FDB"/><stop offset=".55" stop-color="#2A62BE"/><stop offset="1" stop-color="#12357A"/></linearGradient>'+
+    '<linearGradient id="el-imp" x1="0" x2="1"><stop offset="0" stop-color="#CBBF9F"/><stop offset=".5" stop-color="#F1E9D6"/><stop offset="1" stop-color="#C2B595"/></linearGradient>'+
+    '<linearGradient id="el-strain" x1="0" x2="1"><stop offset="0" stop-color="#9AA6B2"/><stop offset=".5" stop-color="#DDE3E9"/><stop offset="1" stop-color="#8D99A5"/></linearGradient>'+
+    '<linearGradient id="el-motor" x1="0" x2="1"><stop offset="0" stop-color="#151C24"/><stop offset=".4" stop-color="#55657A"/><stop offset="1" stop-color="#10161D"/></linearGradient>'+
+    '<pattern id="el-pad" width="10" height="10" patternUnits="userSpaceOnUse"><rect width="10" height="10" fill="#D9D3C4"/><circle cx="3" cy="3" r="1.2" fill="#B9B09B"/><circle cx="8" cy="7" r="1" fill="#B9B09B"/></pattern>'+
+    '</defs>';
+  return '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Installation elevation: levels, disc stack, bowls and intake" font-family="Barlow, sans-serif">'+defs+s+'</svg>';
+}
+
 /* ---------------- rendering ---------------- */
 let last=null, prio="balanced", tornOut="loss";
 const regimeWord=r=>(r.nRec===0&&r.nUse===0)?"No air source to treat":({A:"Clean separation",B:"Coalescing stack",C:"Beyond what discs can fix"}[r.regime]);
+function finalize(r){
+  if(r.err.length||r.final) return r;
+  r.final=true; if(!(r.nUse>0)) return r;
+  const mc=monteCarlo(r), hold=mc.c.holds/mc.N, op=optimize(r,"balanced");
+  r.mcC=mc.c; r.mcN=mc.N;
+  r.hold=hold; r.optPass=op.feas.length;
+  if(hold<0.6){r.flags.push(["bad","The design holds in only "+fmt(hold*100,0)+"% of the risk runs (levels, flow and bubble size varied over your ranges). See the Risk tab for what fails.","fin"]);r.level="bad";}
+  else if(hold<0.9){r.flags.push(["warn","The design holds in "+fmt(hold*100,0)+"% of the risk runs. See the Risk tab for what fails most often.","fin"]);if(r.level==="ok") r.level="warn";}
+  else r.flags.push(["ok","The design holds in "+fmt(hold*100,0)+"% of the risk runs.","fin"]);
+  if(!op.feas.length){r.flags.push(["warn","No hole size and pitch passes every rule in the Optimizer for this well. The drawn pattern is the closest fit; relax a limit or change the build.","fin"]);if(r.level==="ok") r.level="warn";}
+  return r;
+}
+const BLOCK_LABELS=[[/Rubber sag/,"Rubber sag over the limit"],[/ports run into|ports cut through|ports run past/i,"Ports do not fit the disc"],[/hub bolt|no bolt/i,"Hub bolts do not fit"],[/No room for discs/,"No room for discs"],[/run past the intake/,"Discs run past the intake clearance"],[/rise above the top/,"Discs rise above the top limit"],[/out of the water/,"Top disc out of the water"],[/top of the bowls/,"Discs too close to the bowls"],[/NPSH available/,"NPSH below the pump's requirement"],[/Gas cannot rise/,"Gas trapped under the discs"],[/ligament between holes/,"Rubber between holes too thin"],[/risk runs/,"Fails too often in the risk runs"]];
+function blockLabel(r){const f=r.flags.find(x=>x[0]==="bad"); if(!f) return ""; const m=BLOCK_LABELS.find(b=>b[0].test(f[1])); return m?m[1]:"Problem found";}
+const noNeg=svg=>String(svg).replace(/(height|width)="-[0-9.e+-]+"/g,'$1="0"');
 function renderVerdict(r){
   $("verdict").className="verdict "+(r.level||"bad");
   ALL.forEach(f=>{const e=r.err.includes(f.id);$("f_"+f.id).classList.toggle("err",e);$(f.id).setAttribute("aria-invalid",e?"true":"false");});
   const st=$("status"); st.className="status "+(r.level||"bad");
   const fl=$("flags");
   if(r.err.length){st.lastChild.textContent="Inputs need attention";$("headline").textContent="Check the inputs";$("subline").textContent="";$("kpis").innerHTML="";fl.innerHTML=r.flags.map(f=>'<li class="'+f[0]+'">'+esc(f[1])+'</li>').join("");return false;}
-  st.lastChild.textContent=regimeWord(r)+(r.level==="ok"?" · all checks pass":r.level==="warn"?" · review the notes":" · problem found");
+  st.lastChild.textContent=((r.nUse===0&&r.nRec>0)?"No room for discs":regimeWord(r))+(r.level==="ok"?" · all checks pass":r.level==="warn"?" · review the notes":" · problem found")+(r.hold!=null?" · holds in "+fmt(r.hold*100,0)+"% of risk runs":"");
   const purpose={cascade:"to break the cascade",aquifer:"to catch aquifer air",both:"for falling and aquifer air"}[r.mode];
-  $("headline").textContent=(r.nUse===0&&r.nRec>0)?"No room for discs":(r.nUse===0&&r.nRec===0&&r.v.discMode==="auto")?"No EAD needed on these numbers":{A:r.nUse?r.nUse+" disc"+(r.nUse>1?"s":"")+" "+purpose:"No EAD needed on these numbers",B:r.nUse+" disc"+(r.nUse!==1?"s":"")+", coalescing stack",C:"Outside the range discs can fix"}[r.regime];
+  const blk=(r.level==="bad"&&r.regime!=="C")?blockLabel(r):"";
+  $("headline").textContent=blk&&r.nUse>0?blk+" ("+r.nUse+" disc"+(r.nUse>1?"s":"")+" drawn)":(r.nUse===0&&r.nRec>0)?"No room for discs":(r.nUse===0&&r.nRec===0&&r.v.discMode==="auto")?"No EAD needed on these numbers":{A:r.nUse?r.nUse+" disc"+(r.nUse>1?"s":"")+" "+purpose:"No EAD needed on these numbers",B:r.nUse+" disc"+(r.nUse!==1?"s":"")+", coalescing stack",C:"Outside the range discs can fix"}[r.regime];
   $("subline").textContent=r.nUse?(frac(r.d)+'" holes, '+r.N+" per disc on a "+frac(r.pitch)+'" pitch, '+fmt(r.phi*100,0)+"% open. Top disc at "+fmt(r.depths[0],0)+" ft"+(r.nUse>1?", then every "+fmt(r.depths[1]-r.depths[0],0)+" ft to "+fmt(r.depths[r.nUse-1],0)+" ft":"")+". Estimated flow cost "+fmt(r.dQpct,2)+"%."):"The disc pattern is still shown for reference.";
   const depthTxt=r.nUse?(r.nUse>1?fmt(r.depths[0],0)+"–"+fmt(r.depths[r.nUse-1],0):fmt(r.depths[0],0)):"—";
   $("kpis").innerHTML=[[r.nUse,"","discs"],[frac(r.d),'"',"hole diameter"],[r.N,"","holes per disc"],[depthTxt,"","ft below ground"]]
@@ -960,7 +1431,7 @@ function renderVerdict(r){
   return true;
 }
 function renderVelo(r){
-  const rows=[["Water down, core (× C0)",r.Vc,r.regime==="A"?"var(--ok)":r.regime==="B"?"var(--warn)":"var(--bad)"],["Water down, average",r.Va,"var(--steel)"],["Small bubbles rise",r.v.vb,"var(--accent)"],["Merged gas rises (with SF)",r.UtA,"var(--accent)"],["Water through disc holes",r.Vhole,"var(--steel-dark)"]];
+  const rows=[["Water down at top disc, core",r.Vc,r.regime==="A"?"var(--ok)":r.regime==="B"?"var(--warn)":"var(--bad)"],["Water down at intake, core",r.VcInt,"var(--steel)"],["Small bubbles rise",r.v.vb,"var(--accent)"],["Merged gas rises (with SF)",r.UtA,"var(--accent)"],["Water through holes, top disc",r.VholeTop,"var(--steel-dark)"]];
   const mx=Math.max(...rows.map(x=>x[1]))*1.06;
   $("velo").innerHTML=rows.map(x=>'<div class="vrow"><span>'+x[0]+'</span><div class="vbar"><i style="width:'+(x[1]/mx*100).toFixed(1)+'%;background:'+x[2]+'"></i></div><span class="v">'+fmt(x[1],2)+' ft/s</span></div>').join("");
 }
@@ -995,19 +1466,24 @@ function renderTables(r){
   $("hydTable").innerHTML=kv([
     ["Annulus area",fmt(r.Aann_in,1)+" in² ("+fmt(r.Aann,3)+" ft²)"],
     ["Flow from above intake",fmt(r.Qa,0)+" of "+fmt(r.Q,0)+" gpm"],
-    ["Annular velocity, average / core",fmt(r.Va,2)+" / "+fmt(r.Vc,2)+" ft/s (C0 "+fmt(r.v.c0,2)+")"],
-    ["Hole velocity",fmt(r.Vhole,2)+" ft/s"],
-    ["Merged gas rise: formula × SF / used",fmt(r.UtSF,2)+" / "+fmt(r.UtA,2)+" ft/s"+(r.riseCapped?" (capped)":"")],
+    ["Inflow profile",v.inflow==="top"?"All above the top disc (conservative)":"Evenly along the perforations"],
+    ["Downflow at top disc, average / core",fmt(r.Va,2)+" / "+fmt(r.Vc,2)+" ft/s (C0 "+fmt(r.v.c0,2)+")"],
+    ["Downflow at intake, average / core",fmt(r.VaInt,2)+" / "+fmt(r.VcInt,2)+" ft/s"],
+    ["Hole velocity, top / deepest disc",fmt(r.VholeTop,2)+" / "+fmt(r.Vhole,2)+" ft/s"],
+    ["Merged gas rise: slug formula / large-bubble limit / used",fmt(r.Ut,2)+" / "+fmt(r.Ucap,2)+" / "+fmt(r.UtA,2)+" ft/s (× SF "+fmt(r.v.slugSF,2)+")"],
+    ["Gas back through a disc",r.nUse?(r.flood>=FLOOD_C?"No, flooded (index "+fmt(r.flood,2)+")":"Possible (index "+fmt(r.flood,2)+")")+(v.vent==="tubes"?", vent tubes fitted":""):"—"],
     ["Air source",{cascade:"Falling water into the casing",aquifer:"Aquifer air from percolation ponds",both:"Falling water and aquifer air"}[r.mode]],
     ...(r.cascOn?[["Cascade, design / today",fmt(r.hc,0)+" / "+fmt(r.hcNow,0)+" ft"]]:[]),
     ...(r.aqOn?[["Air in inflow (your estimate)",fmt(v.airFrac,1)+"% ≈ "+fmt(r.airCfm,1)+" cfm"],["Wetted screen above intake",fmt(r.scr,0)+" ft"],["Aquifer air crossing a disc",fmt(r.airTreatedPct,0)+"% of inflow air"]]:[]),
-    ["Loss coefficient ζ",fmt(r.z,2)],
-    ["Head loss per disc",fmt(r.hDisc,3)+" ft"],
+    ["Loss coefficient ζ (rubber t/d "+fmt(v.thick/r.d,2)+")",fmt(r.z,2)],
+    ["Head loss per disc, top to bottom",r.hD.length?r.hD.map(x=>fmt(x,3)).join(" / ")+" ft":"—"],
     ["Stack head loss",fmt(r.hTot,3)+" ft"],
-    ["Estimated flow change","−"+fmt(r.dQ,1)+" gpm (−"+fmt(r.dQpct,2)+"%)"],
+    ["Estimated flow change","−"+fmt(r.dQ,1)+" gpm (−"+fmt(r.dQpct,2)+"%), pump "+fmt(v.slope,1)+" + system "+fmt(r.sys,1)+" ft/100 gpm"],
     ["NPSH available / required",fmt(r.npsha,1)+" / "+fmt(v.npshr,1)+" ft (margin "+fmt(r.margin,1)+")"],
-    ["Max flow, clean separation",fmt(r.Qclean,0)+" gpm"],
-    ["Max flow, with merging",fmt(r.Qmax,0)+" gpm"],
+    ["Max flow, clean separation",isFinite(r.Qclean)?fmt(r.Qclean,0)+" gpm":"No limit"],
+    ["Max flow, with merging",isFinite(r.Qmax)?fmt(r.Qmax,0)+" gpm":"No limit"],
+    ["Rubber sag at rim, deepest disc",r.nUse?fmt(r.sag.w,2)+" in (limit "+frac(v.maxSag)+'", modulus '+fmt(r.sag.E,0)+" psi)":"—"],
+    ["Load on each disc at design flow",r.nUse?fmt(r.sag.force,0)+" lbf down":"—"],
     ["Motor cooling velocity",isFinite(r.Vmotor)?fmt(r.Vmotor,2)+" ft/s":"Not checked"],
   ]);
 }
@@ -1034,6 +1510,7 @@ function wellSVG(r){
    '<linearGradient id="ws-ray" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9AD8FF" stop-opacity=".22"/><stop offset="1" stop-color="#9AD8FF" stop-opacity="0"/></linearGradient>'+
    '<linearGradient id="ws-disc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5A6067"/><stop offset=".3" stop-color="#26292D"/><stop offset="1" stop-color="#0B0C0E"/></linearGradient>'+
    '<linearGradient id="ws-pad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9AA4AE"/><stop offset="1" stop-color="#4E5863"/></linearGradient>'+
+   '<linearGradient id="ws-bowl" x1="0" x2="1"><stop offset="0" stop-color="#173F8A"/><stop offset=".3" stop-color="#4486E0"/><stop offset=".55" stop-color="#2A62BE"/><stop offset="1" stop-color="#12357A"/></linearGradient>'+
    '<linearGradient id="ws-motor" x1="0" x2="1"><stop offset="0" stop-color="#121922"/><stop offset=".4" stop-color="#4A5868"/><stop offset="1" stop-color="#0E141B"/></linearGradient>'+
    '<filter id="ws-glow" x="-50%" y="-300%" width="200%" height="700%"><feGaussianBlur stdDeviation="2.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>'+
    '<filter id="ws-soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="1.1"/></filter>'+
@@ -1053,12 +1530,14 @@ function wellSVG(r){
   s+='<path d="'+wtPath(xr+wall,W)+' L'+W+' '+bot+' L'+(xr+wall)+' '+bot+'Z" fill="url(#ws-sat)"/>';
   s+='<path d="'+wtPath(0,xl-wall)+'" fill="none" stroke="#5CC8FF" stroke-width="1.2" stroke-dasharray="5 4" opacity=".8"/><path d="'+wtPath(xr+wall,W)+'" fill="none" stroke="#5CC8FF" stroke-width="1.2" stroke-dasharray="5 4" opacity=".8"/>';
   s+='<text x="33" y="'+(y(wtD(33))-6).toFixed(1)+'" font-size="10.5" fill="#7FCBFF">Water table</text>';
-  // percolation pond + infiltration
   const p0=246,p1=354,pd=15;
+  if(r.aqOn){
+  // percolation pond + infiltration
   s+='<path d="M'+p0+' '+(gy+1)+' Q'+((p0+p1)/2)+' '+(gy+pd*2)+' '+p1+' '+(gy+1)+'Z" fill="url(#ws-pond)"/>';
   s+='<path d="M'+(p0+14)+' '+(gy+4)+' h16 M'+(p0+44)+' '+(gy+7)+' h22 M'+(p0+78)+' '+(gy+4)+' h14" stroke="#CFEFFF" stroke-opacity=".7" stroke-linecap="round"/>';
   s+='<text x="'+((p0+p1)/2)+'" y="'+(gy-8)+'" text-anchor="middle" font-size="10.5" font-weight="600" fill="#9FDFFF">Percolation pond</text>';
   [262,284,306,328].forEach(x=>{const yb=y(wtD(x))-3, ya=gy+pd*0.9;if(yb>ya+10) s+='<path d="M'+x+' '+ya+' V'+yb+' m-3 -5 l3 5 l3 -5" fill="none" stroke="#5CC8FF" stroke-opacity=".35" stroke-dasharray="3 4"/>';});
+  }
   const bez=(p0_,p1_,p2_,p3_,t)=>{const u=1-t;return [u*u*u*p0_[0]+3*u*u*t*p1_[0]+3*u*t*t*p2_[0]+t*t*t*p3_[0],u*u*u*p0_[1]+3*u*u*t*p1_[1]+3*u*t*t*p2_[1]+t*t*t*p3_[1]];};
   if(r.aqOn){
     const lo=Math.max(v.pwl,v.perfTop), hi=Math.min(v.perfBot,maxD);
@@ -1111,7 +1590,7 @@ function wellSVG(r){
   // surface glow
   s+='<line x1="'+xl+'" x2="'+xr+'" y1="'+yP+'" y2="'+yP+'" stroke="#9FDFFF" stroke-width="1.4" filter="url(#ws-glow)"/>';
   // column + couplings + cable
-  const bowlTop=y(v.intake-18);
+  const PG=pumpGeom(v), bowlTop=Math.min(y(v.intake)-16,y(PG.bowlTop));
   s+='<rect x="'+cl+'" y="'+(gy-40)+'" width="'+colW+'" height="'+(bowlTop-gy+40)+'" fill="url(#ws-steel)"/>';
   for(let d=21; d<v.intake-20; d+=21) s+='<rect x="'+(cl-2)+'" y="'+y(d)+'" width="'+(colW+4)+'" height="3.2" rx="1" fill="url(#ws-steel)" opacity=".95"/>';
   s+='<line x1="'+(cl-4.5)+'" x2="'+(cl-4.5)+'" y1="'+(gy-12)+'" y2="'+y(v.intake+4)+'" stroke="#070C12" stroke-width="2.2"/>';
@@ -1122,14 +1601,19 @@ function wellSVG(r){
     for(let x=cr+4;x<xr-3;x+=6) s+='<rect x="'+x+'" y="'+(yy-3)+'" width="2" height="6" fill="#000000" opacity=".8"/>';
     s+='<rect x="'+(cl-7)+'" y="'+(yy-6)+'" width="7" height="12" rx="1" fill="url(#ws-steel)" stroke="#E8EEF3" stroke-opacity=".5" stroke-width=".6"/><rect x="'+cr+'" y="'+(yy-6)+'" width="7" height="12" rx="1" fill="url(#ws-steel)" stroke="#E8EEF3" stroke-opacity=".5" stroke-width=".6"/><circle cx="'+(cl-0.5)+'" cy="'+(yy-6)+'" r="1.3" fill="#D9E0E6"/><circle cx="'+(cr+0.5)+'" cy="'+(yy-6)+'" r="1.3" fill="#D9E0E6"/>';
   });
-  // pump bowls, intake screen, motor
-  const yI=y(v.intake), bw=Math.min(cw-10,colW*1.55), st=4, sh=(yI-bowlTop)/st;
-  for(let k=0;k<st;k++) s+='<rect x="'+(cx-bw/2)+'" y="'+(bowlTop+k*sh+0.6)+'" width="'+bw+'" height="'+(sh-1.2)+'" rx="3" fill="url(#ws-steel)"/>';
-  s+='<rect x="'+(cx-bw/2+2)+'" y="'+yI+'" width="'+(bw-4)+'" height="9" fill="#0C141C"/>';
-  for(let x=cx-bw/2+5;x<cx+bw/2-4;x+=3.2) s+='<rect x="'+x+'" y="'+(yI+1.5)+'" width="1.2" height="6" fill="#7C8B9A"/>';
-  const mT=yI+9, mB=Math.min(bot-2,y(v.intake+30));
-  s+='<rect x="'+(cx-motW/2)+'" y="'+mT+'" width="'+motW+'" height="'+(mB-mT)+'" rx="4" fill="url(#ws-motor)"/>';
-  for(let yy=mT+5;yy<mB-4;yy+=4) s+='<line x1="'+(cx-motW/2+2)+'" x2="'+(cx+motW/2-2)+'" y1="'+yy+'" y2="'+yy+'" stroke="#000" stroke-opacity=".35"/>';
+  // pump: bowls with impellers, suction bell, strainer cone (turbine) or screen and motor (submersible)
+  const yI=y(v.intake), bw=Math.min(cw-8,Math.max(colW*1.25,cw*Math.min(PG.bowlOD,v.casingID-0.5)/v.casingID)), st=clamp(Math.min(PG.stages,Math.floor((yI-bowlTop)/6)),1,6), sh=(yI-bowlTop)/st;
+  for(let k=0;k<st;k++){const y0=bowlTop+k*sh, hw=bw/2;
+    s+='<path d="M'+(cx-hw*.62)+' '+y0+' C'+(cx-hw*1.02)+' '+(y0+1)+' '+(cx-hw*1.02)+' '+(y0+sh-1)+' '+(cx-hw*.62)+' '+(y0+sh)+' L'+(cx+hw*.62)+' '+(y0+sh)+' C'+(cx+hw*1.02)+' '+(y0+sh-1)+' '+(cx+hw*1.02)+' '+(y0+1)+' '+(cx+hw*.62)+' '+y0+'Z" fill="url(#ws-bowl)" stroke="#0E2C5E" stroke-width=".7"/>';
+    if(sh>6) s+='<path d="M'+(cx-hw*.44)+' '+(y0+sh*.22)+' L'+(cx+hw*.44)+' '+(y0+sh*.22)+' L'+(cx+hw*.34)+' '+(y0+sh*.8)+' L'+(cx-hw*.34)+' '+(y0+sh*.8)+'Z" fill="#EFE6D2" opacity=".9"/>';}
+  s+='<path d="M'+(cx-bw*.4)+' '+yI+' L'+(cx-bw*.56)+' '+(yI+5)+' L'+(cx+bw*.56)+' '+(yI+5)+' L'+(cx+bw*.4)+' '+yI+'Z" fill="url(#ws-bowl)"/>';
+  if(PG.sub){const mT=yI+5, mB=Math.min(bot-2,y(v.intake+30));
+    s+='<rect x="'+(cx-bw*.4)+'" y="'+mT+'" width="'+(bw*.8)+'" height="6" fill="#0C141C"/>';
+    s+='<rect x="'+(cx-motW/2)+'" y="'+(mT+6)+'" width="'+motW+'" height="'+(mB-mT-6)+'" rx="4" fill="url(#ws-motor)"/>';
+    for(let yy=mT+11;yy<mB-4;yy+=4) s+='<line x1="'+(cx-motW/2+2)+'" x2="'+(cx+motW/2-2)+'" y1="'+yy+'" y2="'+yy+'" stroke="#000" stroke-opacity=".35"/>';
+  } else {const t0=yI+5, ch=clamp(y(v.intake+4)-yI,8,Math.max(8,bot-t0-6)), w0=bw*.36;
+    s+='<path d="M'+(cx-w0)+' '+t0+' L'+cx+' '+(t0+ch)+' L'+(cx+w0)+' '+t0+'Z" fill="#C9D2DA" stroke="#6B7A89" stroke-width=".8"/>';
+    for(let k=1;k<6;k++){const yy=t0+ch*k/6, hw2=w0*(1-k/6); s+='<line x1="'+(cx-hw2)+'" x2="'+(cx+hw2)+'" y1="'+yy+'" y2="'+yy+'" stroke="#55636F" stroke-width=".7"/>';}}
   // wellhead
   s+='<polygon points="'+(xl-34)+','+(gy+1)+' '+(xr+34)+','+(gy+1)+' '+(xr+24)+','+(gy-9)+' '+(xl-24)+','+(gy-9)+'" fill="url(#ws-pad)"/>';
   s+='<rect x="'+(xl-wall-4)+'" y="'+(gy-20)+'" width="'+(cw+2*wall+8)+'" height="6" rx="1.5" fill="url(#ws-steel)"/>';
@@ -1240,7 +1724,7 @@ function discBlueprint(r){
   const h0=A.holes.reduce((b,h)=>(h[0]<0&&h[1]>0&&Math.hypot(h[0],h[1])>Math.hypot(b[0],b[1])&&Math.atan2(h[1],-h[0])>0.5?h:b),[0,0]);
   const bx0=-Rc-pad*0.92, ty0=-Rc-pad*0.92+fs*3.6;
   if(h0[0]||h0[1]) s+='<path d="M'+(bx0+fs*5.2)+' '+(ty0+fs*0.55)+' L'+h0[0].toFixed(3)+' '+(-h0[1]).toFixed(3)+'" stroke="'+Cy+'"/><circle cx="'+h0[0].toFixed(3)+'" cy="'+(-h0[1]).toFixed(3)+'" r="'+(fs*0.12)+'" fill="'+Cy+'" stroke="none"/>';
-  s+=T(bx0,ty0,r.N+"× Ø"+frac(r.d)+" HOLES","start",fs*0.85)+T(bx0,ty0+fs*1.0,frac(r.pitch)+" PITCH 60°","start",fs*0.75);
+  s+=T(bx0,ty0,r.N+"× Ø"+frac(r.d)+" HOLES","start",fs*0.85)+T(bx0,ty0+fs*1.0,frac(r.pitch)+" PITCH, 60° STAGGER","start",fs*0.75);
   if(A.ports.length){const p=A.ports[A.ports.length-1], px=p[0]+G_.rp*0.7, py=-p[1]+G_.rp*0.7, tx=Rc*0.55, ty=Rc+pad*0.02;
     s+='<path d="M'+px.toFixed(3)+' '+py.toFixed(3)+' L'+tx+' '+ty+' L'+(tx+fs*0.6)+' '+ty+'" stroke="'+Cy+'"/>'+T(tx+fs*0.8,ty+fs*0.35,A.ports.length+"× Ø"+frac(v.portD)+" PORT","start",fs*0.85);}
   s+=T(0,fs*0.1,"BORE Ø"+(2*G_.Rs).toFixed(3),"middle",fs*0.8)+T(0,fs*1.25,"HUB Ø"+(2*G_.Rh).toFixed(3),"middle",fs*0.8);
@@ -1270,7 +1754,7 @@ function renderDiscView(r){
 }
 document.querySelectorAll("#discMode button").forEach(b=>b.onclick=()=>{discMode=b.dataset.m;try{localStorage.setItem("ead-discmode",discMode)}catch(e){} if(last&&!last.err.length) renderDiscView(last);});
 function envSVG(r){
-  const v=r.v, W=720, H=300, m={l:52,r:16,t:16,b:40}, xMax=Math.max(r.Q*1.6,r.Qmax*1.15), yMax=Math.max(r.UtA*1.3,r.Vc*1.25,v.vb*2);
+  const v=r.v, W=720, H=300, m={l:52,r:16,t:16,b:40}, xMax=Math.max(r.Q*1.6,isFinite(r.Qmax)?r.Qmax*1.15:0), yMax=Math.max(r.UtA*1.3,r.Vc*1.25,v.vb*2);
   const X=q=>m.l+q/xMax*(W-m.l-m.r), Y=u=>H-m.b-u/yMax*(H-m.t-m.b);
   let s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Annular velocity against pump flow" font-family="Barlow, sans-serif">';
   s+='<rect x="'+m.l+'" y="'+Y(v.vb)+'" width="'+(W-m.l-m.r)+'" height="'+(Y(0)-Y(v.vb))+'" fill="var(--ok)" opacity=".10"/>';
@@ -1283,7 +1767,7 @@ function envSVG(r){
   const xEnd=Math.min(xMax,yMax*r.Q/r.Vc);
   s+='<line x1="'+X(0)+'" y1="'+Y(0)+'" x2="'+X(xEnd)+'" y2="'+Y(r.Vc/r.Q*xEnd)+'" stroke="var(--ink)" stroke-width="2.2"/>';
   const tag=(q,t,col,dy)=>{if(q<=xMax){s+='<line x1="'+X(q)+'" x2="'+X(q)+'" y1="'+m.t+'" y2="'+Y(0)+'" stroke="'+col+'" stroke-dasharray="4 3"/><text x="'+(X(q)-5)+'" y="'+(Y(0)-8-dy)+'" text-anchor="end" font-size="11.5" fill="'+col+'" font-weight="600">'+t+'</text>';}};
-  tag(r.Qclean,fmt(r.Qclean,0)+" gpm","var(--ok)",0); tag(r.Qmax,fmt(r.Qmax,0)+" gpm","var(--bad)",0);
+  if(isFinite(r.Qclean)) tag(r.Qclean,fmt(r.Qclean,0)+" gpm","var(--ok)",0); if(isFinite(r.Qmax)) tag(r.Qmax,fmt(r.Qmax,0)+" gpm","var(--bad)",0);
   s+='<circle cx="'+X(r.Q)+'" cy="'+Y(r.Vc)+'" r="6.5" fill="var(--accent)" stroke="var(--panel)" stroke-width="2.5"/><text x="'+(X(r.Q)-12)+'" y="'+(Y(r.Vc)-12)+'" text-anchor="end" font-size="12" font-weight="700" fill="var(--ink)">Design, '+fmt(r.Q,0)+' gpm</text>';
   s+='<text x="'+(m.l+8)+'" y="'+(Y(v.vb)+15)+'" font-size="11.5" font-weight="600" fill="var(--ok)">Bubbles escape</text>';
   s+='<text x="'+(m.l+8)+'" y="'+(Y(r.UtA)+15)+'" font-size="11.5" font-weight="600" fill="var(--warn)">Discs must merge bubbles</text>';
@@ -1303,14 +1787,14 @@ function renderOpt(){
   s+='<rect x="'+X(r.v.maxFlowLoss)+'" y="'+m.t+'" width="'+Math.max(0,W-m.r-X(r.v.maxFlowLoss))+'" height="'+(H-m.t-m.b)+'" fill="var(--bad)" opacity=".07"/>';
   niceTicks(yMin,yMax,5).forEach(y=>{s+='<line x1="'+m.l+'" x2="'+(W-m.r)+'" y1="'+Y(y)+'" y2="'+Y(y)+'" stroke="var(--line)"/><text x="'+(m.l-6)+'" y="'+(Y(y)+4)+'" text-anchor="end" font-size="11" fill="var(--muted)">'+fmt(y,0)+'</text>';});
   niceTicks(0,xMax,6).forEach(x=>{s+='<text x="'+X(x)+'" y="'+(H-m.b+16)+'" text-anchor="middle" font-size="11" fill="var(--muted)">'+fmt(x,xMax<3?2:1)+'</text>';});
-  s+='<text x="'+(X(r.v.maxFlowLoss)+5)+'" y="'+(m.t+12)+'" font-size="11" fill="var(--bad)">over flow-loss limit</text>';
+  s+='<text x="'+(X(r.v.maxFlowLoss)+5)+'" y="'+(m.t+12)+'" font-size="11" fill="var(--bad)" text-anchor="'+(X(r.v.maxFlowLoss)>W-130?"end":"start")+'" dx="'+(X(r.v.maxFlowLoss)>W-130?-10:0)+'">over flow-loss limit</text>';
   s+='<text x="'+((W+m.l)/2)+'" y="'+(H-6)+'" text-anchor="middle" font-size="12" fill="var(--ink2)">Flow lost to the disc stack, %</text>';
   s+='<text transform="translate(14,'+((H-m.b+m.t)/2)+') rotate(-90)" text-anchor="middle" font-size="12" fill="var(--ink2)">Cut length per disc, ft</text>';
   const fr=pts.filter(p=>p.pareto).sort((a,b)=>a.dQpct-b.dQpct);
   if(fr.length>1) s+='<polyline points="'+fr.map(p=>X(p.dQpct)+","+Y(p.cut/12)).join(" ")+'" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="4 3"/>';
   pts.forEach(p=>{s+='<circle cx="'+X(p.dQpct)+'" cy="'+Y(p.cut/12)+'" r="'+(3+p.d*3)+'" fill="'+(p.ok?"var(--accent)":"var(--steel)")+'" opacity="'+(p.ok?.8:.35)+'"'+(p.pareto?' stroke="var(--ink)" stroke-width="1.6"':'')+'><title>'+frac(p.d)+'" @ '+frac(p.p)+'": '+fmt(p.dQpct,2)+'% flow loss, '+fmt(p.cut/12,0)+' ft cut'+(p.ok?"":" ("+p.why.join(", ")+")")+'</title></circle>';});
   if(best) s+='<circle cx="'+X(best.dQpct)+'" cy="'+Y(best.cut/12)+'" r="'+(9+best.d*3)+'" fill="none" stroke="var(--ok)" stroke-width="2.5"/>';
-  $("paretoSvg").innerHTML=s+'</svg>';
+  $("paretoSvg").innerHTML=noNeg(s+'</svg>');
   const list=opt.feas.slice(0,8), curC=opt.all.find(c=>c.current);
   if(curC&&!list.includes(curC)) list.push(curC);
   if(!list.length){$("optTable").innerHTML='<tbody><tr><td class="muted" style="white-space:normal">No candidate passes every rule. Loosen the head-loss window or the flow-loss limit, or check the well geometry. Hover the grey dots to see what blocks each one.</td></tr></tbody>';return;}
@@ -1322,23 +1806,23 @@ function renderRisk(){
   if(!last||last.err.length) return;
   const r=last, mc=monteCarlo(r), c=mc.c, N=mc.N, P=x=>fmt(100*x/N,x>0&&x/N<0.1?1:0)+"%";
   const ph=c.holds/N, lvl=ph>=0.9?"ok":ph>=0.6?"warn":"bad";
-  $("mcLede").textContent=fmt(N,0)+" runs with the pumping level, flow, share of flow from above, bubble rise and pump curve slope each drawn across your uncertainty ranges. A run holds when air can still be separated, flow loss and NPSH stay within limits, the top disc stays under water, and the disc count still meets the rule.";
+  $("mcLede").textContent=fmt(N,0)+" runs with flow, share of flow from above, bubble rise, pump curve slope, C0 and the disc loss coefficient drawn across your uncertainty ranges, and each run's pumping level following its flow. A run holds when air can still be separated, flow loss and NPSH stay within limits, the top disc stays under water, and the disc count still meets the rule.";
   $("mcTiles").innerHTML='<div class="tile hero '+lvl+'"><b>'+P(c.holds)+'</b><span>of runs where the design holds</span></div>'+
-    [[P(c.C),"water outruns merged gas"],[P(c.B),"depend on bubble merging"],[P(c.loss),"flow loss over limit"],[P(c.dry),"top disc above water"],[P(c.short),"fewer discs than the rule needs"],[P(c.npsh),"NPSH margin under minimum"],[fmt(mc.p.va5,2)+"–"+fmt(mc.p.va95,2),"ft/s annular velocity, 90% range"]]
+    [[P(c.C),"water outruns merged gas"],[P(c.B),"depend on bubble merging"],[P(c.loss),"flow loss over limit"],[P(c.dry),"top disc above water"],[P(c.short),"fewer discs than the rule needs"],[P(c.npsh),"NPSH margin under minimum"],[fmt(mc.p.va5,2)+"–"+fmt(mc.p.va95,2),"ft/s core downflow at top disc, 90% range"]]
     .map(t=>'<div class="tile"><b>'+t[0]+'</b><span>'+t[1]+'</span></div>').join("");
   const W=480,H=250,m={l:40,r:14,t:40,b:40}, a=mc.Vas, lo=Math.min(a[0],r.v.vb*0.8), hi=Math.max(a[a.length-1],r.UtA*1.05), nb=28, bw=(hi-lo)/nb, bins=new Array(nb).fill(0);
   a.forEach(x=>bins[Math.min(nb-1,Math.max(0,Math.floor((x-lo)/bw)))]++);
   const bmax=Math.max(...bins), X=x=>m.l+(x-lo)/(hi-lo)*(W-m.l-m.r), Y=n=>H-m.b-n/bmax*(H-m.t-m.b);
-  let s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Histogram of annular velocity across runs" font-family="Barlow, sans-serif">';
+  let s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Histogram of core downflow at the top disc across runs" font-family="Barlow, sans-serif">';
   bins.forEach((n,i)=>{const x0=lo+i*bw,xm=x0+bw/2,col=xm<=r.v.vb?"var(--ok)":xm<=r.UtA?"var(--warn)":"var(--bad)";s+='<rect x="'+(X(x0)+0.5)+'" y="'+Y(n)+'" width="'+Math.max(0.5,X(x0+bw)-X(x0)-1)+'" height="'+(Y(0)-Y(n))+'" rx="1.5" fill="'+col+'" opacity=".9"/>';});
   s+='<line x1="'+m.l+'" x2="'+(W-m.r)+'" y1="'+Y(0)+'" y2="'+Y(0)+'" stroke="var(--line2)"/>';
   niceTicks(lo,hi,5).forEach(x=>{s+='<text x="'+X(x)+'" y="'+(H-m.b+17)+'" text-anchor="middle" font-size="12.5" fill="var(--muted)">'+fmt(x,2)+'</text>';});
   const marks=[[r.v.vb,"Small-bubble rise","var(--ok)"],[r.UtA,"Merged-gas rise","var(--bad)"],[r.Vc,"Design","var(--ink)"]].filter(q=>q[0]>=lo&&q[0]<=hi).sort((p,q)=>p[0]-q[0]);
   marks.forEach((q,i)=>{const x=X(q[0]), right=x>W*0.62, ty=14+i*13;
     s+='<line x1="'+x+'" x2="'+x+'" y1="'+(ty+4)+'" y2="'+Y(0)+'" stroke="'+q[2]+'" stroke-width="1.5" stroke-dasharray="4 3"/>';
-    s+='<text x="'+(right?x-5:x+5)+'" y="'+ty+'" text-anchor="'+(right?"end":"start")+'" font-size="12.5" font-weight="600" fill="'+q[2]+'">'+q[1]+'</text>';});
+    s+='<text x="'+(right?x-5:x+5)+'" y="'+ty+'" text-anchor="'+(right?"end":"start")+'" font-size="12.5" font-weight="600" fill="'+q[2]+'" stroke="var(--panel)" stroke-width="4" paint-order="stroke">'+q[1]+'</text>';});
   s+='<text x="'+((W+m.l)/2)+'" y="'+(H-6)+'" text-anchor="middle" font-size="13" fill="var(--ink2)">Core downward velocity, ft/s</text>';
-  $("histSvg").innerHTML=s+'</svg>';
+  $("histSvg").innerHTML=noNeg(s+'</svg>');
   renderTornado();
 }
 function renderTornado(){
@@ -1432,7 +1916,7 @@ function drawStatic(){
   for(let d=pTop; d<pBot; d+=step){const yy=y(d); c.fillStyle="#02060A"; c.fillRect(xl-wall,yy,wall,2); c.fillRect(xr,yy,wall,2);
     if(d>v.pwl){c.fillStyle="rgba(92,200,255,.55)"; c.fillRect(xl-wall-4,yy+0.5,4,1); c.fillRect(xr+wall,yy+0.5,4,1);}}
   // column, couplings, cable
-  const yB=y(v.intake-16);
+  const PGs=pumpGeom(v), bwS=Math.min(xr-xl-14,Math.max((cr-cl)*1.25,(xr-xl)*Math.min(PGs.bowlOD,v.casingID-0.5)/v.casingID)), yB=Math.min(y(v.intake)-30,y(PGs.bowlTop)), stS=clamp(Math.min(PGs.stages,Math.floor((y(v.intake)-yB)/13)),1,6);
   c.fillStyle=metalH(c,cl,cr,STEEL); c.fillRect(cl,0,cr-cl,yB);
   for(let d=Math.ceil(g.viewTop/21)*21; d<v.intake-18; d+=21){c.fillStyle=metalH(c,cl-3,cr+3,STEEL); c.fillRect(cl-3,y(d),cr-cl+6,5);}
   c.strokeStyle="#060B11"; c.lineWidth=2.4; c.beginPath(); c.moveTo(cl-6,0); c.lineTo(cl-6,y(v.intake+6)); c.stroke();
@@ -1448,19 +1932,24 @@ function drawStatic(){
     c.fillStyle=metalH(c,cl-9,cl,STEEL); c.fillRect(cl-9,yy-8,9,16); c.fillStyle=metalH(c,cr,cr+9,STEEL); c.fillRect(cr,yy-8,9,16);
     c.fillStyle="#DCE3E9"; c.beginPath(); c.arc(cl-0.5,yy-8,1.6,0,7); c.arc(cr+0.5,yy-8,1.6,0,7); c.fill();
   });
-  // pump bowls, screen, motor
-  const yI=y(v.intake), bw=Math.min(xr-xl-14,(cr-cl)*1.55), st=4, sh=(yI-yB)/st;
-  for(let k=0;k<st;k++){c.fillStyle=metalH(c,g.cx-bw/2,g.cx+bw/2,STEEL); roundRect(c,g.cx-bw/2,yB+k*sh+0.8,bw,sh-1.6,4); c.fill();}
-  c.fillStyle="#081019"; c.fillRect(g.cx-bw/2+3,yI,bw-6,12); c.fillStyle="#7E8E9E"; for(let x=g.cx-bw/2+6;x<g.cx+bw/2-5;x+=4) c.fillRect(x,yI+2,1.5,8);
+  // pump: bowls with impellers, suction bell, strainer cone or motor
+  const yI=y(v.intake), bw=bwS, st=stS, sh=(yI-yB)/st;
+  const BOWL=[[0,"#173F8A"],[.3,"#4486E0"],[.55,"#2A62BE"],[1,"#12357A"]];
+  for(let k=0;k<st;k++){const y0=yB+k*sh, hw=bw/2; c.fillStyle=metalH(c,g.cx-hw,g.cx+hw,BOWL); c.beginPath(); c.moveTo(g.cx-hw*.62,y0);
+    c.bezierCurveTo(g.cx-hw*1.02,y0+1,g.cx-hw*1.02,y0+sh-1,g.cx-hw*.62,y0+sh); c.lineTo(g.cx+hw*.62,y0+sh); c.bezierCurveTo(g.cx+hw*1.02,y0+sh-1,g.cx+hw*1.02,y0+1,g.cx+hw*.62,y0); c.closePath(); c.fill();
+    if(sh>8){c.fillStyle="rgba(239,230,210,.92)"; c.beginPath(); c.moveTo(g.cx-hw*.44,y0+sh*.22); c.lineTo(g.cx+hw*.44,y0+sh*.22); c.lineTo(g.cx+hw*.34,y0+sh*.8); c.lineTo(g.cx-hw*.34,y0+sh*.8); c.closePath(); c.fill();}}
+  c.fillStyle=metalH(c,g.cx-bw*.56,g.cx+bw*.56,BOWL); c.beginPath(); c.moveTo(g.cx-bw*.4,yI); c.lineTo(g.cx-bw*.56,yI+6); c.lineTo(g.cx+bw*.56,yI+6); c.lineTo(g.cx+bw*.4,yI); c.closePath(); c.fill();
   const motW=Math.min(xr-xl-16,v.motorOD>0?(xr-xl)*Math.min(v.motorOD,v.casingID-0.5)/v.casingID:(cr-cl)*0.85);
-  c.fillStyle=metalH(c,g.cx-motW/2,g.cx+motW/2,[[0,"#0E141B"],[.4,"#4D5B6B"],[1,"#0B1016"]]); c.fillRect(g.cx-motW/2,yI+12,motW,H);
+  if(PGs.sub){c.fillStyle="#081019"; c.fillRect(g.cx-bw*.4,yI+6,bw*.8,8); c.fillStyle=metalH(c,g.cx-motW/2,g.cx+motW/2,[[0,"#0E141B"],[.4,"#4D5B6B"],[1,"#0B1016"]]); c.fillRect(g.cx-motW/2,yI+14,motW,H);}
+  else {const t0=yI+6, ch=clamp(y(v.intake+4)-yI,12,48), w0=bw*.36; c.fillStyle=metalH(c,g.cx-w0,g.cx+w0,[[0,"#8D99A5"],[.5,"#DDE3E9"],[1,"#8D99A5"]]); c.beginPath(); c.moveTo(g.cx-w0,t0); c.lineTo(g.cx,t0+ch); c.lineTo(g.cx+w0,t0); c.closePath(); c.fill();
+    c.strokeStyle="rgba(60,72,84,.8)"; c.lineWidth=1; for(let k=1;k<7;k++){const yy=t0+ch*k/7, hw2=w0*(1-k/7); c.beginPath(); c.moveTo(g.cx-hw2,yy); c.lineTo(g.cx+hw2,yy); c.stroke();}}
   // depth ruler
   c.font="500 10px Barlow, sans-serif"; c.textAlign="left"; const rx=xr+wall+6;
   for(let d=Math.ceil(g.viewTop/5)*5; d<=g.viewBot; d+=5){const yy=y(d), major=d%10===0; c.fillStyle="rgba(142,166,191,"+(major?.8:.4)+")"; c.fillRect(rx,yy,major?10:5,1); if(major&&(g.ppf*10>18||d%20===0)) c.fillText(fmt(d,0),rx+13,yy+3.5);}
 }
 function roundRect(c,x,y,w,h,r_){c.beginPath();c.moveTo(x+r_,y);c.arcTo(x+w,y,x+w,y+h,r_);c.arcTo(x+w,y+h,x,y+h,r_);c.arcTo(x,y+h,x,y,r_);c.arcTo(x,y,x+w,y,r_);c.closePath();}
 function simFrame(t){
-  requestAnimationFrame(simFrame);
+  requestAnimationFrame(simFrame); if(window.EAD_PAUSE) return;
   const dt=Math.min(0.05,(t-(SIM.lt||t))/1000); SIM.lt=t;
   if(!SC||!SIM.visible||activeTab!=="design") return;
   if(!SC.W){simLayout(); if(!SC.W) return;}
@@ -1532,10 +2021,9 @@ function hud(r,tScale){
     '<div class="hr"><span class="k">Merged gas up</span><span class="val">'+fmt(r.UtA,2)+'<small>ft/s</small></span></div>'+
     (r.aqOn?'<div class="hr"><span class="k">Aquifer air crossing a disc</span><span class="val">'+fmt(r.airTreatedPct,0)+'<small>%</small></span></div>':'')+
     '<span class="chip" style="color:'+col+';background:'+col+'1f;box-shadow:inset 0 0 0 1px '+col+'66"><i></i>'+word+'</span>';
-  const tot=SIM.vented+SIM.pumped, pv=tot?SIM.vented/tot:0, pp=tot?SIM.pumped/tot:0;
-  $("hudBL").innerHTML='<div class="bars"><span class="k">Vented to surface</span><span class="hbar"><b style="width:'+(pv*100).toFixed(1)+'%;background:linear-gradient(90deg,#2A8AD8,#5CC8FF)"></b></span><span class="val">'+(tot>0?fmt(pv*100,0)+"%":"…")+'</span>'+
-    '<span class="k">Reaching intake</span><span class="hbar"><b style="width:'+(pp*100).toFixed(1)+'%;background:linear-gradient(90deg,#C3342B,#FF6F66)"></b></span><span class="val">'+(tot>0?fmt(pp*100,0)+"%":"…")+'</span></div>'+
-    '<div class="foot"><span>'+({cascade:"Falling water",aquifer:"Aquifer air",both:"Both sources"}[r.mode])+' · ×'+fmt(tScale,0)+'</span><span>Illustrative, from this model</span></div>';
+  const mx=Math.max(r.Vc,r.VcInt,v.vb,r.UtA)*1.08, bar=(k,x,c)=>'<span class="k">'+k+'</span><span class="hbar"><b style="width:'+(x/mx*100).toFixed(1)+'%;background:'+c+'"></b></span><span class="val">'+fmt(x,2)+'</span>';
+  $("hudBL").innerHTML='<div class="bars">'+bar("Down at top disc",r.Vc,"linear-gradient(90deg,#2A8AD8,#5CC8FF)")+bar("Down at intake",r.VcInt,"linear-gradient(90deg,#C3342B,#FF6F66)")+bar("Bubbles rise",v.vb,"linear-gradient(90deg,#1B8655,#45C98B)")+'</div>'+
+    '<div class="foot"><span>'+({cascade:"Falling water",aquifer:"Aquifer air",both:"Both sources"}[r.mode])+' · ×'+fmt(tScale,0)+'</span><span>ft/s, core flow · animation is illustrative</span></div>';
 }
 requestAnimationFrame(simFrame);
 new IntersectionObserver(es=>{SIM.visible=es[0].isIntersecting;}).observe($("live"));
@@ -1548,15 +2036,19 @@ let timer=null, activeTab="design";
 function run(){
   const v=readValues(); markChanged();
   try{localStorage.setItem(LS_KEY,JSON.stringify(v))}catch(e){}
-  const r=design(v); last=r;
-  if(!renderVerdict(r)) return;
+  const r=finalize(design(v)); last=r;
+  document.querySelector(".stage").classList.toggle("paused",!!r.err.length);
+  if(!renderVerdict(r)){ $("mbarDot").className="bad"; $("mbarText").textContent="Inputs need attention"; window.EAD_PAUSE=true; return; }
+  window.EAD_PAUSE=false;
   renderVelo(r); renderTables(r);
-  $("wellSvg").innerHTML=wellSVG(r);
+  $("wellSvg").innerHTML=noNeg(wellSVG(r));
+  $("elevSvg").innerHTML=noNeg(elevSVG(r));
   renderDiscView(r);
   $("discCaption").textContent=r.N+" holes at "+frac(r.d)+'" on a '+frac(r.pitch)+'" triangular pitch. '+r.Gd.nseg+" rubber segments under a split steel hub ring, tack-welded to the column"+(r.Gd.nP?", "+r.Gd.nP+" pass-through port"+(r.Gd.nP>1?"s":""):"")+". Disc OD "+fmt(2*r.Gd.Ro,3)+" in in a "+fmt(r.v.casingID,2)+" in casing.";
-  $("envSvg").innerHTML=envSVG(r);
-  $("envLede").textContent="How the core downward velocity grows with flow in this casing. Up to "+fmt(r.Qclean,0)+" gpm, small bubbles escape on their own. Up to about "+fmt(r.Qmax,0)+" gpm, discs can still separate air by merging bubbles. Above that, water outruns even merged gas.";
+  $("envSvg").innerHTML=noNeg(envSVG(r));
+  $("envLede").textContent=isFinite(r.Qclean)?"How the core downward velocity at the top disc grows with flow in this well. Up to "+fmt(r.Qclean,0)+" gpm, small bubbles held up there escape on their own. Up to about "+fmt(r.Qmax,0)+" gpm, they can still escape by merging. Above that, water outruns even merged gas.":"No water flows past the top of the stack in this layout, so flow does not limit separation there.";
   simConfig(r);
+  renderAdvice(r);
   if(activeTab==="optimize") renderOpt();
   if(activeTab==="risk") renderRisk();
 }
@@ -1589,7 +2081,7 @@ function renderScen(){
   w.querySelectorAll("[data-load]").forEach(b=>b.onclick=()=>{const s=scenMem[+b.dataset.load];setValues(Object.assign({},DEFAULTS,s.v));run();toast("Loaded “"+s.name+"”");});
   w.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{scenMem.splice(+b.dataset.del,1);scenStore();renderScen();});
 }
-$("scenSave").onclick=()=>{const v=readValues();const name=$("scenName").value.trim()||((v.projWell||"Design")+" "+(scenMem.length+1));
+$("scenSave").onclick=()=>{const v=readValues(); if(design(v).err.length){toast("Fix the highlighted inputs before saving this design.");return;}const name=$("scenName").value.trim()||((v.projWell||"Design")+" "+(scenMem.length+1));
   scenMem.push({name,v,at:Date.now()}); if(scenMem.length>16) scenMem.shift(); scenStore(); $("scenName").value=""; renderScen(); toast("Saved “"+name+"”");};
 
 /* ---------------- files ---------------- */
@@ -1598,9 +2090,9 @@ async function saveFile(name,blob){
   if(DL){try{await DL.save({filename:name,data:blob});return true;}catch(e){if(!e||e.code!=="declined") toast("Could not save "+name+(e&&e.code?" ("+e.code+")":""));return false;}}
   const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},2000);return true;
 }
-function projMeta(){return {well:$("projWell").value.trim()||"Example well",util:$("projUtility").value.trim(),loc:$("projLoc").value.trim(),by:$("projBy").value.trim(),rev:$("projRev").value.trim()||"A",date:new Date().toISOString().slice(0,10)};}
+function projMeta(){return {well:$("projWell").value.trim()||"Untitled well",util:$("projUtility").value.trim(),loc:$("projLoc").value.trim(),by:$("projBy").value.trim(),rev:$("projRev").value.trim()||"A",date:new Date().toISOString().slice(0,10)};}
 function slug(){const pm=projMeta();return (pm.well+"-rev"+pm.rev).replace(/[^A-Za-z0-9_-]+/g,"_").slice(0,40);}
-const ascii=s=>String(s).replace(/[−–—]/g,"-").replace(/×/g,"x").replace(/²/g,"2").replace(/°/g," deg").replace(/≈/g,"~").replace(/÷/g,"/").replace(/[“”]/g,'"').replace(/[‘’]/g,"'").replace(/·/g,"-").replace(/ζ/g,"zeta").replace(/φ/g,"phi").replace(/π/g,"pi").replace(/√/g,"sqrt").replace(/◆/g,"*").replace(/…/g,"...").replace(/[^\x20-\x7E]/g,"");
+const ascii=s=>String(s).replace(/→/g,"->").replace(/[−–—]/g,"-").replace(/×/g,"x").replace(/²/g,"2").replace(/°/g," deg").replace(/≈/g,"~").replace(/÷/g,"/").replace(/[“”]/g,'"').replace(/[‘’]/g,"'").replace(/·/g,"-").replace(/ζ/g,"zeta").replace(/φ/g,"phi").replace(/π/g,"pi").replace(/√/g,"sqrt").replace(/◆/g,"*").replace(/…/g,"...").replace(/[^\x20-\x7E]/g,"");
 
 class DXF{
   constructor(units){this.u=units;this.e=[];this.L={};this.min=[Infinity,Infinity];this.max=[-Infinity,-Infinity];}
@@ -1689,8 +2181,8 @@ function cadPackage(r){
   files.push(["README.txt",["EAD CAD PACKAGE - "+pm.well+" - rev "+pm.rev+" - "+pm.date,"",
     "Files",
     "  EAD_assembly.dxf        Full disc, inches 1:1, layered (cut, hub, reference, dims, title block)",
-    "  EAD_segment_*.dxf       Flat cut files for water-jet cutting, one part each, inches 1:1 (rubber segments; steel hub ring halves)",
-    "  EAD_hub_half_*.dxf      Split hub ring halves, inches 1:1",
+    "  EAD_segment_*.dxf       Rubber segments, water-jet cut, one part each, inches 1:1",
+    "  EAD_hub_half_*.dxf      Steel split hub ring halves, inches 1:1",
     "  EAD_well_elevation.dxf  Well schematic, feet, horizontal exaggerated x10",
     "  EAD_disc_drawing.svg    Dimensioned picture of the disc","",
     "Quantities in file names cover "+n+" disc"+(n>1?"s":"")+(r.nUse?" at "+r.depths.map(d=>Math.round(d)).join(", ")+" ft":"")+".",
@@ -1734,6 +2226,10 @@ function loadJsPDF(){
   if(window.jspdf) return Promise.resolve(window.jspdf.jsPDF);
   return new Promise((res,rej)=>{const s=document.createElement("script");s.src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";s.onload=()=>window.jspdf?res(window.jspdf.jsPDF):rej(new Error("load"));s.onerror=()=>rej(new Error("load"));document.head.appendChild(s);});
 }
+function svgToPng(svg,w){return new Promise((res,rej)=>{const PR={ink:"#0E2236",ink2:"#2F4A64",muted:"#5A718A",panel:"#FFFFFF",accent:"#1270D6",line:"#D5DEE7"};
+  const s2=svg.replace(/var\(--([a-z0-9-]+)\)/g,(m,k)=>PR[k]||"#334455"), m=s2.match(/viewBox="0 0 ([0-9.]+) ([0-9.]+)"/), vw=+m[1], vh=+m[2], h=Math.round(w*vh/vw);
+  const img=new Image(); img.onload=()=>{const c=document.createElement("canvas");c.width=w;c.height=h;const x=c.getContext("2d");x.fillStyle="#FFFFFF";x.fillRect(0,0,w,h);x.drawImage(img,0,0,w,h);res({url:c.toDataURL("image/png"),w,h});};
+  img.onerror=()=>rej(new Error("elevation image")); img.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(s2.replace("<svg ",'<svg xmlns="http://www.w3.org/2000/svg" width="'+w+'" height="'+h+'" '));});}
 async function buildPDF(r){
   const JsPDF=await loadJsPDF(); const doc=new JsPDF({unit:"pt",format:"letter"}); const v=r.v,G_=r.Gd,pm=projMeta();
   const W=612,H=792,M=46, ink=[14,34,54], mut=[90,113,137], acc=[18,112,214], line=[205,216,227];
@@ -1761,6 +2257,13 @@ async function buildPDF(r){
   y+=78;
   h2("Project");
   kvTable([["Well",pm.well],["Utility / owner",pm.util||"-"],["Location",pm.loc||"-"],["Prepared by",pm.by||"-"],["Revision / date",pm.rev+" / "+pm.date]],M,W-2*M,130);
+  {const a=last&&last.advice?last.advice:advise(r); if(a){h2("Engineer's recommendation");
+    doc.setFont("helvetica","bold");doc.setFontSize(12);doc.setTextColor(...({ok:[27,134,85],warn:[176,116,0],bad:[195,52,43]}[a.tone]||ink));doc.text(T(a.title),M,y);y+=16;
+    para(a.lede,9.5);
+    if(a.actions.length){doc.setFont("helvetica","bold");doc.setFontSize(10);doc.setTextColor(...ink);ensure(16);doc.text("Recommended changes",M,y);y+=14;
+      a.actions.forEach(x=>para("- "+x.label+": "+x.from+" to "+x.to+". "+x.why.charAt(0).toUpperCase()+x.why.slice(1)+"."+(x.effect?" ("+x.effect+")":""),9));}
+    doc.setFont("helvetica","bold");doc.setFontSize(10);doc.setTextColor(...ink);ensure(16);doc.text("Before fabrication and installation",M,y);y+=14;
+    a.checklist.forEach(t=>para("- "+t,9));}}
   h2("Findings");
   const order={bad:0,warn:1,ok:2,info:3};
   r.flags.slice().sort((a,b)=>order[a[0]]-order[b[0]]).forEach(f=>{const col={bad:[195,52,43],warn:[176,116,0],ok:[27,134,85],info:acc}[f[0]];
@@ -1812,17 +2315,20 @@ async function buildPDF(r){
   if(r.depths.length) r.depths.forEach((d,i)=>{doc.text(T("Disc "+(i+1)+": "+fmt(d,0)+" ft below ground ("+fmt(d-v.pwl,0)+" ft under today's pumping level)"),sx,y);y+=13;});
   else {doc.text("No discs placed.",sx,y);y+=13;}
   y+=10; doc.setFont("helvetica","bold");doc.setFontSize(14);doc.text("Hydraulics",sx,y);y+=16;
-  kvTable([["Annular velocity, avg / core",fmt(r.Va,2)+" / "+fmt(r.Vc,2)+" ft/s"],["Small-bubble rise",fmt(v.vb,2)+" ft/s"],["Merged gas rise used",fmt(r.UtA,2)+" ft/s"+(r.riseCapped?" (capped)":"")],["Hole velocity",fmt(r.Vhole,2)+" ft/s"],["Cascade design / today",fmt(r.hc,0)+" / "+fmt(r.hcNow,0)+" ft"],["Head loss per disc",fmt(r.hDisc,3)+" ft (zeta "+fmt(r.z,2)+")"],["Stack head loss",fmt(r.hTot,3)+" ft"],["Flow change","-"+fmt(r.dQ,1)+" gpm (-"+fmt(r.dQpct,2)+"%)"],["NPSH avail / req",fmt(r.npsha,1)+" / "+v.npshr+" ft"],["Max flow, clean",fmt(r.Qclean,0)+" gpm"],["Max flow, merging",fmt(r.Qmax,0)+" gpm"],["Motor cooling",isFinite(r.Vmotor)?fmt(r.Vmotor,2)+" ft/s":"not checked"]],sx,sw2,120);
+  kvTable([["Downflow at top disc, avg / core",fmt(r.Va,2)+" / "+fmt(r.Vc,2)+" ft/s"],["Downflow at intake, core",fmt(r.VcInt,2)+" ft/s"],["Small-bubble rise",fmt(v.vb,2)+" ft/s"],["Merged gas rise used",fmt(r.UtA,2)+" ft/s (x SF "+fmt(v.slugSF,2)+")"],["Hole velocity, top disc",fmt(r.VholeTop,2)+" ft/s"],["Gas back through a disc",r.nUse?(r.flood>=FLOOD_C?"No (flooded)":"Possible")+(v.vent==="tubes"?", vent tubes":""):"-"],["Rubber sag, deepest disc",r.nUse?fmt(r.sag.w,2)+" in":"-"],["Cascade design / today",fmt(r.hc,0)+" / "+fmt(r.hcNow,0)+" ft"],["Head loss per disc",fmt(r.hDisc,3)+" ft (zeta "+fmt(r.z,2)+")"],["Stack head loss",fmt(r.hTot,3)+" ft"],["Flow change","-"+fmt(r.dQ,1)+" gpm (-"+fmt(r.dQpct,2)+"%)"],["NPSH avail / req",fmt(r.npsha,1)+" / "+v.npshr+" ft"],["Max flow, clean",fmt(r.Qclean,0)+" gpm"],["Max flow, merging",fmt(r.Qmax,0)+" gpm"],["Motor cooling",isFinite(r.Vmotor)?fmt(r.Vmotor,2)+" ft/s":"not checked"]],sx,sw2,120);
   doc.setFont("helvetica","bold");doc.setFontSize(11);doc.setTextColor(...ink);doc.text("Velocity race",sx,y+4);y+=14;
   const vr=[["Water down, core",r.Vc,lvlCol],["Small bubbles rise",v.vb,acc],["Merged gas rises",r.UtA,acc]], vmax=Math.max(...vr.map(x=>x[1]))*1.05;
   vr.forEach(x=>{doc.setFont("helvetica","normal");doc.setFontSize(8.5);doc.setTextColor(...ink);doc.text(T(x[0]),sx,y+8);doc.setFillColor(238,242,246);doc.rect(sx+100,y,sw2-150,10,"F");doc.setFillColor(...x[2]);doc.rect(sx+100,y,(sw2-150)*x[1]/vmax,10,"F");doc.text(fmt(x[1],2)+" ft/s",W-M,y+8,{align:"right"});y+=16;});
 
+  try{const png=await svgToPng(elevSVG(r),1500); doc.addPage(); header("Installation elevation");
+    const iw=W-2*M, ih=iw*png.h/png.w, sc=Math.min(1,(H-y-50)/ih); doc.addImage(png.url,"PNG",M+(iw-iw*sc)/2,y,iw*sc,ih*sc);
+    doc.setFontSize(8.5);doc.setTextColor(...mut);doc.text(T("Schematic, not to scale. Depths in feet below ground."),W/2,y+ih*sc+12,{align:"center"});}catch(e){console.error(e);}
   // page 4 risk + alternatives
   doc.addPage(); header("Risk and alternatives");
   const mc=monteCarlo(r), c=mc.c, Np=mc.N, pc=x=>fmt(100*x/Np,1)+"%";
   h2("Monte Carlo risk, "+fmt(Np,0)+" runs");
   para("Pumping level +/-"+v.uPwl+" ft, flow +/-"+v.uQ+"%, share of flow from above +/-"+v.uFrac+" points, bubble rise +/-"+v.uVb+" ft/s and pump curve slope +/-"+v.uSlope+"%, each from a triangular distribution centred on the design value. Seeded and repeatable.",9,mut);
-  kvTable([["Design holds",pc(c.holds)+" of runs"],["Water outruns merged gas",pc(c.C)],["Depends on bubble merging",pc(c.B)],["Flow loss over limit",pc(c.loss)],["Top disc above water",pc(c.dry)],["Fewer discs than the rule needs",pc(c.short)],["NPSH margin under minimum",pc(c.npsh)],["Annular velocity, 90% range",fmt(mc.p.va5,2)+" to "+fmt(mc.p.va95,2)+" ft/s"],["Flow loss, median / 95th percentile",fmt(mc.p.l50,2)+"% / "+fmt(mc.p.l95,2)+"%"]],M,W-2*M,200);
+  kvTable([["Design holds",pc(c.holds)+" of runs"],["Water outruns merged gas",pc(c.C)],["Depends on bubble merging",pc(c.B)],["Flow loss over limit",pc(c.loss)],["Top disc above water",pc(c.dry)],["Fewer discs than the rule needs",pc(c.short)],["NPSH margin under minimum",pc(c.npsh)],["Core downflow at top disc, 90% range",fmt(mc.p.va5,2)+" to "+fmt(mc.p.va95,2)+" ft/s"],["Flow loss, median / 95th percentile",fmt(mc.p.l50,2)+"% / "+fmt(mc.p.l95,2)+"%"]],M,W-2*M,200);
   h2("What drives flow loss");
   const tn=tornado(r,"loss"); gridTable(["Input","Low end","High end","Flow loss range"],tn.rows.map(x=>[x.name,x.loL,x.hiL,fmt(Math.min(x.lo,x.hi),2)+"% to "+fmt(Math.max(x.lo,x.hi),2)+"%"]),[170,100,100,150]);
   h2("Optimizer: top alternatives");
@@ -1833,9 +2339,9 @@ async function buildPDF(r){
   // page 5 method, AI notes, sign-off
   doc.addPage(); header("Method, limits and review");
   h2("Method");
-  ["Annular velocity = flow entering above the intake / (pi/4 x (casing ID^2 - column OD^2)).","Small-bubble rise is a user value (default 0.75 ft/s, 2-5 mm bubbles, Clift, Grace & Weber). Merged gas rise in an annulus follows Kelessidis & Dukler, U = (0.32 + 0.016 Dc/Dt) sqrt(g Dt), times a safety factor, capped at "+v.capRise+" ft/s for cap bubbles in large casings.","Bubbles ride the faster core of the flow: core velocity = "+v.c0+" x average annular velocity (drift-flux distribution coefficient). All regime checks use the core velocity.","Disc head loss uses the thin perforated plate coefficient zeta = (0.707 sqrt(1-phi) + 1 - phi)^2 / phi^2 on annular velocity (Idelchik). Open area counts holes, ports, casing gap, bore gap and joint slots. For plates thicker than the hole the loss is overstated: conservative for flow loss, optimistic for the minimum-loss check.","NPSH available = atmospheric head at elevation + submergence - vapor pressure - disc losses; intake and screen losses not included. Flow change = stack loss / pump curve slope at duty.","Disc count, falling water: one disc per "+v.ftPerStage+" ft of exposed perforation above the design pumping level, plus one coalescing disc when the core velocity exceeds small-bubble rise (minimum two). Aquifer air: one disc per "+v.ftPerStage+" ft of wetted screen above the intake (minimum one, or two when the core velocity exceeds bubble rise). Both: the larger count.","Placement: falling water starts below the design pumping level at the set spacing; aquifer air builds up from the intake clearance; both spreads the discs evenly over the zone. Risk runs are centred on the design pumping level."].forEach(t=>para("- "+t,9));
+  ["Downflow at depth z = flow entering above the intake x share(z) / (pi/4 x (casing ID^2 - column OD^2)); inflow profile: "+(v.inflow==="top"?"all above the top disc (conservative)":"even along the perforations")+". The regime is judged at the top disc, where gas can still escape to the surface.","Small-bubble rise is a user value (default 0.6 ft/s, about 2-3 mm bubbles in real well water, Clift, Grace & Weber). Merged gas rise is the smaller of Kelessidis & Dukler, U = (0.32 + 0.016 Dcol/Dcas) sqrt(g Dcas), and the Kataoka & Ishii large-bubble drift limit, times the safety factor "+v.slugSF+".","Core velocity = "+v.c0+" x average downflow (drift-flux distribution coefficient). All regime checks use the core velocity.","Gas back through a disc: counter-current flooding through the holes (Wallis): sqrt(j/sqrt(g d)) above about 0.8 means gas cannot rise against the water and collects under the disc unless vented.","Disc head loss: Idelchik Diagram 8-3 perforated plate with thickness correction, zeta = [0.5(1-phi)^0.75 + tau(l/d)(1-phi)^1.375 + (1-phi)^2 + lambda l/d] / phi^2, on each disc's local downflow. Open area counts holes, ports, casing gap, bore gap and joint slots.","Rubber sag: annular plate clamped at the hub ring, free at the rim (Timoshenko), modulus from Shore A hardness (Gent) or the entered value, stiffness reduced by ligament efficiency. Linear estimate; confirm with a load test.","NPSH available = atmospheric head at elevation + submergence - vapor pressure - disc losses; intake and screen losses not included. Flow change = stack loss / (pump curve slope + system curve slope "+fmt(r.sys,1)+" ft per 100 gpm).","Disc count, falling water: one disc per "+v.ftPerStage+" ft of exposed perforation between the static level (or top of perforations) and the design pumping level, plus one coalescing disc when the core velocity at the top disc exceeds small-bubble rise (minimum two). Aquifer air: one disc per "+v.ftPerStage+" ft of wetted screen above the intake. Both: the larger count.","Risk runs: drawdown follows flow; C0 and the loss coefficient are varied as well."].forEach(t=>para("- "+t,9));
   h2("What this report does not know");
-  ["Actual bubble sizes, air fraction, and how much of the casing wall the cascade covers.","Whether gas collects under a disc and releases in slugs. Verify with motor amps and discharge observations after install.","Casing condition (out-of-round, weld beads, scale, liners). Run a drift check before fabrication.","Fasteners, coupling clearance, centralizers and how the stack is supported on the column."].forEach(t=>para("- "+t,9));
+  ["Actual bubble sizes, gas fraction, the real inflow profile (spinner log), and how much of the casing wall the cascade covers.","Whether aquifer air arrives as free gas or as dissolved gas that comes out as microbubbles discs cannot separate. Measure total dissolved gas.","How gas pockets under discs behave without vent tubes. Verify with motor amps and discharge observations after install.","Casing condition (out-of-round, weld beads, scale, liners). Run a drift check before fabrication.","Fasteners, coupling clearance, centralizers, vent tube routing and the shutdown reverse load."].forEach(t=>para("- "+t,9));
   if(aiLog.length){h2("Design engineer notes (AI-generated; review before relying on them)");
     aiLog.forEach(x=>{para("Q: "+x.q,9,mut);x.a.replace(/\*\*/g,"").split("\n").forEach(l=>{if(l.trim()) para(l.replace(/^#+\s*/,""),8.8); else y+=3;});y+=6;});}
   ensure(150); h2("Review and approval");
@@ -1851,6 +2357,8 @@ $("pdfBtn").onclick=async()=>{if(!last||last.err.length){toast("Fix the highligh
 $("cadBtn").onclick=async()=>{if(!last||last.err.length){toast("Fix the highlighted inputs first");return;} if(last.blockCAD){toast(last.blockCAD);return;}try{await saveFile("EAD-CAD-"+slug()+".zip",cadPackage(last));}catch(e){console.error(e);toast("The CAD package could not be built.");}};
 $("menuBtn").onclick=e=>{e.stopPropagation();const p=$("menuPop");p.hidden=!p.hidden;$("menuBtn").setAttribute("aria-expanded",String(!p.hidden));};
 document.addEventListener("click",()=>{$("menuPop").hidden=true;$("menuBtn").setAttribute("aria-expanded","false");});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("menuPop").hidden){$("menuPop").hidden=true;$("menuBtn").setAttribute("aria-expanded","false");$("menuBtn").focus();}});
+$("menuPop").setAttribute("role","menu");$("menuPop").querySelectorAll("button,a").forEach(b=>b.setAttribute("role","menuitem"));
 $("menuPop").addEventListener("click",async e=>{const a=e.target.dataset.act;if(!a)return;
   if(a==="copy"){try{await navigator.clipboard.writeText(specText());toast("Spec copied");}catch(err){toast("Copying is blocked in this view");}}
   if(a==="svg"&&last&&!last.err.length) saveFile("EAD-disc-"+slug()+".svg",new Blob([discSVG(last,{print:true,dims:true})],{type:"image/svg+xml"}));
@@ -1877,15 +2385,15 @@ function contextBlock(){
   const r=last,v=r.v,o=optimize(r,prio),m=monteCarlo(r);
   const res={verdict:$("headline").textContent,status:$("status").textContent.trim(),regime:{A:"annular velocity below small-bubble rise",B:"coalescence-dependent",C:"beyond merged-gas rise"}[r.regime],
     discs:r.nUse,discsByRule:r.nRec,discsThatFit:r.nFit,depthsFt:r.depths,holeIn:r.d,pitchIn:+r.pitch.toFixed(4),holesPerDisc:r.N,holesStdSeg:r.lay.std.length,holesPortSeg:r.lay.port.length,ligamentIn:+r.lig.toFixed(3),
-    openAreaPct:+(r.phi*100).toFixed(1),discODIn:+(2*r.Gd.Ro).toFixed(3),boreIn:+(2*r.Gd.Rs).toFixed(3),hubODIn:+(2*r.Gd.Rh).toFixed(3),annularVelAvgFtS:+r.Va.toFixed(3),coreVelFtS:+r.Vc.toFixed(3),c0:r.v.c0,mergedRiseCapped:r.riseCapped,holeVelFtS:+r.Vhole.toFixed(2),
+    openAreaPct:+(r.phi*100).toFixed(1),discODIn:+(2*r.Gd.Ro).toFixed(3),boreIn:+(2*r.Gd.Rs).toFixed(3),hubODIn:+(2*r.Gd.Rh).toFixed(3),downflowTopDiscAvgFtS:+r.Va.toFixed(3),coreVelTopDiscFtS:+r.Vc.toFixed(3),coreVelIntakeFtS:+r.VcInt.toFixed(3),inflowProfile:r.v.inflow,gasCanRiseThroughDisc:r.nUse?r.flood<FLOOD_C:null,floodIndex:+r.flood.toFixed(2),ventTubes:r.v.vent==="tubes",rubberSagIn:r.nUse?+r.sag.w.toFixed(2):null,rubberModulusPsi:Math.round(r.sag.E),systemSlope:+r.sys.toFixed(2),c0:r.v.c0,mergedRiseCapped:r.riseCapped,holeVelFtS:+r.Vhole.toFixed(2),
     mergedGasRiseRaw:+r.Ut.toFixed(2),mergedGasRiseSF:+r.UtA.toFixed(2),cascadeDesignFt:r.hc,cascadeTodayFt:r.hcNow,headLossPerDiscFt:+r.hDisc.toFixed(3),stackLossFt:+r.hTot.toFixed(3),
-    flowLossPct:+r.dQpct.toFixed(2),npshMarginFt:+r.margin.toFixed(1),maxFlowCleanGpm:Math.round(r.Qclean),maxFlowMergingGpm:Math.round(r.Qmax),motorCoolingFtS:isFinite(r.Vmotor)?+r.Vmotor.toFixed(2):null,
+    flowLossPct:+r.dQpct.toFixed(2),npshMarginFt:+r.margin.toFixed(1),maxFlowCleanGpm:isFinite(r.Qclean)?Math.round(r.Qclean):null,maxFlowMergingGpm:isFinite(r.Qmax)?Math.round(r.Qmax):null,motorCoolingFtS:isFinite(r.Vmotor)?+r.Vmotor.toFixed(2):null,
     cutLengthPerDiscFt:+(r.cutDisc/12).toFixed(1),flags:r.flags.map(f=>f[0]+": "+f[1]),
     monteCarlo:{runs:m.N,holdsPct:+(100*m.c.holds/m.N).toFixed(1),outrunPct:+(100*m.c.C/m.N).toFixed(1),flowLossOverPct:+(100*m.c.loss/m.N).toFixed(1),topDiscDryPct:+(100*m.c.dry/m.N).toFixed(1),shortDiscsPct:+(100*m.c.short/m.N).toFixed(1),npshPct:+(100*m.c.npsh/m.N).toFixed(1)},
     optimizerTop3:o.feas.slice(0,3).map(c=>({holeIn:c.d,pitchIn:c.p,holes:c.N,openPct:+(c.phi*100).toFixed(1),flowLossPct:+c.dQpct.toFixed(2),cutFt:Math.round(c.cut/12)}))};
   return "You are an elite downhole hydraulics engineer reviewing an Entrained Air Diffuser (EAD) design for a municipal water well. An EAD is a stack of segmented perforated potable-water-grade rubber discs, clamped to the pump column by a split steel hub ring that is bolted and tack-welded in place, extending to the casing wall above the pump intake. Where water cascades into the well from perforations above the pumping level (common in wells fed by recharge or percolation ponds), the discs break the cascade, spread the downflow over the annulus and make entrained bubbles merge so air separates and rises instead of reaching the pump, with as little loss of pump flow as possible.\n\n"+
-  "Physics to respect: discs cannot reduce the mean downward annular velocity (continuity sets it as flow above intake / annulus area). Be honest when the numbers say discs alone will not work. Separate physics from the tool's editable field rules. Do not invent data; say what should be measured in the field.\n\n"+
-  "Tool method: annular velocity vs small-bubble rise (user value) and Kelessidis-Dukler annular Taylor-bubble rise x safety factor; thin perforated plate loss (Idelchik) on annular velocity with open area = holes+ports+casing gap+joint slots; core velocity Vc = C0 x average annular velocity is compared with rise speeds; merged-gas rise is capped (cap-bubble limit) for large casings; disc count = one stage per 'fall or wetted screen per disc' of exposed perforation above design PWL (falling water) or of wetted screen above the intake (aquifer air), plus one coalescing stage (min 2) if Vc exceeds bubble rise; Monte Carlo with triangular distributions; optimizer over standard holes and pitches with head-loss window, flow-loss limit and ligament >= rubber thickness.\n\n"+
+  "Physics to respect: discs cannot reduce the mean downward annular velocity at a given depth (continuity sets it). Gas cannot rise back up through a perforated disc against the water; it collects under the disc unless vented. Aquifer air may arrive mostly as dissolved gas. Be honest when the numbers say discs alone will not work. Separate physics from the tool's editable field rules. Do not invent data; say what should be measured in the field.\n\n"+
+  "Tool method: downflow grows with depth along the screen (inflow profile); the regime is judged at the top disc (core velocity Vc = C0 x local average) against small-bubble rise and merged-gas rise = SF x min(Kelessidis-Dukler annular slug rise, Kataoka-Ishii large-bubble drift); counter-current flooding through the disc holes (Wallis) decides whether gas can rise back through a disc, so gas under discs needs vent tubes; Idelchik perforated-plate loss with thickness correction at each disc's local velocity; rubber sag from annular plate theory; flow loss = stack loss / (pump + system curve slope); disc count = one stage per 'fall or wetted screen per disc' of exposed perforation above design PWL (falling water) or of wetted screen above the intake (aquifer air), plus one coalescing stage (min 2) if Vc exceeds bubble rise; Monte Carlo with triangular distributions; optimizer over standard holes and pitches with head-loss window, flow-loss limit and ligament >= 0.6 x rubber thickness.\n\n"+
   "INPUTS (US units, depths ft below ground): "+JSON.stringify(v)+"\n\nRESULTS: "+JSON.stringify(res)+"\n\n"+
   "Write for a water-utility pump professional: plain language, short paragraphs and '-' bullets, **bold** for key numbers, no tables, about 350 words unless asked for more.";
 }
@@ -1925,7 +2433,7 @@ $("aiClear").onclick=()=>{history=[];aiLog.length=0;delete aiOut.dataset.has;aiO
 })();
 
 run();
-window.__ead={get last(){return last},cadPackage,buildPDF,optimize,monteCarlo,compute,design,readValues};
+window.__ead={get last(){return last},cadPackage,buildPDF,optimize,monteCarlo,compute,design,readValues,advise,tornado,hydro,discSag,zeta};
 })();
 </script>
 </body>
