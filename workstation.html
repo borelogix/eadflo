@@ -2228,7 +2228,7 @@ function loadJsPDF(){
 }
 function svgToPng(svg,w){return new Promise((res,rej)=>{const PR={ink:"#0E2236",ink2:"#2F4A64",muted:"#5A718A",panel:"#FFFFFF",accent:"#1270D6",line:"#D5DEE7"};
   const s2=svg.replace(/var\(--([a-z0-9-]+)\)/g,(m,k)=>PR[k]||"#334455"), m=s2.match(/viewBox="0 0 ([0-9.]+) ([0-9.]+)"/), vw=+m[1], vh=+m[2], h=Math.round(w*vh/vw);
-  const img=new Image(); img.onload=()=>{const c=document.createElement("canvas");c.width=w;c.height=h;const x=c.getContext("2d");x.fillStyle="#FFFFFF";x.fillRect(0,0,w,h);x.drawImage(img,0,0,w,h);res({url:c.toDataURL("image/png"),w,h});};
+  const img=new Image(); img.onload=()=>{const c=document.createElement("canvas");c.width=w;c.height=h;const x=c.getContext("2d");x.fillStyle="#FFFFFF";x.fillRect(0,0,w,h);x.drawImage(img,0,0,w,h);res({url:c.toDataURL("image/jpeg",0.9),w,h});};
   img.onerror=()=>rej(new Error("elevation image")); img.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(s2.replace("<svg ",'<svg xmlns="http://www.w3.org/2000/svg" width="'+w+'" height="'+h+'" '));});}
 async function buildPDF(r){
   const JsPDF=await loadJsPDF(); const doc=new JsPDF({unit:"pt",format:"letter"}); const v=r.v,G_=r.Gd,pm=projMeta();
@@ -2321,7 +2321,7 @@ async function buildPDF(r){
   vr.forEach(x=>{doc.setFont("helvetica","normal");doc.setFontSize(8.5);doc.setTextColor(...ink);doc.text(T(x[0]),sx,y+8);doc.setFillColor(238,242,246);doc.rect(sx+100,y,sw2-150,10,"F");doc.setFillColor(...x[2]);doc.rect(sx+100,y,(sw2-150)*x[1]/vmax,10,"F");doc.text(fmt(x[1],2)+" ft/s",W-M,y+8,{align:"right"});y+=16;});
 
   try{const png=await svgToPng(elevSVG(r),1500); doc.addPage(); header("Installation elevation");
-    const iw=W-2*M, ih=iw*png.h/png.w, sc=Math.min(1,(H-y-50)/ih); doc.addImage(png.url,"PNG",M+(iw-iw*sc)/2,y,iw*sc,ih*sc);
+    const iw=W-2*M, ih=iw*png.h/png.w, sc=Math.min(1,(H-y-50)/ih); doc.addImage(png.url,"JPEG",M+(iw-iw*sc)/2,y,iw*sc,ih*sc);
     doc.setFontSize(8.5);doc.setTextColor(...mut);doc.text(T("Schematic, not to scale. Depths in feet below ground."),W/2,y+ih*sc+12,{align:"center"});}catch(e){console.error(e);}
   // page 4 risk + alternatives
   doc.addPage(); header("Risk and alternatives");
